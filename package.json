@@ -15,7 +15,7 @@
         "release": "pnpm run build && npx np --no-cleanup --no-release-draft"
     },
     "dependencies": {
-        "@codeperate/simple-store": "^2.0.0",
+        "@codeperate/simple-store": "^2.0.1",
         "@codeperate/utils": "^1.0.20",
         "@types/json-schema": "^7.0.11",
         "ajv": "^8.11.0",
