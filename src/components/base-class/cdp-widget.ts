@@ -8,7 +8,6 @@ export function FormWidgetFn(superClass) {
     class FormWidget extends superClass {
         readonly form: FormBuilder;
         readonly path: (string | symbol | number)[];
-        readonly targetPath: (string | symbol | number)[];
         readonly schema: FormSchema;
         @state() value: any;
         @state() isValidated: boolean;
