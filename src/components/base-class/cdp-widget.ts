@@ -1,23 +1,21 @@
 import { LitElement } from 'lit';
-import { property, state } from 'lit/decorators';
+import { state } from 'lit/decorators';
 import { FormBuilder, FormSchema } from '../form-builder';
 import { Class } from '../type/class';
 
 export interface FormWidgetProps {}
-export class FormWidget {
-    readonly form: FormBuilder;
-    readonly path: string[];
-    readonly schema: FormSchema;
-    private isValidated: boolean;
-}
-export function FormWidgetMixin<T extends Class<LitElement>>(superClass: T) {
-    class Widget extends superClass {
+export function FormWidgetFn(superClass) {
+    class FormWidget extends superClass {
         readonly form: FormBuilder;
-        readonly path: string[];
+        readonly path: (string | symbol | number)[];
+        readonly targetPath: (string | symbol | number)[];
         readonly schema: FormSchema;
         @state() value: any;
         @state() isValidated: boolean;
         unsubscribe;
+        validator() {
+            return { validity: true, path: this.path };
+        }
         connectedCallback() {
             super.connectedCallback();
             this.form.regWidget(this.path, this);
@@ -30,7 +28,10 @@ export function FormWidgetMixin<T extends Class<LitElement>>(superClass: T) {
             this.unsubscribe();
         }
     }
-    return Widget as unknown as T & Class<FormWidget>;
+    return FormWidget;
+}
+export function FormWidgetMixin<T extends Class<LitElement>>(superClass: T) {
+    return FormWidgetFn(superClass);
 }
 export type ValidatedMeta = {
     validity: boolean;
