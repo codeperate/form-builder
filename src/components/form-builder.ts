@@ -17,23 +17,28 @@ export class CdpFormBuilder extends CmptMixin(CmptType.FormBuilder, NonShadow) {
         if (!get(this.widgetRecord, valPath)) this.widgetCount++;
         set(this.widgetRecord, valPath, widget);
     }
-    public unRegWidget(valPath: (string | number | symbol)[]) {
+    public unRegWidget(path: (string | number | symbol)[]) {
+        const deleteRecord = (obj, key) => {
+            delete obj[key];
+            this.widgetCount--;
+        };
         let curPos = this.widgetRecord;
-        for (const path of valPath) {
-            const nextPos = curPos[path];
+        for (let i = 0; i < path.length; i++) {
+            const curPath = curPos[i];
+            const nextPos = curPos[curPath];
             if (nextPos) {
-                if (Array.isArray(nextPos)) {
-                    if (nextPos.length == 1) {
-                        delete curPos[path];
-                        break;
-                    }
+                if (Array.isArray(curPos) && i + 1 == path.length && typeof path[i + 1] == 'number') {
+                    curPos.splice(path[i + 1] as number, 1);
+                    this.widgetCount--;
+                    return;
+                } else if (Array.isArray(nextPos)) {
+                    if (nextPos.length == 1) return deleteRecord(curPos, curPath);
                 } else {
-                    if (Reflect.ownKeys(curPos).length == 1) {
-                        delete curPos[path];
-                        break;
-                    }
+                    if (Reflect.ownKeys(curPos).length == 1) return deleteRecord(curPos, curPath);
+                    if (i + 1 == path.length) return deleteRecord(curPos, curPath);
                 }
-            }
+                curPos = nextPos;
+            } else break;
         }
     }
 }
