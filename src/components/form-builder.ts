@@ -83,22 +83,23 @@ declare global {
         'cdp-form-builder': FormBuilder;
     }
 }
+export type FormConfig<T> = T extends number ? number : object;
 
-export interface FormSchema<C = any> {
+export type FormSchema = {
     label?: string;
     items?: FormSchema;
     properties?: Record<string | number | symbol, FormSchema>;
-    widget?: IWidget<C>;
+    widget?;
     validate?: boolean;
     view?: boolean;
     hidden?: boolean;
     required?: boolean;
     columns?: Columns;
-    config?: C;
-}
+};
 export interface IWidget<C = any> {
     template: (props: FormWidgetProps) => Promise<TemplateResult>;
     columns?: Columns;
-    configType: C;
+    config?: C;
 }
 export type Columns = number | { [key: string]: number; default: number };
+export function buildForm<T extends FormSchema>(s: T) {}
