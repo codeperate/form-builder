@@ -6,13 +6,13 @@ import { customElement, property } from 'lit/decorators.js';
 import { CmptMixin } from './base-class/cdp-component.js';
 import { FormWidgetProps } from './base-class/cdp-widget.js';
 import { NonShadow } from './base-class/non-shadow.js';
+import { CmptType } from './config.js';
 
-import './cdp-json-form.config.js';
-import { CmptType } from './cmpt-config.js';
 import { lazySet } from './utils/lazy-set.utils.js';
 @customElement('cdp-form-builder')
 export class FormBuilder extends CmptMixin(CmptType.FormBuilder, NonShadow) {
     @property({ type: Object }) schema: FormSchema;
+    @property() value: any;
     context: any;
     widgetRecord: Record<string | number | symbol, any>;
     widgetCount: number = 0;
@@ -65,7 +65,7 @@ export class FormBuilder extends CmptMixin(CmptType.FormBuilder, NonShadow) {
         }
     }
     public onChange(path: (string | number | symbol)[], listener: Listener) {
-        this.store.onChange({
+        return this.store.onChange({
             selector: s => {
                 let selector = s;
                 for (const p of ['value', ...path]) selector = selector[p];
@@ -81,19 +81,22 @@ declare global {
     }
 }
 
-export interface FormSchema {
+export interface FormSchema<C = any> {
     label?: string;
     items?: FormSchema;
     properties?: Record<string | number | symbol, FormSchema>;
-    widget?: IFormWidget;
+    widget?: IFormWidget<C>;
     jsonSchema?: any;
     validate?: any;
     view?: boolean;
     hidden?: boolean;
     required?: boolean;
+    columns?: Columns;
+    config?: C;
 }
-export interface IFormWidget {
+export interface IFormWidget<C = any> {
     template: (props: FormWidgetProps) => Promise<TemplateResult>;
     columns?: Columns;
+    configType: C;
 }
 export type Columns = number | { [key: string]: number; default: number };

@@ -1,12 +1,11 @@
 import { deepAssign, safeGet, safeSet } from '@codeperate/utils';
-import { CmptConfig } from './cmpt-config';
 import { DeepPartial } from './type/deep-partial';
 export interface FormBuilderConfig {
     cmpts: CmptConfig;
 }
 
 const config = {};
-export namespace FormBuilder {
+export namespace CdpFormBuilder {
     export function setConfig<C>(path: (obj: FormBuilderConfig) => C, value: C) {
         return safeSet(config, path, value);
     }
@@ -17,4 +16,11 @@ export namespace FormBuilder {
         Object.assign(config, deepAssign(config, _config));
         return config;
     }
+}
+
+export enum CmptType {
+    FormBuilder = 'FormBuilder',
+}
+export interface CmptConfig {
+    [CmptType.FormBuilder]: FormBuilderConfig;
 }

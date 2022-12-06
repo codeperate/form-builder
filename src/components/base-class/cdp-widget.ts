@@ -1,17 +1,29 @@
 import { LitElement } from 'lit';
-import { state } from 'lit/decorators';
+import { state } from 'lit/decorators.js';
 import { FormBuilder, FormSchema } from '../form-builder';
 import { Class } from '../type/class';
 
-export interface FormWidgetProps {}
-export function FormWidgetFn(superClass) {
+export interface FormWidgetProps {
+    form: FormBuilder;
+    path: (string | symbol | number)[];
+}
+export interface IFormWidget {
+    readonly form: FormBuilder;
+    readonly path: (string | symbol | number)[];
+    readonly schema: FormSchema;
+    value: any;
+    isValidated: boolean;
+    unsubscribe: Function;
+    validator();
+}
+export function FormWidgetMixin<T extends Class<LitElement>>(superClass: T) {
     class FormWidget extends superClass {
         readonly form: FormBuilder;
         readonly path: (string | symbol | number)[];
         readonly schema: FormSchema;
         @state() value: any;
         @state() isValidated: boolean;
-        unsubscribe;
+        unsubscribe: Function;
         validator() {
             return { validity: true, path: this.path };
         }
@@ -27,10 +39,7 @@ export function FormWidgetFn(superClass) {
             this.unsubscribe();
         }
     }
-    return FormWidget;
-}
-export function FormWidgetMixin<T extends Class<LitElement>>(superClass: T) {
-    return FormWidgetFn(superClass);
+    return FormWidget as T & Class<IFormWidget>;
 }
 export type ValidatedMeta = {
     validity: boolean;
