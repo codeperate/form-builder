@@ -1,7 +1,7 @@
 import { Store } from '@codeperate/simple-store';
 import { Listener } from '@codeperate/simple-store/dist/listeners.js';
 import { get, set } from '@codeperate/utils';
-import { TemplateResult } from 'lit';
+import { html, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { CmptMixin } from './base-class/cdp-component.js';
 import { FormWidgetProps } from './base-class/cdp-widget.js';
@@ -74,6 +74,9 @@ export class FormBuilder extends CmptMixin(CmptType.FormBuilder, NonShadow) {
             listener,
         });
     }
+    render() {
+        return html``;
+    }
 }
 declare global {
     interface HTMLElementTagNameMap {
@@ -85,16 +88,15 @@ export interface FormSchema<C = any> {
     label?: string;
     items?: FormSchema;
     properties?: Record<string | number | symbol, FormSchema>;
-    widget?: IFormWidget<C>;
-    jsonSchema?: any;
-    validate?: any;
+    widget?: IWidget<C>;
+    validate?: boolean;
     view?: boolean;
     hidden?: boolean;
     required?: boolean;
     columns?: Columns;
     config?: C;
 }
-export interface IFormWidget<C = any> {
+export interface IWidget<C = any> {
     template: (props: FormWidgetProps) => Promise<TemplateResult>;
     columns?: Columns;
     configType: C;
