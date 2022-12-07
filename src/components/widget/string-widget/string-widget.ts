@@ -1,12 +1,12 @@
 import { html } from 'lit';
 import { customElement, query } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { CmptMixin } from '../../base-class/cdp-component.js';
 import { FormWidgetMixin } from '../../base-class/cdp-widget.js';
 import { NonShadow } from '../../base-class/non-shadow.js';
 import { CmptType } from '../../config.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
-import './cdp-object-widget.config.js';
 import { IWidget } from '../../form-builder.js';
+import './cdp-object-widget.config.js';
 import { StringWidgetConfig } from './string-widget.config.js';
 @customElement('cdp-string-widget')
 export class CdpStringWidget extends FormWidgetMixin(CmptMixin(CmptType.StringWidget, NonShadow)) {
@@ -51,6 +51,6 @@ declare global {
     }
 }
 
-export const StringWidget = (c?: StringWidgetConfig) => ({
+export const StringWidget: IWidget<StringWidgetConfig> = {
     template: async () => html`<cdp-string-widget></cdp-string-widget>`,
-});
+};

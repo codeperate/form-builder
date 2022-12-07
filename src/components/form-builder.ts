@@ -7,6 +7,7 @@ import { CmptMixin } from './base-class/cdp-component.js';
 import { FormWidgetProps } from './base-class/cdp-widget.js';
 import { NonShadow } from './base-class/non-shadow.js';
 import { CmptType } from './config.js';
+import { UnionToTuple } from './type/tuple.js';
 
 import { lazySet } from './utils/lazy-set.utils.js';
 @customElement('cdp-form-builder')
@@ -85,16 +86,17 @@ declare global {
 }
 export type FormConfig<T> = T extends number ? number : object;
 
-export type FormSchema = {
+export type FormSchema<T extends { properties?; widget? } = any> = {
     label?: string;
     items?: FormSchema;
-    properties?: Record<string | number | symbol, FormSchema>;
-    widget?;
+    properties?: TupleToFormSchema<UnionToTuple<keyof T['properties']>, T['properties']>;
+    widget?: IWidget;
     validate?: boolean;
     view?: boolean;
     hidden?: boolean;
     required?: boolean;
     columns?: Columns;
+    config?: T['widget']['config'];
 };
 export interface IWidget<C = any> {
     template: (props: FormWidgetProps) => Promise<TemplateResult>;
@@ -102,4 +104,9 @@ export interface IWidget<C = any> {
     config?: C;
 }
 export type Columns = number | { [key: string]: number; default: number };
-export function buildForm<T extends FormSchema>(s: T) {}
+export function buildForm<T extends FormSchema<T>>(s: T) {
+    return s as FormSchema<T>;
+}
+export type TupleToFormSchema<Type extends readonly any[], R extends Record<any, any>> = {
+    [Key in Type[number]]: FormSchema<R[Key]>;
+};
