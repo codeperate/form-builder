@@ -1,23 +1,28 @@
 import { Store } from '@codeperate/simple-store';
 import { Listener } from '@codeperate/simple-store/dist/listeners.js';
-import { get, set } from '@codeperate/utils';
+import { get } from '@codeperate/utils';
 import { html, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { until } from 'lit/directives/until.js';
 import { CmptMixin } from './base-class/cdp-component.js';
 import { FormWidgetProps } from './base-class/cdp-widget.js';
 import { NonShadow } from './base-class/non-shadow.js';
 import { CmptType } from './config.js';
-import { UnionToTuple } from './type/tuple.js';
 
 import { lazySet } from './utils/lazy-set.utils.js';
+const WIDGET_KEY = Symbol();
 @customElement('cdp-form-builder')
 export class FormBuilder extends CmptMixin(CmptType.FormBuilder, NonShadow) {
     @property({ type: Object }) schema: FormSchema;
     @property() value: any;
     context: any;
-    widgetRecord: Record<string | number | symbol, any>;
+    widgetRecord: Record<string | number | symbol, any> = {};
     widgetCount: number = 0;
     store = new Store({ value: undefined });
+    connectedCallback() {
+        super.connectedCallback();
+        this.store.onChange(obj => this.dispatchEvent(new CustomEvent('formChange', { detail: obj.value })));
+    }
     public getSchema(path: (string | number | symbol)[] = []) {
         let curPos = this.schema;
         for (const p of path) {
@@ -35,35 +40,50 @@ export class FormBuilder extends CmptMixin(CmptType.FormBuilder, NonShadow) {
         return get(this.store.state, path);
     }
     public setValue(path: (string | number | symbol)[], value: any) {
-        lazySet(this.store, ['value', ...path], value);
+        lazySet(this.store.state, ['value', ...path], value);
     }
-    public regWidget(valPath: (string | number | symbol)[], widget: any) {
-        if (!get(this.widgetRecord, valPath)) this.widgetCount++;
-        set(this.widgetRecord, valPath, widget);
+    public regWidget(path: (string | number | symbol)[], widget: any) {
+        let currentNode = this.widgetRecord;
+        for (const key of path) {
+            if (!currentNode[key]) {
+                currentNode[key] = {};
+            }
+            currentNode = currentNode[key];
+        }
+
+        if (!currentNode[WIDGET_KEY]) {
+            this.widgetCount++;
+        }
+        currentNode[WIDGET_KEY] = widget;
     }
     public unRegWidget(path: (string | number | symbol)[]) {
-        const deleteRecord = (obj, key) => {
-            delete obj[key];
-            this.widgetCount--;
-        };
-        let curPos = this.widgetRecord;
-        for (let i = 0; i < path.length; i++) {
-            const curPath = curPos[i];
-            const nextPos = curPos[curPath];
-            if (nextPos) {
-                if (Array.isArray(curPos) && i + 1 == path.length && typeof path[i + 1] == 'number') {
-                    curPos.splice(path[i + 1] as number, 1);
-                    this.widgetCount--;
-                    return;
-                } else if (Array.isArray(nextPos)) {
-                    if (nextPos.length == 1) return deleteRecord(curPos, curPath);
-                } else {
-                    if (Reflect.ownKeys(curPos).length == 1) return deleteRecord(curPos, curPath);
-                    if (i + 1 == path.length) return deleteRecord(curPos, curPath);
-                }
-                curPos = nextPos;
-            } else break;
+        let currentNode = this.widgetRecord;
+        for (const key of path) {
+            if (!currentNode[key]) {
+                return;
+            }
+
+            currentNode = currentNode[key];
         }
+        if (currentNode[WIDGET_KEY]) {
+            delete currentNode[WIDGET_KEY];
+            this.widgetCount--;
+        }
+    }
+    getWidgets() {
+        const widgets = [];
+        const stack = [this.widgetRecord];
+        while (stack.length > 0) {
+            const currentTree = stack.pop();
+            for (const key of Reflect.ownKeys(currentTree)) {
+                if (key === WIDGET_KEY) {
+                    widgets.push(currentTree[key]);
+                } else {
+                    stack.push(currentTree[key]);
+                }
+            }
+        }
+        return widgets;
     }
     public onChange(path: (string | number | symbol)[], listener: Listener) {
         return this.store.onChange({
@@ -75,8 +95,9 @@ export class FormBuilder extends CmptMixin(CmptType.FormBuilder, NonShadow) {
             listener,
         });
     }
+    validate() {}
     render() {
-        return html``;
+        return html`${until(this.schema.widget.template({ form: this, path: [] }))}`;
     }
 }
 declare global {
@@ -89,7 +110,9 @@ export type FormConfig<T> = T extends number ? number : object;
 export type FormSchema<T extends { properties?; widget? } = any> = {
     label?: string;
     items?: FormSchema;
-    properties?: TupleToFormSchema<UnionToTuple<keyof T['properties']>, T['properties']>;
+    properties?: { [Key in keyof T['properties']]: FormSchema<T['properties'][Key]> } & {
+        [Key in symbol]: FormSchema<T['properties'][Key]>;
+    };
     widget?: IWidget;
     validate?: boolean;
     view?: boolean;
@@ -107,6 +130,6 @@ export type Columns = number | { [key: string]: number; default: number };
 export function buildForm<T extends FormSchema<T>>(s: T) {
     return s as FormSchema<T>;
 }
-export type TupleToFormSchema<Type extends readonly any[], R extends Record<any, any>> = {
-    [Key in Type[number]]: FormSchema<R[Key]>;
+export type TupleToFormSchema<T extends readonly any[], R extends Record<any, any>> = {
+    [Key in T[number]]: FormSchema<R[Key]>;
 };

@@ -6,8 +6,8 @@ import { FormWidgetMixin } from '../../base-class/cdp-widget.js';
 import { NonShadow } from '../../base-class/non-shadow.js';
 import { CmptType } from '../../config.js';
 import { IWidget } from '../../form-builder.js';
-import './cdp-object-widget.config.js';
 import { StringWidgetConfig } from './string-widget.config.js';
+import './string-widget.config.js';
 @customElement('cdp-string-widget')
 export class CdpStringWidget extends FormWidgetMixin(CmptMixin(CmptType.StringWidget, NonShadow)) {
     @query('input') inputEl: HTMLInputElement;
@@ -33,7 +33,7 @@ export class CdpStringWidget extends FormWidgetMixin(CmptMixin(CmptType.StringWi
         return html`
             <input
                 .required=${required}
-                class="w-full rounded-lg p-2"
+                class="cfb-rounded-lg cfb-bg-gray-200 cfb-p-1"
                 @input=${e => {
                     this.setValue(e.target.value);
                     this.validate();
@@ -41,7 +41,7 @@ export class CdpStringWidget extends FormWidgetMixin(CmptMixin(CmptType.StringWi
                 .value=${this.value || ''}
                 pattern=${ifDefined(pattern)}
             />
-            <span class="cfb-mt-1 cfb-text-sm cfb-text-cdanger-600">${this.validatedMeta?.err?.[0].msg}</span>
+            <span class="cfb-mt-1 cfb-text-sm cfb-text-danger-600">${this.validatedMeta?.err?.[0].msg}</span>
         `;
     }
 }
@@ -52,5 +52,5 @@ declare global {
 }
 
 export const StringWidget: IWidget<StringWidgetConfig> = {
-    template: async () => html`<cdp-string-widget></cdp-string-widget>`,
+    template: async ({ path, form }) => html`<cdp-string-widget .form=${form} .path=${path}></cdp-string-widget>`,
 };

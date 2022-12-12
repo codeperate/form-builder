@@ -5,8 +5,10 @@ import { repeat } from 'lit/directives/repeat.js';
 import { NonShadow } from '../../base-class/non-shadow.js';
 import { CmptType } from '../../config.js';
 import { until } from 'lit/directives/until.js';
-import './cdp-object-widget.config.js';
+import './object-widget.config.js';
 import { html } from 'lit';
+import { IWidget } from '../../form-builder.js';
+import { ObjectWidgetConfig } from './object-widget.config.js';
 @customElement('cdp-object-widget')
 export class CdpObjectWidget extends FormWidgetMixin(CmptMixin(CmptType.ObjectWidget, NonShadow)) {
     validator() {
@@ -19,7 +21,7 @@ export class CdpObjectWidget extends FormWidgetMixin(CmptMixin(CmptType.ObjectWi
             ${repeat(
                 Reflect.ownKeys(this.schema.properties),
                 key => key,
-                key => until(this.schema.properties[key].widget.template),
+                key => until(this.schema.properties[key].widget.template({ form: this.form, path: [...this.path, key] })),
             )}
         </div>`;
     }
@@ -29,3 +31,7 @@ declare global {
         'cdp-object-widget': CdpObjectWidget;
     }
 }
+
+export const ObjectWidget: IWidget<ObjectWidgetConfig> = {
+    template: async ({ path, form }) => html`<cdp-object-widget .form=${form} .path=${path}></cdp-object-widget>`,
+};
