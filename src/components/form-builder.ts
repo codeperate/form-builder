@@ -130,6 +130,3 @@ export type Columns = number | { [key: string]: number; default: number };
 export function buildForm<T extends FormSchema<T>>(s: T) {
     return s as FormSchema<T>;
 }
-export type TupleToFormSchema<T extends readonly any[], R extends Record<any, any>> = {
-    [Key in T[number]]: FormSchema<R[Key]>;
-};
