@@ -4,15 +4,13 @@ import { get } from '@codeperate/utils';
 import { html, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { until } from 'lit/directives/until.js';
-import { CmptMixin } from './base-class/cdp-component.js';
 import { FormWidgetProps } from './base-class/cdp-widget.js';
 import { NonShadow } from './base-class/non-shadow.js';
-import { CmptType } from './config.js';
 
 import { lazySet } from './utils/lazy-set.utils.js';
 const WIDGET_KEY = Symbol();
 @customElement('cdp-form-builder')
-export class FormBuilder extends CmptMixin(CmptType.FormBuilder, NonShadow) {
+export class FormBuilder extends NonShadow {
     @property({ type: Object }) schema: FormSchema;
     @property() value: any;
     context: any;
