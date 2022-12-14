@@ -26,7 +26,7 @@ export class AppRoot extends NonShadow {
             return html` <button @click=${() => (this.switch = false)}>Click</button>`;
         }
         return html`
-            <button @click=${() => (this.switch = true)}>Click</button>
+            <button class="" @click=${() => (this.switch = true)}>Click</button>
             <button @click=${() => this.formEl.validate()}>Validate</button>
             <cdp-form-builder
                 .schema=${this.schema}

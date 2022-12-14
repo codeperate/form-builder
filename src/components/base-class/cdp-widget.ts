@@ -1,5 +1,6 @@
 import { LitElement } from 'lit';
 import { property, state } from 'lit/decorators.js';
+import { CmptConfig } from '../config';
 import { FormBuilder, FormSchema } from '../form-builder';
 import { Class } from '../type/class';
 
@@ -7,7 +8,7 @@ export interface FormWidgetProps {
     form: FormBuilder;
     path: (string | symbol | number)[];
 }
-export interface IFormWidget {
+export interface IFormWidget<T> {
     form: FormBuilder;
     path: (string | symbol | number)[];
     schema: FormSchema;
@@ -16,6 +17,7 @@ export interface IFormWidget {
     isValidated: boolean;
     validatedMeta: ValidatedMeta | undefined;
     unsubscribe: Function;
+    config: T;
     validator(): ValidatedMeta;
     setValue(value: any): void;
     validate(): ValidatedMeta | undefined;
@@ -23,7 +25,7 @@ export interface IFormWidget {
     disconnectedCallback(): void;
 }
 
-export function FormWidgetMixin<T extends Class<LitElement>>(superClass: T) {
+export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(name: K, superClass: T) {
     class FormWidget extends superClass {
         @property() form: FormBuilder;
         @property() path: (string | symbol | number)[];
@@ -35,6 +37,10 @@ export function FormWidgetMixin<T extends Class<LitElement>>(superClass: T) {
         @state() isValidated: boolean;
         @state() validatedMeta: ValidatedMeta | undefined;
         unsubscribe: Function;
+        _config: ConfigType<K>;
+        get config(): ConfigType<K> {
+            return;
+        }
         validator() {
             return { validity: true, path: this.path };
         }
@@ -63,8 +69,9 @@ export function FormWidgetMixin<T extends Class<LitElement>>(superClass: T) {
             this.unsubscribe();
         }
     }
-    return FormWidget as T & Class<IFormWidget>;
+    return FormWidget as T & Class<IFormWidget<ConfigType<K>>>;
 }
+export type ConfigType<K extends string> = K extends keyof CmptConfig ? CmptConfig[K] : any;
 export type ValidatedMeta = {
     validity: boolean;
     path: (string | symbol | number)[];

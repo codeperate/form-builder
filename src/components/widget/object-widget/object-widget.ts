@@ -1,16 +1,15 @@
+import { html } from 'lit';
 import { customElement } from 'lit/decorators.js';
-import { CmptMixin } from '../../base-class/cdp-component.js';
-import { FormWidgetMixin } from '../../base-class/cdp-widget.js';
 import { repeat } from 'lit/directives/repeat.js';
+import { until } from 'lit/directives/until.js';
+import { FormWidgetMixin } from '../../base-class/cdp-widget.js';
 import { NonShadow } from '../../base-class/non-shadow.js';
 import { CmptType } from '../../config.js';
-import { until } from 'lit/directives/until.js';
-import './object-widget.config.js';
-import { html } from 'lit';
 import { IWidget } from '../../form-builder.js';
+import './object-widget.config.js';
 import { ObjectWidgetConfig } from './object-widget.config.js';
 @customElement('cdp-object-widget')
-export class CdpObjectWidget extends FormWidgetMixin(CmptMixin(CmptType.ObjectWidget, NonShadow)) {
+export class CdpObjectWidget extends FormWidgetMixin(CmptType.ObjectWidget, NonShadow) {
     validator() {
         const meta = super.validator();
         if (this.schema.required && this.value == null) meta.validity = false;

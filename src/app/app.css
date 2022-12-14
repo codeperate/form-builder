@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+button{
+    @apply cfb-bg-main-500 cfb-text-white cfb-rounded-lg cfb-p-2
+}
