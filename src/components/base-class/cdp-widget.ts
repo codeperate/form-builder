@@ -1,6 +1,7 @@
+import { deepAssign } from '@codeperate/utils';
 import { LitElement } from 'lit';
 import { property, state } from 'lit/decorators.js';
-import { CmptConfig } from '../config';
+import { CdpFormBuilder, CmptConfig } from '../config';
 import { FormBuilder, FormSchema } from '../form-builder';
 import { Class } from '../type/class';
 
@@ -8,7 +9,7 @@ export interface FormWidgetProps {
     form: FormBuilder;
     path: (string | symbol | number)[];
 }
-export interface IFormWidget<T> {
+export interface IFormWidget<T = any> {
     form: FormBuilder;
     path: (string | symbol | number)[];
     schema: FormSchema;
@@ -18,8 +19,10 @@ export interface IFormWidget<T> {
     validatedMeta: ValidatedMeta | undefined;
     unsubscribe: Function;
     config: T;
+    view: boolean;
     validator(): ValidatedMeta;
     setValue(value: any): void;
+    updateValue(): void;
     validate(): ValidatedMeta | undefined;
     connectedCallback(): void;
     disconnectedCallback(): void;
@@ -37,9 +40,10 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
         @state() isValidated: boolean;
         @state() validatedMeta: ValidatedMeta | undefined;
         unsubscribe: Function;
-        _config: ConfigType<K>;
-        get config(): ConfigType<K> {
-            return;
+        config: ConfigType<K>;
+
+        get view() {
+            return this.schema.view ?? this.form.view;
         }
         validator() {
             return { validity: true, path: this.path };
@@ -47,10 +51,13 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
         setValue(value) {
             this.form.setValue(this.path, value);
         }
+        updateValue() {
+            this.value = this.form.getValue(this.path);
+        }
         validate() {
             let result;
             const { validate } = this.schema;
-            if (validate) {
+            if (validate ?? true) {
                 result = this.validator();
                 this.isValidated = true;
                 this.validatedMeta = result;
@@ -63,6 +70,10 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
             this.unsubscribe = this.form.onChange(this.path, (v, pv) => {
                 this.value = pv || v;
             });
+            this.config = deepAssign(
+                CdpFormBuilder.getConfig(o => o.cmpts[name]),
+                this.schema.config ?? {},
+            );
         }
         disconnectedCallback(): void {
             this.form.unRegWidget(this.path);

@@ -2,6 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-button{
+button:not([class]){
     @apply cfb-bg-main-500 cfb-text-white cfb-rounded-lg cfb-p-2
 }

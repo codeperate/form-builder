@@ -6,6 +6,7 @@ import { FormWidgetMixin } from '../../base-class/cdp-widget.js';
 import { NonShadow } from '../../base-class/non-shadow.js';
 import { CmptType } from '../../config.js';
 import { IWidget } from '../../form-builder.js';
+import { columnClass } from '../../utils/columns.utils.js';
 import './object-widget.config.js';
 import { ObjectWidgetConfig } from './object-widget.config.js';
 @customElement('cdp-object-widget')
@@ -16,11 +17,24 @@ export class CdpObjectWidget extends FormWidgetMixin(CmptType.ObjectWidget, NonS
         return meta;
     }
     render() {
+        const c = this.config;
         return html` <div class="cfb-grid cfb-grid-cols-12">
             ${repeat(
                 Reflect.ownKeys(this.schema.properties),
                 key => key,
-                key => until(this.schema.properties[key].widget.template({ form: this.form, path: [...this.path, key] })),
+                key => {
+                    const { label, required } = this.schema.properties[key];
+                    const { template, columns } = this.schema.properties[key].widget;
+                    return html`<div class="${columnClass(columns)} cfb-grid">
+                        ${label === false
+                            ? ''
+                            : html`<label
+                                  >${label ?? key}
+                                  ${required && !this.view ? html`<span class="cfb-text-danger-600">${c.required.text}</span>` : ''}
+                              </label>`}
+                        ${until(template({ form: this.form, path: [...this.path, key] }))}
+                    </div>`;
+                },
             )}
         </div>`;
     }

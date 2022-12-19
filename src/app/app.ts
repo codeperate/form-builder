@@ -11,14 +11,12 @@ export class AppRoot extends NonShadow {
     @query('cdp-form-builder') formEl: FormBuilder;
     @state()
     switch: boolean = false;
+    @state() view: boolean = false;
     schema = buildForm({
         widget: ObjectWidget,
+        config: {},
         properties: {
-            name: {
-                widget: StringWidget,
-                config: {},
-                required: true,
-            },
+            name: { widget: StringWidget, config: {}, required: true },
         },
     });
     render() {
@@ -26,13 +24,15 @@ export class AppRoot extends NonShadow {
             return html` <button @click=${() => (this.switch = false)}>Click</button>`;
         }
         return html`
-            <button class="" @click=${() => (this.switch = true)}>Click</button>
-            <button @click=${() => this.formEl.validate()}>Validate</button>
+            <button @click=${() => (this.switch = true)}>Click</button>
+            <button @click=${() => console.log(this.formEl.validate())}>Validate</button>
+            <button @click=${() => (this.view = !this.view)}>View</button>
             <cdp-form-builder
                 .schema=${this.schema}
                 @formChange=${e => {
                     console.log(e.detail);
                 }}
+                .view=${this.view}
             >
             </cdp-form-builder>
         `;

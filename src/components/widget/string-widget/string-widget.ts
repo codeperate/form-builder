@@ -27,12 +27,18 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
     }
     render() {
         const { required } = this.schema;
-        const { pattern, minLength, maxLength } = this.config;
+        const { pattern, minLength, maxLength, empty } = this.config;
 
+        if (this.view) return html`<div>${this.value ?? empty}</div>`;
+        let validatedClass = 'cfb-bg-gray-200 hover:cfb-bg-gray-300';
+        if (this.isValidated)
+            validatedClass = this.validatedMeta?.validity
+                ? /*tw*/ 'cfb-bg-valid-100 hover:cfb-bg-valid-200'
+                : /*tw*/ 'cfb-bg-danger-100 hover:cfb-bg-danger-200';
         return html`
             <input
                 .required=${required}
-                class="cfb-rounded-lg cfb-bg-gray-200 cfb-p-1.5"
+                class="cfb-rounded-lg cfb-p-1.5 ${validatedClass} cfb-min-w-0 cfb-w-full"
                 @input=${e => {
                     this.setValue(e.target.value);
                     this.validate();
@@ -54,4 +60,5 @@ declare global {
 
 export const StringWidget: IWidget<StringWidgetConfig> = {
     template: async ({ path, form }) => html`<cdp-string-widget .form=${form} .path=${path}></cdp-string-widget>`,
+    columns: 6,
 };

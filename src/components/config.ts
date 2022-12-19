@@ -1,5 +1,6 @@
 import { deepAssign, safeGet, safeSet } from '@codeperate/utils';
 import { DeepPartial } from './type/deep-partial';
+import { ArrayWidgetConfig } from './widget/array-widget/array-widget.config';
 import { ObjectWidgetConfig } from './widget/object-widget/object-widget.config';
 import { StringWidgetConfig } from './widget/string-widget/string-widget.config';
 export interface FormBuilderConfig {
@@ -24,9 +25,12 @@ export enum CmptType {
     FormBuilder = 'FormBuilder',
     ObjectWidget = 'ObjectWidget',
     StringWidget = 'StringWidget',
+    ArrayWidget = 'ArrayWidget',
 }
 export interface CmptConfig {
     [CmptType.FormBuilder]: FormBuilderConfig;
     [CmptType.ObjectWidget]: ObjectWidgetConfig;
     [CmptType.StringWidget]: StringWidgetConfig;
+    [CmptType.ArrayWidget]: ArrayWidgetConfig;
+    [key: string]: any;
 }

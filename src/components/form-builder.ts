@@ -1,10 +1,10 @@
 import { Store } from '@codeperate/simple-store';
 import { Listener } from '@codeperate/simple-store/dist/listeners.js';
 import { get } from '@codeperate/utils';
-import { html, TemplateResult } from 'lit';
+import { html, LitElement, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { until } from 'lit/directives/until.js';
-import { FormWidgetProps } from './base-class/cdp-widget.js';
+import { FormWidgetProps, IFormWidget } from './base-class/cdp-widget.js';
 import { NonShadow } from './base-class/non-shadow.js';
 
 import { lazySet } from './utils/lazy-set.utils.js';
@@ -13,6 +13,7 @@ const WIDGET_KEY = Symbol();
 export class FormBuilder extends NonShadow {
     @property({ type: Object }) schema: FormSchema;
     @property() value: any;
+    @property() view: boolean = false;
     context: any;
     widgetRecord: Record<string | number | symbol, any> = {};
     widgetCount: number = 0;
@@ -26,7 +27,7 @@ export class FormBuilder extends NonShadow {
         for (const p of path) {
             if (typeof p == 'number') continue;
             if (curPos.properties) {
-                for (const key of Reflect.ownKeys(curPos)) if (key == p) curPos = curPos.properties[key];
+                for (const key of Reflect.ownKeys(curPos.properties)) if (key == p) curPos = curPos.properties[key];
             } else if (curPos.items) curPos = curPos.items;
         }
         return curPos;
@@ -34,8 +35,8 @@ export class FormBuilder extends NonShadow {
     public getTarget() {
         return this.store.getTarget();
     }
-    public getValue(path: (string | number | symbol)[]) {
-        return get(this.store.state, path);
+    public getValue(path: (string | number | symbol)[], { target }: { target?: boolean } = {}) {
+        return get(target ? this.store.getTarget() : this.store.state, ['value', ...path]);
     }
     public setValue(path: (string | number | symbol)[], value: any) {
         lazySet(this.store.state, ['value', ...path], value);
@@ -68,9 +69,11 @@ export class FormBuilder extends NonShadow {
             this.widgetCount--;
         }
     }
-    getWidgets() {
+    getWidgets(path?: (string | symbol | number)[]): (IFormWidget & LitElement)[] {
+        let record = this.widgetRecord;
+        if (path) record = get(this.widgetRecord, path);
         const widgets = [];
-        const stack = [this.widgetRecord];
+        const stack = [record];
         while (stack.length > 0) {
             const currentTree = stack.pop();
             for (const key of Reflect.ownKeys(currentTree)) {
@@ -93,7 +96,9 @@ export class FormBuilder extends NonShadow {
             listener,
         });
     }
-    validate() {}
+    validate() {
+        return this.getWidgets().map(w => w.validate());
+    }
     render() {
         return html`${until(this.schema.widget.template({ form: this, path: [] }))}`;
     }
@@ -106,7 +111,7 @@ declare global {
 export type FormConfig<T> = T extends number ? number : object;
 
 export type FormSchema<T extends { properties?; widget? } = any> = {
-    label?: string;
+    label?: string | false;
     items?: FormSchema;
     properties?: { [Key in keyof T['properties']]: FormSchema<T['properties'][Key]> } & {
         [Key in symbol]: FormSchema<T['properties'][Key]>;
