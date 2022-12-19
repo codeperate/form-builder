@@ -57,7 +57,7 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
         validate() {
             let result;
             const { validate } = this.schema;
-            if (validate ?? true) {
+            if (!this.view && (validate ?? true)) {
                 result = this.validator();
                 this.isValidated = true;
                 this.validatedMeta = result;
