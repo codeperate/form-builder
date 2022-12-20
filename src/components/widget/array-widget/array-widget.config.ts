@@ -6,6 +6,11 @@ export interface ArrayWidgetConfig {
     movable?: boolean;
     minItems?: number;
     maxItems?: number;
+    pagination?:
+        | boolean
+        | {
+              limit: number;
+          };
 }
 
 export type ArrayWidgetMode = 'delete' | 'move' | 'default';
@@ -13,4 +18,7 @@ CdpFormBuilder.setConfig(o => o.cmpts.ArrayWidget, {
     addable: true,
     deletable: true,
     movable: true,
+    pagination: {
+        limit: 10,
+    },
 });

@@ -18,17 +18,17 @@ export class CdpObjectWidget extends FormWidgetMixin(CmptType.ObjectWidget, NonS
     }
     render() {
         const c = this.config;
-        return html` <div class="cfb-grid cfb-grid-cols-12">
+        return html` <div class="cfb-grid des:cfb-grid-cols-12 mob:cfb-grid-cols-6 cfb-gap-4">
             ${repeat(
                 Reflect.ownKeys(this.schema.properties),
                 key => key,
                 key => {
                     const { label, required } = this.schema.properties[key];
                     const { template, columns } = this.schema.properties[key].widget;
-                    return html`<div class="${columnClass(columns)} cfb-grid">
+                    return html`<div class="${columnClass(columns)} cfb-grid cfb-content-start">
                         ${label === false
                             ? ''
-                            : html`<label
+                            : html`<label class="cfb-font-bold"
                                   >${label ?? key}
                                   ${required && !this.view ? html`<span class="cfb-text-danger-600">${c.required.text}</span>` : ''}
                               </label>`}

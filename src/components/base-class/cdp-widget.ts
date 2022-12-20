@@ -1,7 +1,7 @@
 import { deepAssign } from '@codeperate/utils';
 import { LitElement } from 'lit';
 import { property, state } from 'lit/decorators.js';
-import { CdpFormBuilder, CmptConfig } from '../config';
+import { CdpFormBuilder, CmptConfig, ConfigType } from '../config';
 import { FormBuilder, FormSchema } from '../form-builder';
 import { Class } from '../type/class';
 
@@ -74,6 +74,7 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
                 CdpFormBuilder.getConfig(o => o.cmpts[name]),
                 this.schema.config ?? {},
             );
+            this.updateValue();
         }
         disconnectedCallback(): void {
             this.form.unRegWidget(this.path);
@@ -82,7 +83,6 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
     }
     return FormWidget as T & Class<IFormWidget<ConfigType<K>>>;
 }
-export type ConfigType<K extends string> = K extends keyof CmptConfig ? CmptConfig[K] : any;
 export type ValidatedMeta = {
     validity: boolean;
     path: (string | symbol | number)[];

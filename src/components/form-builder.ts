@@ -17,15 +17,15 @@ export class FormBuilder extends NonShadow {
     context: any;
     widgetRecord: Record<string | number | symbol, any> = {};
     widgetCount: number = 0;
-    store = new Store({ value: undefined });
+    store;
     connectedCallback() {
         super.connectedCallback();
+        this.store = new Store({ value: this.value });
         this.store.onChange(obj => this.dispatchEvent(new CustomEvent('formChange', { detail: obj.value })));
     }
     public getSchema(path: (string | number | symbol)[] = []) {
         let curPos = this.schema;
         for (const p of path) {
-            if (typeof p == 'number') continue;
             if (curPos.properties) {
                 for (const key of Reflect.ownKeys(curPos.properties)) if (key == p) curPos = curPos.properties[key];
             } else if (curPos.items) curPos = curPos.items;

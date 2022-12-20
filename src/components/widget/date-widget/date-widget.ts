@@ -1,14 +1,13 @@
 import { html } from 'lit';
 import { customElement, query } from 'lit/decorators.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
 import { FormWidgetMixin } from '../../base-class/cdp-widget.js';
 import { NonShadow } from '../../base-class/non-shadow.js';
 import { CmptType } from '../../config.js';
 import { IWidget } from '../../form-builder.js';
-import './string-widget.config.js';
-import { StringWidgetConfig } from './string-widget.config.js';
-@customElement('cdp-string-widget')
-export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonShadow) {
+import './date-widget.config.js';
+import { DateWidgetConfig } from './date-widget.config.js';
+@customElement('cdp-date-widget')
+export class CdpDateWidget extends FormWidgetMixin(CmptType.DateWidget, NonShadow) {
     @query('input') inputEl: HTMLInputElement;
     @query('select') selectEl: HTMLSelectElement;
     validator() {
@@ -27,7 +26,7 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
     }
     render() {
         const { required } = this.schema;
-        const { pattern, minLength, maxLength, empty } = this.config;
+        const { empty } = this.config;
         if (this.view) return html`<div>${this.value ?? empty}</div>`;
         let validatedClass = 'cfb-bg-gray-200 hover:cfb-bg-gray-300';
         if (this.isValidated)
@@ -38,14 +37,12 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
             <input
                 .required=${required}
                 class="cfb-rounded-lg cfb-p-1.5 ${validatedClass} cfb-min-w-0 cfb-w-full"
+                type="date"
                 @input=${e => {
                     this.setValue(e.target.value);
                     this.validate();
                 }}
                 .value=${this.value || ''}
-                minlength=${ifDefined(minLength)}
-                maxlength=${ifDefined(maxLength)}
-                pattern=${ifDefined(pattern)}
             />
             <span class="cfb-mt-1 cfb-text-sm cfb-text-danger-600">${this.validatedMeta?.err?.[0].msg}</span>
         `;
@@ -53,11 +50,11 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
 }
 declare global {
     interface HTMLElementTagNameMap {
-        'cdp-string-widget': CdpStringWidget;
+        'cdp-date-widget': CdpDateWidget;
     }
 }
 
-export const StringWidget: IWidget<StringWidgetConfig> = {
-    template: async ({ path, form }) => html`<cdp-string-widget .form=${form} .path=${path}></cdp-string-widget>`,
+export const DateWidget: IWidget<DateWidgetConfig> = {
+    template: async ({ path, form }) => html`<cdp-date-widget .form=${form} .path=${path}></cdp-date-widget>`,
     columns: 6,
 };

@@ -97,10 +97,10 @@ export class CdpArrayWidget extends FormWidgetMixin(CmptType.ArrayWidget, NonSha
                             : ''
                     }
                 </div>
-                <div class="cfb-grid cfb-grid-cols-6 des:cfb-grid-cols-12 cfb-gap-2">
+                <div class="cfb-grid cfb-grid-cols-6 des:cfb-grid-cols-12 cfb-gap-4 cfb-items-start">
                     ${(this.value ?? []).map((_, i) => {
                         const { template, columns } = items.widget;
-                        return html`<div class="${columnClass(columns)} cfb-grid cfb-gap-1 cfb-grid-cols-[1fr,min-content] cfb-items-end">
+                        return html`<div class="${columnClass(columns)} cfb-grid cfb-gap-1 cfb-grid-cols-[1fr,min-content] cfb-items-start">
                             ${until(template({ path: [...this.path, i], form: this.form }))}
                             ${this.mode === 'delete'
                                 ? html` <button
@@ -146,5 +146,5 @@ declare global {
 
 export const ArrayWidget: IWidget<ArrayWidgetConfig> = {
     template: async ({ path, form }) => html`<cdp-array-widget .form=${form} .path=${path}></cdp-array-widget>`,
-    columns: 6,
+    columns: 12,
 };

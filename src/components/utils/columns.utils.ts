@@ -7,7 +7,7 @@ export function columnClass(columns: Columns) {
     } else {
         let str = [];
         for (const [key, val] of Object.entries(columns)) {
-            if (key == 'default') str.push(`col-span-${val}`);
+            if (key == 'default') str.push(`cfb-col-span-${val}`);
             else str.push(`cfb-${key}:col-span-${val}`);
         }
         return str.join(' ');

@@ -26,11 +26,23 @@ export enum CmptType {
     ObjectWidget = 'ObjectWidget',
     StringWidget = 'StringWidget',
     ArrayWidget = 'ArrayWidget',
+    DateWidget = 'DateWidget',
+    DateTimeWidget = 'DateTimeWidget',
+    IntegerWidget = 'IntegerWidget',
+    NumberWidget = 'NumberWidget',
+    DataViewerWidget = 'DataViewerWidget',
+    BooleanWidget = 'BooleanWidget',
 }
 export interface CmptConfig {
     [CmptType.FormBuilder]: FormBuilderConfig;
     [CmptType.ObjectWidget]: ObjectWidgetConfig;
     [CmptType.StringWidget]: StringWidgetConfig;
     [CmptType.ArrayWidget]: ArrayWidgetConfig;
+    [CmptType.DataViewerWidget]: any;
+    [CmptType.DateWidget]: any;
+    [CmptType.DateTimeWidget]: any;
+    [CmptType.IntegerWidget]: any;
+    [CmptType.BooleanWidget]: any;
     [key: string]: any;
 }
+export type ConfigType<K extends string> = K extends keyof CmptConfig ? CmptConfig[K] : any;
