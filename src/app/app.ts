@@ -1,9 +1,12 @@
 import { html } from 'lit';
 import { customElement, query, state } from 'lit/decorators.js';
 import { NonShadow } from '../components/base-class/non-shadow';
-import { buildForm, FormBuilder } from '../components/form-builder';
+import { FormBuilder } from '../components/form-builder';
+import { buildForm } from '../components/utils/build-form.util';
 import { ArrayWidget } from '../components/widget/array-widget/array-widget';
 import { DateWidget } from '../components/widget/date-widget/date-widget';
+import { DateTimeWidget } from '../components/widget/datetime-widget/datetime-widget';
+import { NumberWidget } from '../components/widget/number-widget/number-widget';
 import { ObjectWidget } from '../components/widget/object-widget/object-widget';
 import { StringWidget } from '../components/widget/string-widget/string-widget';
 import './app.css';
@@ -21,6 +24,15 @@ export class AppRoot extends NonShadow {
             name: { widget: StringWidget, config: {}, required: true },
             date: {
                 widget: DateWidget,
+            },
+            dateTime: {
+                widget: DateTimeWidget,
+            },
+            number: {
+                widget: NumberWidget,
+                config: {
+                    multipleOf: 0.01,
+                },
             },
             array: {
                 widget: ArrayWidget,

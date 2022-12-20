@@ -6,6 +6,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { until } from 'lit/directives/until.js';
 import { FormWidgetProps, IFormWidget } from './base-class/cdp-widget.js';
 import { NonShadow } from './base-class/non-shadow.js';
+import { CustomJSONSchema } from './type/json-schema.js';
 
 import { lazySet } from './utils/lazy-set.utils.js';
 const WIDGET_KEY = Symbol();
@@ -110,9 +111,9 @@ declare global {
 }
 export type FormConfig<T> = T extends number ? number : object;
 
-export type FormSchema<T extends { properties?; widget? } = any> = {
+export type FormSchema<T extends { properties?; widget?; items? } = any> = {
     label?: string | false;
-    items?: FormSchema;
+    items?: FormSchema<T['items']>;
     properties?: { [Key in keyof T['properties']]: FormSchema<T['properties'][Key]> } & {
         [Key in symbol]: FormSchema<T['properties'][Key]>;
     };
@@ -128,8 +129,6 @@ export interface IWidget<C = any> {
     template: (props: FormWidgetProps) => Promise<TemplateResult>;
     columns?: Columns;
     config?: C;
+    jsonSchemaConverter?: (schema: CustomJSONSchema) => C;
 }
 export type Columns = number | { [key: string]: number; default: number };
-export function buildForm<T extends FormSchema<T>>(s: T) {
-    return s as FormSchema<T>;
-}

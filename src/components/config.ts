@@ -1,6 +1,7 @@
 import { deepAssign, safeGet, safeSet } from '@codeperate/utils';
 import { DeepPartial } from './type/deep-partial';
 import { ArrayWidgetConfig } from './widget/array-widget/array-widget.config';
+import { NumberWidgetConfig } from './widget/number-widget/number-widget.config';
 import { ObjectWidgetConfig } from './widget/object-widget/object-widget.config';
 import { StringWidgetConfig } from './widget/string-widget/string-widget.config';
 export interface FormBuilderConfig {
@@ -43,6 +44,7 @@ export interface CmptConfig {
     [CmptType.DateTimeWidget]: any;
     [CmptType.IntegerWidget]: any;
     [CmptType.BooleanWidget]: any;
+    [CmptType.NumberWidget]: NumberWidgetConfig;
     [key: string]: any;
 }
 export type ConfigType<K extends string> = K extends keyof CmptConfig ? CmptConfig[K] : any;
