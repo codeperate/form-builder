@@ -1,26 +1,37 @@
 import { Store } from '@codeperate/simple-store';
 import { Listener } from '@codeperate/simple-store/dist/listeners.js';
-import { get } from '@codeperate/utils';
+import { deepAssign, get } from '@codeperate/utils';
 import { html, LitElement, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { until } from 'lit/directives/until.js';
 import { FormWidgetProps, IFormWidget } from './base-class/cdp-widget.js';
 import { NonShadow } from './base-class/non-shadow.js';
+import { CdpFormBuilder } from './config.js';
+import type { FormBuilderOption } from './form-builder.config.js';
 import { CustomJSONSchema } from './type/custom-json-schema.js';
 
 import { lazySet } from './utils/lazy-set.utils.js';
+import { LocalStorage } from './utils/localstorage.util.js';
+import './form-builder.config.js';
 const WIDGET_KEY = Symbol();
 @customElement('cdp-form-builder')
 export class FormBuilder extends NonShadow {
     @property({ type: Object }) schema: FormSchema;
     @property() value: any;
     @property() view: boolean = false;
+    @property() name: string;
+    @property() config: FormBuilderOption = {};
+    _config: FormBuilderOption = {};
     context: any;
     widgetRecord: Record<string | number | symbol, any> = {};
     widgetCount: number = 0;
-    store;
+    store: Store<any>;
     connectedCallback() {
         super.connectedCallback();
+        this._config = deepAssign(
+            CdpFormBuilder.getConfig(o => o.FormBuilder),
+            this.config,
+        );
         this.store = new Store({ value: this.value });
         this.store.onChange(obj => this.dispatchEvent(new CustomEvent('formChange', { detail: obj.value })));
     }
@@ -69,7 +80,7 @@ export class FormBuilder extends NonShadow {
             this.widgetCount--;
         }
     }
-    getWidgets(path?: (string | symbol | number)[]): (IFormWidget & LitElement)[] {
+    public getWidgets(path?: (string | symbol | number)[]): (IFormWidget & LitElement)[] {
         let record = this.widgetRecord;
         if (path) record = get(this.widgetRecord, path);
         const widgets = [];
@@ -93,14 +104,29 @@ export class FormBuilder extends NonShadow {
                 for (const p of ['value', ...path]) selector = selector[p];
                 return selector;
             },
-            listener,
+            listener: (data, proxiedData) => {
+                const { autoSave } = this._config;
+                if (autoSave) this.save();
+                listener(data, proxiedData);
+            },
         });
     }
-    validate() {
+    public validate() {
         return this.getWidgets().map(w => w.validate());
     }
-    undoValidate() {
+    public undoValidate() {
         return this.getWidgets().forEach(w => w.undoValidate());
+    }
+    public save() {
+        if (!this.name) throw new Error('You must provide a name for the form.');
+        LocalStorage.set(this.name, { value: this.getTarget().value });
+    }
+    public load() {
+        if (!this.name) throw new Error('You must provide a name for the form.');
+        this.setValue([], LocalStorage.get(this.name).value);
+    }
+    public clearHistory() {
+        LocalStorage.remove(this.name);
     }
     render() {
         return html`${until(this.schema.widget.template({ form: this, path: [] }))}`;

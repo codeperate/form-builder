@@ -76,7 +76,7 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
                 this.value = pv || v;
             });
             this.config = deepAssign(
-                CdpFormBuilder.getConfig(o => o.cmpts[name]),
+                CdpFormBuilder.getConfig(o => o[name]),
                 this.schema.config ?? {},
             );
             this.updateValue();

@@ -8,6 +8,6 @@ export type StringWidgetConfig = {
     empty?: string;
 };
 
-CdpFormBuilder.setConfig(c => c.cmpts.StringWidget, {
+CdpFormBuilder.setConfig(c => c.StringWidget, {
     empty: 'N/A',
 });

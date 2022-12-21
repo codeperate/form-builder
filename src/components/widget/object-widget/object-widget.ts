@@ -27,7 +27,7 @@ export class CdpObjectWidget extends FormWidgetMixin(CmptType.ObjectWidget, NonS
                         ${label === false
                             ? ''
                             : html`<label class="cfb-font-bold"
-                                  >${label ?? key}
+                                  >${label ?? typeof key == 'string' ? key : ''}
                                   ${required && !this.view ? html`<span class="cfb-text-danger-600">${c.required.text}</span>` : ''}
                               </label>`}
                         ${until(template({ form: this.form, path: [...this.path, key] }))}

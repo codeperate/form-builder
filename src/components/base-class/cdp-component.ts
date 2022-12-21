@@ -16,7 +16,7 @@ export function CmptMixin<T extends Class<LitElement>, K extends string>(type: K
         connectedCallback(): void {
             super.connectedCallback();
             this._config = deepAssign(
-                CdpFormBuilder.getConfig(c => c.cmpts[this.cmptType]),
+                CdpFormBuilder.getConfig(c => c[this.cmptType]),
                 this.config,
             );
         }
@@ -24,7 +24,7 @@ export function CmptMixin<T extends Class<LitElement>, K extends string>(type: K
             super.willUpdate(_changedProperties);
             if (_changedProperties.has('config'))
                 this._config = deepAssign(
-                    CdpFormBuilder.getConfig(c => c.cmpts[this.cmptType]),
+                    CdpFormBuilder.getConfig(c => c[this.cmptType]),
                     this.config,
                 );
         }

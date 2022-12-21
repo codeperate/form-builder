@@ -92,3 +92,9 @@ export const NumberWidget: IWidget<NumberWidgetConfig> = {
     },
     columns: 6,
 };
+export const SectionWidget: IWidget<{ title: string }> = {
+    template: async ({ form, path }) => {
+        return html`<div class="cfb-font-bold cfb-text-xl">${form.getSchema(path).config.title ?? 'Section'}</div>`;
+    },
+    columns: 12,
+};

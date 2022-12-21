@@ -59,20 +59,19 @@ export function buildFormFromJSONSchema<
     M extends JSONSchemaTypeMapper = typeof defaultTypeMapper,
 >(formSchema: T, jsonSchema: J, mapper: M = defaultTypeMapper as any) {
     function iterateFormSchema<T extends { properties?; widget?; items? }>(
-        formSchema: FormSchema<T>,
-        jsonSchema: CustomJSONSchema,
+        f: FormSchema<T>,
+        j: CustomJSONSchema,
         callback: (formSchema: FormSchema<any>, jsonSchema: CustomJSONSchema) => void,
     ) {
-        if (formSchema.properties) {
-            for (const key of Object.keys(formSchema.properties)) {
-                const property = formSchema.properties[key];
-                callback(property, jsonSchema?.['properties']?.[key]);
-                iterateFormSchema(property, jsonSchema?.['properties']?.[key], callback);
+        callback(f, j);
+        if (f.properties) {
+            for (const key of Object.keys(f.properties)) {
+                const property = f.properties[key];
+                iterateFormSchema(property, j?.['properties']?.[key], callback);
             }
         }
-        if (formSchema.items) {
-            callback(formSchema.items, jsonSchema?.['items']);
-            iterateFormSchema(formSchema.items, jsonSchema?.['items'], callback);
+        if (f.items) {
+            iterateFormSchema(f.items, jsonSchema?.['items'], callback);
         }
     }
     iterateFormSchema(formSchema, jsonSchema, (f, j) => {
@@ -80,7 +79,7 @@ export function buildFormFromJSONSchema<
         let type = Array.isArray(j.type) ? j.type[0] : j.type;
         let format = j.format ?? 'default';
         f.widget = mapper[type][format];
-        f.widget.jsonSchemaConverter?.(formSchema, jsonSchema);
+        f.widget.jsonSchemaConverter?.(f, j);
     });
     return formSchema;
 }

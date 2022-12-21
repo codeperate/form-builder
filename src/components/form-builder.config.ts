@@ -1,4 +1,9 @@
-import { CdpFormBuilder, CmptType } from './config';
+import { CdpFormBuilder } from './config.js';
 
-export interface FormBuilderConfig {}
-CdpFormBuilder.setConfig(c => c.cmpts[CmptType.FormBuilder], null);
+export interface FormBuilderOption {
+    autoSave?: boolean;
+}
+
+CdpFormBuilder.setConfig(o => o.FormBuilder, {
+    autoSave: true,
+});

@@ -1,4 +1,5 @@
 import { deepAssign, safeGet, safeSet } from '@codeperate/utils';
+import { FormBuilderOption } from './form-builder.config.js';
 import { DeepPartial } from './type/deep-partial';
 import { ArrayWidgetConfig } from './widget/array-widget/array-widget.config';
 import { BooleanWidgetConfig } from './widget/boolean-widget/boolean-widget.config.js';
@@ -7,9 +8,7 @@ import { DateTimeWidgetConfig } from './widget/datetime-widget/datetime-widget.c
 import { NumberWidgetConfig } from './widget/number-widget/number-widget.config';
 import { ObjectWidgetConfig } from './widget/object-widget/object-widget.config';
 import { StringWidgetConfig } from './widget/string-widget/string-widget.config';
-export interface FormBuilderConfig {
-    cmpts: CmptConfig;
-}
+export type FormBuilderConfig = CmptConfig;
 
 const config = {};
 export namespace CdpFormBuilder {
@@ -37,7 +36,7 @@ export enum CmptType {
     BooleanWidget = 'BooleanWidget',
 }
 export interface CmptConfig {
-    [CmptType.FormBuilder]: FormBuilderConfig;
+    [CmptType.FormBuilder]: FormBuilderOption;
     [CmptType.ObjectWidget]: ObjectWidgetConfig;
     [CmptType.StringWidget]: StringWidgetConfig;
     [CmptType.ArrayWidget]: ArrayWidgetConfig;
