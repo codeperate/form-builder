@@ -1,12 +1,10 @@
 import { html } from 'lit';
 import { customElement, query } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { FormWidgetMixin } from '../../base-class/cdp-widget.js';
 import { NonShadow } from '../../base-class/non-shadow.js';
 import { CmptType } from '../../config.js';
-import { IWidget } from '../../form-builder.js';
-import { NumberWidgetConfig } from './number-widget.config.js';
 import './number-widget.config.js';
-import { ifDefined } from 'lit/directives/if-defined.js';
 @customElement('cdp-number-widget')
 export class CdpNumberWidget extends FormWidgetMixin(CmptType.NumberWidget, NonShadow) {
     @query('input') inputEl: HTMLInputElement;
@@ -57,8 +55,3 @@ declare global {
         'cdp-number-widget': CdpNumberWidget;
     }
 }
-
-export const NumberWidget: IWidget<NumberWidgetConfig> = {
-    template: async ({ path, form }) => html`<cdp-number-widget .form=${form} .path=${path}></cdp-number-widget>`,
-    columns: 6,
-};

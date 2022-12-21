@@ -3,9 +3,7 @@ import { customElement, query } from 'lit/decorators.js';
 import { FormWidgetMixin } from '../../base-class/cdp-widget.js';
 import { NonShadow } from '../../base-class/non-shadow.js';
 import { CmptType } from '../../config.js';
-import { IWidget } from '../../form-builder.js';
 import './datetime-widget.config.js';
-import { DateTimeWidgetConfig } from './datetime-widget.config.js';
 @customElement('cdp-datetime-widget')
 export class CdpDateTimeWidget extends FormWidgetMixin(CmptType.DateTimeWidget, NonShadow) {
     @query('input') inputEl: HTMLInputElement;
@@ -54,8 +52,3 @@ declare global {
         'cdp-datetime-widget': CdpDateTimeWidget;
     }
 }
-
-export const DateTimeWidget: IWidget<DateTimeWidgetConfig> = {
-    template: async ({ path, form }) => html`<cdp-datetime-widget .form=${form} .path=${path}></cdp-datetime-widget>`,
-    columns: 6,
-};

@@ -5,10 +5,8 @@ import { until } from 'lit/directives/until.js';
 import { FormWidgetMixin } from '../../base-class/cdp-widget.js';
 import { NonShadow } from '../../base-class/non-shadow.js';
 import { CmptType } from '../../config.js';
-import { IWidget } from '../../form-builder.js';
 import { columnClass } from '../../utils/columns.utils.js';
 import './object-widget.config.js';
-import { ObjectWidgetConfig } from './object-widget.config.js';
 @customElement('cdp-object-widget')
 export class CdpObjectWidget extends FormWidgetMixin(CmptType.ObjectWidget, NonShadow) {
     validator() {
@@ -44,7 +42,3 @@ declare global {
         'cdp-object-widget': CdpObjectWidget;
     }
 }
-
-export const ObjectWidget: IWidget<ObjectWidgetConfig> = {
-    template: async ({ path, form }) => html`<cdp-object-widget .form=${form} .path=${path}></cdp-object-widget>`,
-};

@@ -4,9 +4,7 @@ import { ifDefined } from 'lit/directives/if-defined.js';
 import { FormWidgetMixin } from '../../base-class/cdp-widget.js';
 import { NonShadow } from '../../base-class/non-shadow.js';
 import { CmptType } from '../../config.js';
-import { IWidget } from '../../form-builder.js';
 import './string-widget.config.js';
-import { StringWidgetConfig } from './string-widget.config.js';
 @customElement('cdp-string-widget')
 export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonShadow) {
     @query('input') inputEl: HTMLInputElement;
@@ -56,8 +54,3 @@ declare global {
         'cdp-string-widget': CdpStringWidget;
     }
 }
-
-export const StringWidget: IWidget<StringWidgetConfig> = {
-    template: async ({ path, form }) => html`<cdp-string-widget .form=${form} .path=${path}></cdp-string-widget>`,
-    columns: 6,
-};

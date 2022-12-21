@@ -2,13 +2,9 @@ import { html } from 'lit';
 import { customElement, query, state } from 'lit/decorators.js';
 import { NonShadow } from '../components/base-class/non-shadow';
 import { FormBuilder } from '../components/form-builder';
-import { buildForm } from '../components/utils/build-form.util';
-import { ArrayWidget } from '../components/widget/array-widget/array-widget';
-import { DateWidget } from '../components/widget/date-widget/date-widget';
-import { DateTimeWidget } from '../components/widget/datetime-widget/datetime-widget';
-import { NumberWidget } from '../components/widget/number-widget/number-widget';
-import { ObjectWidget } from '../components/widget/object-widget/object-widget';
-import { StringWidget } from '../components/widget/string-widget/string-widget';
+import { buildFormFromJSONSchema } from '../components/utils/build-form-from-json-schema.util';
+import { ArrayWidget, DateTimeWidget, DateWidget, NumberWidget, ObjectWidget, StringWidget } from '../components/widgets';
+
 import './app.css';
 const components = import.meta.glob('../components/**/*.ts', { eager: true });
 @customElement('app-root')
@@ -17,32 +13,45 @@ export class AppRoot extends NonShadow {
     @state() switch: boolean = false;
     @state() view: boolean = false;
     @state() value: any;
-    schema = buildForm({
-        widget: ObjectWidget,
-        config: {},
-        properties: {
-            name: { widget: StringWidget, config: {}, required: true },
-            date: {
-                widget: DateWidget,
-            },
-            dateTime: {
-                widget: DateTimeWidget,
-            },
-            number: {
-                widget: NumberWidget,
-                config: {
-                    multipleOf: 0.01,
+    schema = buildFormFromJSONSchema(
+        {
+            widget: ObjectWidget,
+            config: {},
+            properties: {
+                name: { config: {}, required: true },
+                date: {
+                    widget: DateWidget,
                 },
-            },
-            array: {
-                widget: ArrayWidget,
-                items: {
-                    widget: StringWidget,
+                dateTime: {
+                    widget: DateTimeWidget,
+                },
+                number: {
+                    widget: NumberWidget,
+                    config: {
+                        multipleOf: 0.01,
+                    },
+                },
+                array: {
+                    widget: ArrayWidget,
+                    items: {
+                        widget: StringWidget,
+                        required: true,
+                    },
+                },
+                boolean: {
+                    //widget: BooleanWidget,
                     required: true,
                 },
             },
         },
-    });
+        {
+            type: 'object',
+            properties: {
+                name: { type: 'string', format: 'date' },
+                boolean: { type: 'boolean' },
+            },
+        },
+    );
     render() {
         if (this.switch) {
             return html` <button @click=${() => (this.switch = false)}>Click</button>`;
@@ -51,6 +60,7 @@ export class AppRoot extends NonShadow {
             <div class="cfb-p-4">
                 <button @click=${() => (this.switch = true)}>Hide</button>
                 <button @click=${() => console.log(this.formEl.validate())}>Validate</button>
+                <button @click=${() => console.log(this.formEl.undoValidate())}>Undo Validate</button>
                 <button @click=${() => (this.view = !this.view)}>View</button>
                 <button @click=${() => console.log(this.formEl.getWidgets())}>GetWidgets</button>
                 <cdp-form-builder

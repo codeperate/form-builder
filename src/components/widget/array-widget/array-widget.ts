@@ -4,10 +4,9 @@ import { until } from 'lit/directives/until.js';
 import { FormWidgetMixin } from '../../base-class/cdp-widget.js';
 import { NonShadow } from '../../base-class/non-shadow.js';
 import { CmptType } from '../../config.js';
-import { IWidget } from '../../form-builder.js';
 import { columnClass } from '../../utils/columns.utils.js';
 import './array-widget.config.js';
-import type { ArrayWidgetConfig, ArrayWidgetMode } from './array-widget.config.js';
+import type { ArrayWidgetMode } from './array-widget.config.js';
 @customElement('cdp-array-widget')
 export class CdpArrayWidget extends FormWidgetMixin(CmptType.ArrayWidget, NonShadow) {
     @state() mode: ArrayWidgetMode = 'default';
@@ -143,8 +142,3 @@ declare global {
         'cdp-array-widget': CdpArrayWidget;
     }
 }
-
-export const ArrayWidget: IWidget<ArrayWidgetConfig> = {
-    template: async ({ path, form }) => html`<cdp-array-widget .form=${form} .path=${path}></cdp-array-widget>`,
-    columns: 12,
-};

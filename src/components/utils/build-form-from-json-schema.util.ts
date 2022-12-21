@@ -1,11 +1,6 @@
-import { IWidget } from '../form-builder';
+import { FormSchema, IWidget } from '../form-builder';
 import { CustomJSONSchema } from '../type/custom-json-schema';
-import { ArrayWidget } from '../widget/array-widget/array-widget';
-import { DateWidget } from '../widget/date-widget/date-widget';
-import { DateTimeWidget } from '../widget/datetime-widget/datetime-widget';
-import { NumberWidget } from '../widget/number-widget/number-widget';
-import { ObjectWidget } from '../widget/object-widget/object-widget';
-import { StringWidget } from '../widget/string-widget/string-widget';
+import { ArrayWidget, BooleanWidget, DateTimeWidget, DateWidget, NumberWidget, ObjectWidget, StringWidget } from '../widgets';
 type ExtractT<A> = A extends any[] ? A[number] : A;
 export type ConfigByJSONSchema<
     T extends FormSchemaFromJSONSchema<T, J, M>,
@@ -23,7 +18,7 @@ export interface FormSchemaFromJSONSchema<
     T extends { properties?; widget?; items? },
     J extends CustomJSONSchema<J>,
     M extends JSONSchemaTypeMapper,
-> {
+> extends FormSchema<T> {
     widget?: IWidget;
     config?: ConfigByJSONSchema<T, J, M>;
     items?: FormSchemaFromJSONSchema<T['items'], J['items'], M>;
@@ -54,32 +49,38 @@ export const defaultTypeMapper = {
     array: {
         default: ArrayWidget,
     },
+    boolean: {
+        default: BooleanWidget,
+    },
 };
 export function buildFormFromJSONSchema<
     T extends FormSchemaFromJSONSchema<T, J, M>,
     J extends CustomJSONSchema<J, M>,
     M extends JSONSchemaTypeMapper = typeof defaultTypeMapper,
 >(formSchema: T, jsonSchema: J, mapper: M = defaultTypeMapper as any) {
-    //return s as FormSchema<T>;
+    function iterateFormSchema<T extends { properties?; widget?; items? }>(
+        formSchema: FormSchema<T>,
+        jsonSchema: CustomJSONSchema,
+        callback: (formSchema: FormSchema<any>, jsonSchema: CustomJSONSchema) => void,
+    ) {
+        if (formSchema.properties) {
+            for (const key of Object.keys(formSchema.properties)) {
+                const property = formSchema.properties[key];
+                callback(property, jsonSchema?.['properties']?.[key]);
+                iterateFormSchema(property, jsonSchema?.['properties']?.[key], callback);
+            }
+        }
+        if (formSchema.items) {
+            callback(formSchema.items, jsonSchema?.['items']);
+            iterateFormSchema(formSchema.items, jsonSchema?.['items'], callback);
+        }
+    }
+    iterateFormSchema(formSchema, jsonSchema, (f, j) => {
+        if (!j) return;
+        let type = Array.isArray(j.type) ? j.type[0] : j.type;
+        let format = j.format ?? 'default';
+        f.widget = mapper[type][format];
+        f.widget.jsonSchemaConverter?.(formSchema, jsonSchema);
+    });
+    return formSchema;
 }
-
-buildFormFromJSONSchema(
-    {
-        properties: {
-            name: {
-                config: {},
-            },
-        },
-        config: {},
-    },
-    {
-        type: 'string',
-        format: 'date',
-        properties: {
-            name: {
-                type: 'string',
-                format: 'date',
-            },
-        },
-    },
-);

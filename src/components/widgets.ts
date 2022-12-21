@@ -1,0 +1,82 @@
+import { html } from 'lit';
+import { IWidget } from './form-builder';
+import { ArrayWidgetConfig } from './widget/array-widget/array-widget.config';
+import { BooleanWidgetConfig } from './widget/boolean-widget/boolean-widget.config';
+import { DateWidgetConfig } from './widget/date-widget/date-widget.config';
+import { DateTimeWidgetConfig } from './widget/datetime-widget/datetime-widget.config';
+import { NumberWidgetConfig } from './widget/number-widget/number-widget.config';
+import { ObjectWidgetConfig } from './widget/object-widget/object-widget.config';
+import { StringWidgetConfig } from './widget/string-widget/string-widget.config';
+
+export const ArrayWidget: IWidget<ArrayWidgetConfig> = {
+    template: async ({ path, form }) => {
+        await import('../components/widget/array-widget/array-widget.js');
+        return html`<cdp-array-widget .form=${form} .path=${path}></cdp-array-widget>`;
+    },
+    columns: 12,
+};
+export const ObjectWidget: IWidget<ObjectWidgetConfig> = {
+    template: async ({ path, form }) => {
+        await import('../components/widget/object-widget/object-widget.js');
+        return html`<cdp-object-widget .form=${form} .path=${path}></cdp-object-widget>`;
+    },
+    jsonSchemaConverter: (formSchema, jsonSchema) => {
+        if (jsonSchema.required) {
+            for (const r of jsonSchema.required) {
+                if (formSchema.properties && r in formSchema.properties) formSchema.properties[r].required = true;
+            }
+        }
+    },
+    columns: 12,
+};
+export const StringWidget: IWidget<StringWidgetConfig> = {
+    template: async ({ path, form }) => {
+        await import('../components/widget/string-widget/string-widget.js');
+        return html`<cdp-string-widget .form=${form} .path=${path}></cdp-string-widget>`;
+    },
+    jsonSchemaConverter: (formSchema, jsonSchema) => {
+        formSchema.config ??= {};
+        formSchema.config.default ??= String(jsonSchema.default);
+        formSchema.config.pattern ??= jsonSchema.pattern;
+        formSchema.config.maxLength ??= jsonSchema.maxLength;
+        formSchema.config.minLength ??= jsonSchema.minLength;
+    },
+    columns: 6,
+};
+export const BooleanWidget: IWidget<BooleanWidgetConfig> = {
+    template: async ({ path, form }) => {
+        await import('../components/widget/boolean-widget/boolean-widget.js');
+        return html`<cdp-boolean-widget .form=${form} .path=${path}></cdp-boolean-widget>`;
+    },
+    columns: 6,
+};
+export const DateWidget: IWidget<DateWidgetConfig> = {
+    template: async ({ path, form }) => {
+        await import('../components/widget/date-widget/date-widget.js');
+        return html`<cdp-date-widget .form=${form} .path=${path}></cdp-date-widget>`;
+    },
+    columns: 6,
+};
+export const DateTimeWidget: IWidget<DateTimeWidgetConfig> = {
+    template: async ({ path, form }) => {
+        await import('../components/widget/datetime-widget/datetime-widget.js');
+        return html`<cdp-datetime-widget .form=${form} .path=${path}></cdp-datetime-widget>`;
+    },
+    columns: 6,
+};
+
+export const NumberWidget: IWidget<NumberWidgetConfig> = {
+    template: async ({ path, form }) => {
+        await import('../components/widget/number-widget/number-widget.js');
+        return html`<cdp-number-widget .form=${form} .path=${path}></cdp-number-widget>`;
+    },
+    jsonSchemaConverter: (formSchema, jsonSchema) => {
+        formSchema.config ??= {};
+        formSchema.config.minimum ??= jsonSchema.minimum;
+        formSchema.config.maximum ??= jsonSchema.maximum;
+        formSchema.config.multipleOf ??= jsonSchema.multipleOf;
+        formSchema.config.default ??= jsonSchema.default as number;
+        if ((jsonSchema.type = 'integer')) formSchema.config.multipleOf ??= 1;
+    },
+    columns: 6,
+};

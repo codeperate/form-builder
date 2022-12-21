@@ -1,7 +1,7 @@
 import { CdpFormBuilder } from '../../config';
 
 export type NumberWidgetConfig = {
-    default?: string;
+    default?: number | string;
     empty?: string;
     multipleOf?: number;
     minimum?: number;

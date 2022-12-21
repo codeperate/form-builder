@@ -1,7 +1,7 @@
 import { deepAssign } from '@codeperate/utils';
 import { LitElement } from 'lit';
 import { property, state } from 'lit/decorators.js';
-import { CdpFormBuilder, CmptConfig, ConfigType } from '../config';
+import { CdpFormBuilder, ConfigType } from '../config';
 import { FormBuilder, FormSchema } from '../form-builder';
 import { Class } from '../type/class';
 
@@ -24,6 +24,7 @@ export interface IFormWidget<T = any> {
     setValue(value: any): void;
     updateValue(): void;
     validate(): ValidatedMeta | undefined;
+    undoValidate(): void;
     connectedCallback(): void;
     disconnectedCallback(): void;
 }
@@ -63,6 +64,10 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
                 this.validatedMeta = result;
                 return result;
             }
+        }
+        undoValidate() {
+            this.isValidated = false;
+            this.validatedMeta = undefined;
         }
         connectedCallback() {
             super.connectedCallback();

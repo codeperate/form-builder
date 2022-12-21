@@ -1,6 +1,8 @@
 import { deepAssign, safeGet, safeSet } from '@codeperate/utils';
 import { DeepPartial } from './type/deep-partial';
 import { ArrayWidgetConfig } from './widget/array-widget/array-widget.config';
+import { BooleanWidgetConfig } from './widget/boolean-widget/boolean-widget.config.js';
+import { DateWidgetConfig } from './widget/date-widget/date-widget.config.js';
 import { DateTimeWidgetConfig } from './widget/datetime-widget/datetime-widget.config';
 import { NumberWidgetConfig } from './widget/number-widget/number-widget.config';
 import { ObjectWidgetConfig } from './widget/object-widget/object-widget.config';
@@ -30,7 +32,6 @@ export enum CmptType {
     ArrayWidget = 'ArrayWidget',
     DateWidget = 'DateWidget',
     DateTimeWidget = 'DateTimeWidget',
-    IntegerWidget = 'IntegerWidget',
     NumberWidget = 'NumberWidget',
     DataViewerWidget = 'DataViewerWidget',
     BooleanWidget = 'BooleanWidget',
@@ -41,10 +42,9 @@ export interface CmptConfig {
     [CmptType.StringWidget]: StringWidgetConfig;
     [CmptType.ArrayWidget]: ArrayWidgetConfig;
     [CmptType.DataViewerWidget]: any;
-    [CmptType.DateWidget]: any;
+    [CmptType.DateWidget]: DateWidgetConfig;
     [CmptType.DateTimeWidget]: DateTimeWidgetConfig;
-    [CmptType.IntegerWidget]: any;
-    [CmptType.BooleanWidget]: any;
+    [CmptType.BooleanWidget]: BooleanWidgetConfig;
     [CmptType.NumberWidget]: NumberWidgetConfig;
     [key: string]: any;
 }
