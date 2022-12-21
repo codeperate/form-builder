@@ -1,6 +1,7 @@
 import { deepAssign, safeGet, safeSet } from '@codeperate/utils';
 import { DeepPartial } from './type/deep-partial';
 import { ArrayWidgetConfig } from './widget/array-widget/array-widget.config';
+import { DateTimeWidgetConfig } from './widget/datetime-widget/datetime-widget.config';
 import { NumberWidgetConfig } from './widget/number-widget/number-widget.config';
 import { ObjectWidgetConfig } from './widget/object-widget/object-widget.config';
 import { StringWidgetConfig } from './widget/string-widget/string-widget.config';
@@ -41,7 +42,7 @@ export interface CmptConfig {
     [CmptType.ArrayWidget]: ArrayWidgetConfig;
     [CmptType.DataViewerWidget]: any;
     [CmptType.DateWidget]: any;
-    [CmptType.DateTimeWidget]: any;
+    [CmptType.DateTimeWidget]: DateTimeWidgetConfig;
     [CmptType.IntegerWidget]: any;
     [CmptType.BooleanWidget]: any;
     [CmptType.NumberWidget]: NumberWidgetConfig;

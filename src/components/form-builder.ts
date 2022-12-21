@@ -6,7 +6,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { until } from 'lit/directives/until.js';
 import { FormWidgetProps, IFormWidget } from './base-class/cdp-widget.js';
 import { NonShadow } from './base-class/non-shadow.js';
-import { CustomJSONSchema } from './type/json-schema.js';
+import { CustomJSONSchema } from './type/custom-json-schema.js';
 
 import { lazySet } from './utils/lazy-set.utils.js';
 const WIDGET_KEY = Symbol();
