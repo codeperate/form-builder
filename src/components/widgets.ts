@@ -10,14 +10,14 @@ import { StringWidgetConfig } from './widget/string-widget/string-widget.config'
 
 export const ArrayWidget: IWidget<ArrayWidgetConfig> = {
     template: async ({ path, form }) => {
-        await import('../components/widget/array-widget/array-widget.js');
+        await import('./widget/array-widget/array-widget.js');
         return html`<cdp-array-widget .form=${form} .path=${path}></cdp-array-widget>`;
     },
     columns: 12,
 };
 export const ObjectWidget: IWidget<ObjectWidgetConfig> = {
     template: async ({ path, form }) => {
-        await import('../components/widget/object-widget/object-widget.js');
+        await import('./widget/object-widget/object-widget.js');
         return html`<cdp-object-widget .form=${form} .path=${path}></cdp-object-widget>`;
     },
     jsonSchemaConverter: (formSchema, jsonSchema) => {
@@ -31,7 +31,7 @@ export const ObjectWidget: IWidget<ObjectWidgetConfig> = {
 };
 export const StringWidget: IWidget<StringWidgetConfig> = {
     template: async ({ path, form }) => {
-        await import('../components/widget/string-widget/string-widget.js');
+        await import('./widget/string-widget/string-widget.js');
         return html`<cdp-string-widget .form=${form} .path=${path}></cdp-string-widget>`;
     },
     jsonSchemaConverter: (formSchema, jsonSchema) => {
@@ -45,7 +45,7 @@ export const StringWidget: IWidget<StringWidgetConfig> = {
 };
 export const BooleanWidget: IWidget<BooleanWidgetConfig> = {
     template: async ({ path, form }) => {
-        await import('../components/widget/boolean-widget/boolean-widget.js');
+        await import('./widget/boolean-widget/boolean-widget.js');
         return html`<cdp-boolean-widget .form=${form} .path=${path}></cdp-boolean-widget>`;
     },
     jsonSchemaConverter: (formSchema, jsonSchema) => {
@@ -56,7 +56,7 @@ export const BooleanWidget: IWidget<BooleanWidgetConfig> = {
 };
 export const DateWidget: IWidget<DateWidgetConfig> = {
     template: async ({ path, form }) => {
-        await import('../components/widget/date-widget/date-widget.js');
+        await import('./widget/date-widget/date-widget.js');
         return html`<cdp-date-widget .form=${form} .path=${path}></cdp-date-widget>`;
     },
     jsonSchemaConverter: (formSchema, jsonSchema) => {
@@ -67,7 +67,7 @@ export const DateWidget: IWidget<DateWidgetConfig> = {
 };
 export const DateTimeWidget: IWidget<DateTimeWidgetConfig> = {
     template: async ({ path, form }) => {
-        await import('../components/widget/datetime-widget/datetime-widget.js');
+        await import('./widget/datetime-widget/datetime-widget.js');
         return html`<cdp-datetime-widget .form=${form} .path=${path}></cdp-datetime-widget>`;
     },
     columns: 6,
@@ -79,7 +79,7 @@ export const DateTimeWidget: IWidget<DateTimeWidgetConfig> = {
 
 export const NumberWidget: IWidget<NumberWidgetConfig> = {
     template: async ({ path, form }) => {
-        await import('../components/widget/number-widget/number-widget.js');
+        await import('./widget/number-widget/number-widget.js');
         return html`<cdp-number-widget .form=${form} .path=${path}></cdp-number-widget>`;
     },
     jsonSchemaConverter: (formSchema, jsonSchema) => {
