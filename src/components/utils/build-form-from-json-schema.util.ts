@@ -1,4 +1,4 @@
-import { FormSchema, IWidget } from '../form-builder';
+import { FormSchema, IWidget } from '../form-builder.interface.js';
 import { CustomJSONSchema } from '../type/custom-json-schema';
 import { ArrayWidget, BooleanWidget, DateTimeWidget, DateWidget, NumberWidget, ObjectWidget, StringWidget } from '../widgets';
 type ExtractT<A> = A extends any[] ? A[number] : A;

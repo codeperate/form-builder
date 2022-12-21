@@ -1,5 +1,5 @@
 import { deepAssign, safeGet, safeSet } from '@codeperate/utils';
-import { FormBuilderOption } from './form-builder.config.js';
+import { FormBuilderOption } from './form-builder.interface.js';
 import { DeepPartial } from './type/deep-partial';
 import { ArrayWidgetConfig } from './widget/array-widget/array-widget.config';
 import { BooleanWidgetConfig } from './widget/boolean-widget/boolean-widget.config.js';

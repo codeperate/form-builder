@@ -5,3 +5,4 @@ export * from './utils/columns.utils.js';
 export * from './config.js';
 export * from './base-class/cdp-widget.js';
 export * from './type/custom-json-schema.js';
+export * from './form-builder.interface.js';

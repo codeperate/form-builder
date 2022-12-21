@@ -2,7 +2,8 @@ import { deepAssign } from '@codeperate/utils';
 import { LitElement } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { CdpFormBuilder, ConfigType } from '../config';
-import { FormBuilder, FormSchema } from '../form-builder';
+import { FormBuilder } from '../form-builder';
+import { FormSchema } from '../form-builder.interface.js';
 import { Class } from '../type/class';
 
 export interface FormWidgetProps {

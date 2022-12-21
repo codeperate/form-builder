@@ -1,5 +1,4 @@
-import { Columns } from '../form-builder';
-
+export type Columns = number | { [key: string]: number; default: number };
 export function columnClass(columns: Columns) {
     if (typeof columns == 'number') {
         let defaultColumns = columns > 6 ? 6 : columns;

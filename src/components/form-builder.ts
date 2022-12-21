@@ -1,18 +1,16 @@
 import { Store } from '@codeperate/simple-store';
 import { Listener } from '@codeperate/simple-store/dist/listeners.js';
 import { deepAssign, get } from '@codeperate/utils';
-import { html, LitElement, TemplateResult } from 'lit';
+import { html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { until } from 'lit/directives/until.js';
-import { FormWidgetProps, IFormWidget } from './base-class/cdp-widget.js';
+import { IFormWidget } from './base-class/cdp-widget.js';
 import { NonShadow } from './base-class/non-shadow.js';
 import { CdpFormBuilder } from './config.js';
-import type { FormBuilderOption } from './form-builder.config.js';
-import { CustomJSONSchema } from './type/custom-json-schema.js';
-
+import './form-builder.config.js';
+import type { FormBuilderOption, FormSchema } from './form-builder.interface.js';
 import { lazySet } from './utils/lazy-set.utils.js';
 import { LocalStorage } from './utils/localstorage.util.js';
-import './form-builder.config.js';
 const WIDGET_KEY = Symbol();
 @customElement('cdp-form-builder')
 export class FormBuilder extends NonShadow {
@@ -137,26 +135,3 @@ declare global {
         'cdp-form-builder': FormBuilder;
     }
 }
-export type FormConfig<T> = T extends number ? number : object;
-
-export type FormSchema<T extends { properties?; widget?; items? } = any, C = any> = {
-    label?: string | false;
-    items?: FormSchema<T['items']>;
-    properties?: { [Key in keyof T['properties']]: FormSchema<T['properties'][Key]> } & {
-        [Key in symbol]: FormSchema<T['properties'][Key]>;
-    };
-    widget?: IWidget;
-    validate?: boolean;
-    view?: boolean;
-    hidden?: boolean;
-    required?: boolean;
-    columns?: Columns;
-    config?: C extends undefined ? T['widget']['config'] : C;
-};
-export interface IWidget<C = any> {
-    template: (props: FormWidgetProps) => Promise<TemplateResult>;
-    columns?: Columns;
-    config?: C;
-    jsonSchemaConverter?: (formSchema: FormSchema<any, C>, jsonSchema: CustomJSONSchema) => void;
-}
-export type Columns = number | { [key: string]: number; default: number };
