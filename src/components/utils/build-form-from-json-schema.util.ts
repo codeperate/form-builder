@@ -9,7 +9,7 @@ import { StringWidget } from '../widget/string-widget/string-widget';
 type ExtractT<A> = A extends any[] ? A[number] : A;
 export type ConfigByJSONSchema<
     T extends FormSchemaFromJSONSchema<T, J, M>,
-    J extends CustomJSONSchema<J>,
+    J extends CustomJSONSchema<J, M>,
     M extends JSONSchemaTypeMapper,
 > = 'widget' extends keyof T
     ? T['widget']['config']
@@ -40,6 +40,7 @@ export interface JSONSchemaTypeMapper {
     boolean?: WidgetByFormat;
     object?: WidgetByFormat;
     array?: WidgetByFormat;
+    [key: string]: WidgetByFormat;
 }
 
 export const defaultTypeMapper = {
@@ -56,9 +57,8 @@ export const defaultTypeMapper = {
 };
 export function buildFormFromJSONSchema<
     T extends FormSchemaFromJSONSchema<T, J, M>,
-    J extends CustomJSONSchema<J>,
+    J extends CustomJSONSchema<J, M>,
     M extends JSONSchemaTypeMapper = typeof defaultTypeMapper,
-    K extends string = any,
 >(formSchema: T, jsonSchema: J, mapper: M = defaultTypeMapper as any) {
     //return s as FormSchema<T>;
 }
