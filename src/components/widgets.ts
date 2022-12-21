@@ -48,12 +48,20 @@ export const BooleanWidget: IWidget<BooleanWidgetConfig> = {
         await import('../components/widget/boolean-widget/boolean-widget.js');
         return html`<cdp-boolean-widget .form=${form} .path=${path}></cdp-boolean-widget>`;
     },
+    jsonSchemaConverter: (formSchema, jsonSchema) => {
+        formSchema.config ??= {};
+        formSchema.config.default ??= jsonSchema.default as string;
+    },
     columns: 6,
 };
 export const DateWidget: IWidget<DateWidgetConfig> = {
     template: async ({ path, form }) => {
         await import('../components/widget/date-widget/date-widget.js');
         return html`<cdp-date-widget .form=${form} .path=${path}></cdp-date-widget>`;
+    },
+    jsonSchemaConverter: (formSchema, jsonSchema) => {
+        formSchema.config ??= {};
+        formSchema.config.default ??= jsonSchema.default as string;
     },
     columns: 6,
 };
@@ -63,6 +71,10 @@ export const DateTimeWidget: IWidget<DateTimeWidgetConfig> = {
         return html`<cdp-datetime-widget .form=${form} .path=${path}></cdp-datetime-widget>`;
     },
     columns: 6,
+    jsonSchemaConverter: (formSchema, jsonSchema) => {
+        formSchema.config ??= {};
+        formSchema.config.default ??= jsonSchema.default as string;
+    },
 };
 
 export const NumberWidget: IWidget<NumberWidgetConfig> = {

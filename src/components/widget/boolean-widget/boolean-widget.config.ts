@@ -4,7 +4,7 @@ import { CdpFormBuilder } from '../../config';
 export type BooleanWidgetConfig = {
     default?: string;
     empty?: string;
-    trueVal: string | TemplateResult;
+    trueVal?: string | TemplateResult;
     falseVal?: string | TemplateResult;
 };
 

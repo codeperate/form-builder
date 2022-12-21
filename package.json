@@ -20,7 +20,6 @@
         "@types/json-schema": "^7.0.11",
         "ajv": "^8.11.0",
         "ajv-formats": "^2.1.1",
-        "array-move": "^4.0.0",
         "lit": "^2.4.1"
     },
     "devDependencies": {
