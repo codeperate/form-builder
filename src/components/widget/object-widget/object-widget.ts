@@ -22,7 +22,6 @@ export class CdpObjectWidget extends FormWidgetMixin(CmptType.ObjectWidget, NonS
                 key => key,
                 key => {
                     const { label, required, hidden } = this.schema.properties[key];
-                    console.log(label);
                     const { template, columns } = this.schema.properties[key].widget;
                     if (!hidden)
                         return html`<div class="${columnClass(columns)} cfb-grid cfb-content-start">
