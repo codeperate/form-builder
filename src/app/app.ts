@@ -3,7 +3,7 @@ import { customElement, query, state } from 'lit/decorators.js';
 import { NonShadow } from '../components/base-class/non-shadow';
 import { FormBuilder } from '../components/form-builder';
 import { buildFormFromJSONSchema } from '../components/utils/build-form-from-json-schema.util';
-import { ArrayWidget, DateTimeWidget, DateWidget, NumberWidget, ObjectWidget, SectionWidget, StringWidget } from '../components/widgets';
+import { ArrayWidget, DateTimeWidget, NumberWidget, SectionWidget, StringWidget } from '../components/widgets';
 
 import './app.css';
 const components = import.meta.glob('../components/**/*.ts', { eager: true });
@@ -47,6 +47,7 @@ export class AppRoot extends NonShadow {
                     //widget: BooleanWidget,
                     required: true,
                 },
+                enum: {},
             },
         },
         {
@@ -56,6 +57,10 @@ export class AppRoot extends NonShadow {
                 boolean: { type: 'boolean' },
                 date: {
                     $ref: '#/components/Date',
+                },
+                enum: {
+                    type: 'string',
+                    enum: ['Y', 'N'],
                 },
             },
             required: ['name'],

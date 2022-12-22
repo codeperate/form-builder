@@ -25,13 +25,39 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
     }
     render() {
         const { required } = this.schema;
-        const { pattern, minLength, maxLength, empty } = this.config;
+        const { pattern, minLength, maxLength, empty, selectText } = this.config;
+        const enumVal = this.config.enum;
+        const defaultValue = this.config.default;
         if (this.view) return html`<div>${this.value ?? empty}</div>`;
         let validatedClass = 'cfb-bg-gray-200 hover:cfb-bg-gray-300';
         if (this.isValidated)
             validatedClass = this.validatedMeta?.validity
                 ? /*tw*/ 'cfb-bg-valid-100 hover:cfb-bg-valid-200'
                 : /*tw*/ 'cfb-bg-danger-100 hover:cfb-bg-danger-200';
+        if (enumVal) {
+            return html`
+                <select
+                    class="${validatedClass} cfb-w-full cfb-rounded-lg cfb-bg-gray-200 cfb-p-2"
+                    ?required=${required}
+                    .value=${this.value || ''}
+                    @change=${e => {
+                        this.form.setValue(this.path, e.target.value);
+                        this.validate();
+                    }}
+                >
+                    <option value="" .disabled=${required}>${selectText}</option>
+                    ${enumVal
+                        .filter(v => v)
+                        .map(
+                            val =>
+                                html`<option value=${val} ?selected=${this.value ? this.value === val : defaultValue === val}>
+                                    ${val}
+                                </option>`,
+                        )}
+                </select>
+                <span class="cfb-mt-1 cfb-text-sm cfb-text-danger-600">${this.validatedMeta?.err?.[0].msg}</span>
+            `;
+        }
         return html`
             <input
                 .required=${required}

@@ -40,6 +40,7 @@ export const StringWidget: IWidget<StringWidgetConfig> = {
         formSchema.config.pattern ??= jsonSchema.pattern;
         formSchema.config.maxLength ??= jsonSchema.maxLength;
         formSchema.config.minLength ??= jsonSchema.minLength;
+        formSchema.config.enum ??= jsonSchema.enum as string[];
     },
     columns: 6,
 };
