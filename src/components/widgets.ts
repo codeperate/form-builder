@@ -89,7 +89,7 @@ export const NumberWidget: IWidget<NumberWidgetConfig> = {
         formSchema.config.maximum ??= jsonSchema.maximum;
         formSchema.config.multipleOf ??= jsonSchema.multipleOf;
         formSchema.config.default ??= jsonSchema.default as number;
-        if ((jsonSchema.type = 'integer')) formSchema.config.multipleOf ??= 1;
+        if (jsonSchema.type == 'integer') formSchema.config.multipleOf ??= 1;
     },
     columns: 6,
 };
