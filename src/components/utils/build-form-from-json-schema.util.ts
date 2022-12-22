@@ -1,3 +1,4 @@
+import { get } from '@codeperate/utils';
 import { FormSchema, IWidget } from '../form-builder.interface.js';
 import { CustomJSONSchema } from '../type/custom-json-schema';
 import { ArrayWidget, BooleanWidget, DateTimeWidget, DateWidget, NumberWidget, ObjectWidget, StringWidget } from '../widgets';
@@ -57,7 +58,14 @@ export function buildFormFromJSONSchema<
     T extends FormSchemaFromJSONSchema<T, J, M>,
     J extends CustomJSONSchema<J, M>,
     M extends JSONSchemaTypeMapper = typeof defaultTypeMapper,
->(formSchema: T, jsonSchema: J, mapper: M = defaultTypeMapper as any) {
+>(
+    formSchema: T,
+    jsonSchema: J,
+    option: {
+        mapper?: M;
+        refSchema?: any;
+    } = {},
+) {
     function iterateFormSchema<T extends { properties?; widget?; items? }>(
         f: FormSchema<T>,
         j: CustomJSONSchema,
@@ -74,8 +82,16 @@ export function buildFormFromJSONSchema<
             iterateFormSchema(f.items, jsonSchema?.['items'], callback);
         }
     }
+    let mapper = option.mapper ?? defaultTypeMapper;
     iterateFormSchema(formSchema, jsonSchema, (f, j) => {
         if (!j) return;
+        if (j.$ref) {
+            let pathArr = j.$ref.split('/');
+            pathArr.shift();
+            const schema = get(option.refSchema, pathArr) ?? {};
+            j = { ...schema, ...j };
+        }
+
         let type = Array.isArray(j.type) ? j.type[0] : j.type;
         let format = j.format ?? 'default';
         f.widget = mapper[type][format];
