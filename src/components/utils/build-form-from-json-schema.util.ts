@@ -79,7 +79,7 @@ export function buildFormFromJSONSchema<
             }
         }
         if (f.items) {
-            iterateFormSchema(f.items, jsonSchema?.['items'], callback);
+            iterateFormSchema(f.items, j?.['items'], callback);
         }
     }
     let mapper = option.mapper ?? defaultTypeMapper;
