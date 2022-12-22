@@ -44,6 +44,9 @@ export const defaultTypeMapper = {
     number: {
         default: NumberWidget,
     },
+    integer: {
+        default: NumberWidget,
+    },
     object: {
         default: ObjectWidget,
     },
