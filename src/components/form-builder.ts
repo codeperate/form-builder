@@ -104,7 +104,7 @@ export class FormBuilder extends NonShadow {
             },
             listener: (data, proxiedData) => {
                 const { autoSave } = this._config;
-                if (autoSave) this.save();
+                if (autoSave && this.name) this.save();
                 listener(data, proxiedData);
             },
         });
