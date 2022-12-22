@@ -20,6 +20,7 @@ export class AppRoot extends NonShadow {
                 name: {
                     widget: StringWidget,
                     config: {},
+                    hidden: true,
                 },
                 date: {},
                 dateTime: {
