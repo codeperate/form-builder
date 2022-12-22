@@ -1,5 +1,3 @@
 import { CdpFormBuilder } from './config.js';
 
-CdpFormBuilder.setConfig(o => o.FormBuilder, {
-    autoSave: true,
-});
+CdpFormBuilder.setConfig(o => o.FormBuilder, {});

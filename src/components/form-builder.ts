@@ -103,8 +103,7 @@ export class FormBuilder extends NonShadow {
                 return selector;
             },
             listener: (data, proxiedData) => {
-                const { autoSave } = this._config;
-                if (autoSave && this.name) this.save();
+                if (this.config.save && this.config.save.autoSave) this.save();
                 listener(data, proxiedData);
             },
         });
@@ -116,15 +115,15 @@ export class FormBuilder extends NonShadow {
         return this.getWidgets().forEach(w => w.undoValidate());
     }
     public save() {
-        if (!this.name) throw new Error('You must provide a name for the form.');
-        LocalStorage.set(this.name, { value: this.getTarget().value });
+        if (!this.config.save) throw new Error('You must enable save option first.');
+        LocalStorage.set(this.config.save.location, { value: this.getTarget().value });
     }
     public load() {
-        if (!this.name) throw new Error('You must provide a name for the form.');
-        this.setValue([], LocalStorage.get(this.name).value);
+        if (!this.config.save) throw new Error('You must enable save option first.');
+        this.setValue([], LocalStorage.get(this.config.save.location).value);
     }
     public clearHistory() {
-        LocalStorage.remove(this.name);
+        if (this.config.save) LocalStorage.remove(this.config.save.location);
     }
     render() {
         return html`${until(this.schema.widget.template({ form: this, path: [] }))}`;

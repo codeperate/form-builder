@@ -26,5 +26,5 @@ export interface IWidget<C = any> {
     jsonSchemaConverter?: (formSchema: FormSchema<any, C>, jsonSchema: CustomJSONSchema) => void;
 }
 export interface FormBuilderOption {
-    autoSave?: boolean;
+    save?: { location: string; autoSave: boolean } | false;
 }
