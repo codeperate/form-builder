@@ -11,5 +11,6 @@ export interface CustomJSONSchema<T extends { items?; properties?; format?; type
         [Key in keyof T['properties']]: CustomJSONSchema<T['properties'][Key], M>;
     };
     format?: StringOnly<keyof M[T['type']]>;
+    ['x-cdp-widget-type']: string;
     [key: string]: any;
 }

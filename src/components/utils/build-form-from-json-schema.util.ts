@@ -93,6 +93,7 @@ export function buildFormFromJSONSchema<
         }
 
         let type = Array.isArray(j.type) ? j.type[0] : j.type;
+        if (j['x-cdp-widget-type']) type = j['x-cdp-widget-type'] as any;
         let format = j.format ?? 'default';
         f.widget = mapper[type][format];
         f.widget.jsonSchemaConverter?.(f, j);
