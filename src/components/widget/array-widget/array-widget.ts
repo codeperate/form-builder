@@ -54,8 +54,8 @@ export class CdpArrayWidget extends FormWidgetMixin(CmptType.ArrayWidget, NonSha
         const { movable, addable, deletable } = this.config;
         const { items } = this.schema;
         return html`
-            <div class="cfb-bg-gray-50 cfb-rounded-lg cfb-p-2">
-                <div class="cfb-grid cfb-grid-flow-col cfb-justify-end cfb-p-1 cfb-mb-2 cfb-gap-2 cfb-col-span-full">
+            <div class="${this.view ? '' : 'cfb-bg-gray-50'} cfb-rounded-lg cfb-p-2">
+                <div class="cfb-grid cfb-grid-flow-col cfb-justify-end cfb-p-1 cfb-mb-2 cfb-gap-2 cfb-col-span-full" .hidden=${this.view}>
                     ${
                         movable
                             ? html`<button
@@ -96,7 +96,11 @@ export class CdpArrayWidget extends FormWidgetMixin(CmptType.ArrayWidget, NonSha
                             : ''
                     }
                 </div>
-                <div class="cfb-grid cfb-grid-cols-6 des:cfb-grid-cols-12 cfb-gap-4 cfb-items-start">
+                <div class="${
+                    this.view
+                        ? 'cfb-flex children:cfb-bg-gray-100 cfb-gap-2 children:cfb-rounded-lg children:cfb-p-1 children:cfb-flex-wrap'
+                        : 'cfb-grid cfb-grid-cols-6 des:cfb-grid-cols-12 cfb-gap-4 cfb-items-start'
+                }">
                     ${(this.value ?? []).map((_, i) => {
                         const { template, columns } = items.widget;
                         return html`<div class="${columnClass(columns)} cfb-grid cfb-gap-1 cfb-grid-cols-[1fr,min-content] cfb-items-start">

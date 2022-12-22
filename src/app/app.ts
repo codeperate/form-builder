@@ -95,8 +95,10 @@ export class AppRoot extends NonShadow {
                     @formChange=${e => {
                         this.value = { ...e.detail };
                     }}
-                    .value=${{}}
-                    .view=${this.view}
+                    .value=${{
+                        array: ['asda', 'dgfsdf', 'dfgfg', 'defrgjkerhugwehui'],
+                    }}
+                    .view=${!this.view}
                     name="asd"
                 >
                 </cdp-form-builder>
