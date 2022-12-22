@@ -77,11 +77,9 @@ export function buildFormFromJSONSchema<
         callback(f, j);
         if (f.properties) {
             for (const key of Object.keys(f.properties)) {
-                const property = f.properties[key];
-                iterateFormSchema(property, j?.['properties']?.[key], callback);
+                iterateFormSchema(f.properties[key], j?.['properties']?.[key], callback);
             }
-        }
-        if (f.items) {
+        } else if (f.items) {
             iterateFormSchema(f.items, j?.['items'], callback);
         }
     }
