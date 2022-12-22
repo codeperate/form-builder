@@ -19,7 +19,6 @@ export class FormBuilder extends NonShadow {
     @property() view: boolean = false;
     @property() name: string;
     @property() config: FormBuilderOption = {};
-    @property() context: any;
     _config: FormBuilderOption = {};
     context: any;
     widgetRecord: Record<string | number | symbol, any> = {};
