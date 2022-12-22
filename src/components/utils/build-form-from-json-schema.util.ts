@@ -85,19 +85,20 @@ export function buildFormFromJSONSchema<
     }
     let mapper = option.mapper ?? defaultTypeMapper;
     iterateFormSchema(formSchema, jsonSchema, (f, j) => {
-        if (!j) return;
-        if (j.$ref) {
+        let js = j;
+        if (!js) return;
+        if (js.$ref) {
             let pathArr = j.$ref.split('/');
             pathArr.shift();
             const schema = get(option.refSchema, pathArr) ?? {};
-            j = { ...schema, ...j };
+            js = { ...schema, ...j };
         }
 
-        let type = Array.isArray(j.type) ? j.type[0] : j.type;
-        if (j['x-cdp-widget-type']) type = j['x-cdp-widget-type'] as any;
-        let format = j.format ?? 'default';
+        let type = Array.isArray(js.type) ? js.type[0] : js.type;
+        if (js['x-cdp-widget-type']) type = js['x-cdp-widget-type'] as any;
+        let format = js.format ?? 'default';
         f.widget = mapper[type][format];
-        f.widget.jsonSchemaConverter?.(f, j);
+        f.widget.jsonSchemaConverter?.(f, js);
     });
     return formSchema;
 }
