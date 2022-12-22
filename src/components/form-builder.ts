@@ -1,3 +1,4 @@
+import { MutableCondition } from '@codeperate/mutable';
 import { Store } from '@codeperate/simple-store';
 import { Listener } from '@codeperate/simple-store/dist/listeners.js';
 import { deepAssign, get } from '@codeperate/utils';
