@@ -1,7 +1,6 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@codeperate/mutable': ^1.0.2
   '@codeperate/simple-store': ^2.0.1
   '@codeperate/utils': ^1.0.20
   '@types/json-schema': ^7.0.11
@@ -14,7 +13,6 @@ specifiers:
   vite: ^3.2.4
 
 dependencies:
-  '@codeperate/mutable': 1.0.2
   '@codeperate/simple-store': 2.0.1
   '@codeperate/utils': 1.0.20
   '@types/json-schema': 7.0.11
@@ -50,10 +48,6 @@ packages:
       chalk: 2.4.2
       js-tokens: 4.0.0
     dev: true
-
-  /@codeperate/mutable/1.0.2:
-    resolution: {integrity: sha512-WKDklbQH+2QiVH6XtKmcBNMXS5OfKVomKlEVQ19pQzxCmFKJpqNWr8gQbrDSy4i3IRIFcC/rt8CW5Hy3sqfSbQ==}
-    dev: false
 
   /@codeperate/simple-store/2.0.1:
     resolution: {integrity: sha512-V8RmJ+s+Ot/JgC6QTBVvmYUtTq2AgBfyYM3NJN28PZhDu81XKc7RKoRfwzYinvBZZfQ2bXssY+YOrZCOK0NRCA==}
