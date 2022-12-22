@@ -36,7 +36,7 @@ export const StringWidget: IWidget<StringWidgetConfig> = {
     },
     jsonSchemaConverter: (formSchema, jsonSchema) => {
         formSchema.config ??= {};
-        formSchema.config.default ??= String(jsonSchema.default);
+        formSchema.config.default ??= jsonSchema.default as string;
         formSchema.config.pattern ??= jsonSchema.pattern;
         formSchema.config.maxLength ??= jsonSchema.maxLength;
         formSchema.config.minLength ??= jsonSchema.minLength;

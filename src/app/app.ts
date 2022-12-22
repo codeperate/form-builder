@@ -17,7 +17,10 @@ export class AppRoot extends NonShadow {
         {
             config: {},
             properties: {
-                name: { config: {} },
+                name: {
+                    widget: StringWidget,
+                    config: {},
+                },
                 date: {},
                 dateTime: {
                     widget: DateTimeWidget,
@@ -53,7 +56,6 @@ export class AppRoot extends NonShadow {
         {
             type: 'object',
             properties: {
-                name: { type: 'string', format: 'date', default: '2022-01-28' },
                 boolean: { type: 'boolean' },
                 date: {
                     $ref: '#/components/Date',
