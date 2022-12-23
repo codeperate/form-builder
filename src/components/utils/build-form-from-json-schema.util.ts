@@ -86,7 +86,7 @@ export function buildFormFromJSONSchema<
     let mapper = option.mapper ?? defaultTypeMapper;
     iterateFormSchema(formSchema, jsonSchema, (f, j) => {
         let js = j;
-        if (!js) return;
+        if (!js || f.widget != null) return;
         if (js.$ref) {
             let pathArr = j.$ref.split('/');
             pathArr.shift();
@@ -97,6 +97,7 @@ export function buildFormFromJSONSchema<
         let type = Array.isArray(js.type) ? js.type[0] : js.type;
         if (js['x-cdp-widget-type']) type = js['x-cdp-widget-type'] as any;
         let format = js.format ?? 'default';
+        if (!mapper[type]) throw new Error(`Type:${type} does not exist`);
         f.widget = mapper[type][format];
         f.widget.jsonSchemaConverter?.(f, js);
     });
