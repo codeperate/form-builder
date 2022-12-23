@@ -11,6 +11,10 @@ import type { ArrayWidgetMode } from './array-widget.config.js';
 export class CdpArrayWidget extends FormWidgetMixin(CmptType.ArrayWidget, NonShadow) {
     @state() mode: ArrayWidgetMode = 'default';
     @state() currentIndex: number;
+
+    willUpdate(c) {
+        if (this.view) this.mode = 'default';
+    }
     add() {
         if (this.value == undefined) this.setValue([]);
         this.form.setValue([...this.path, this.value.length.toString()], undefined);
