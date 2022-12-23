@@ -50,7 +50,7 @@ export const StringWidget: IWidget<StringWidgetConfig> = {
 export const TextAreaWidget: IWidget<TextAreaWidgetConfig> = {
     template: async ({ path, form }) => {
         await import('./widget/textarea-widget/textarea-widget.js');
-        return html`<cdp-string-widget .form=${form} .path=${path}></cdp-string-widget>`;
+        return html`<cdp-textarea-widget .form=${form} .path=${path}></cdp-textarea-widget>`;
     },
     jsonSchemaConverter: (formSchema, jsonSchema) => {
         formSchema.config ??= {};
