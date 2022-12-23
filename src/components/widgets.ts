@@ -1,5 +1,6 @@
+import { deepAssign } from '@codeperate/utils';
 import { html } from 'lit';
-import { IWidget } from './form-builder.interface.js';
+import { FormSchema, IWidget } from './form-builder.interface.js';
 import { ArrayWidgetConfig } from './widget/array-widget/array-widget.config';
 import { BooleanWidgetConfig } from './widget/boolean-widget/boolean-widget.config';
 import { DateWidgetConfig } from './widget/date-widget/date-widget.config';
@@ -99,6 +100,7 @@ export const SectionWidget: IWidget<{ title: string }> = {
     },
     columns: 12,
 };
-export const Section = (title: string, key?: number | string | symbol) => {
-    return { [key ?? title]: { ...SectionWidget, config: { title } } };
+export const Section = (title: string, formSchema: FormSchema = {}, key?: number | string | symbol) => {
+    const obj = deepAssign({ ...SectionWidget, config: { title } }, formSchema);
+    return { [key ?? title]: obj };
 };
