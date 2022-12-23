@@ -1,7 +1,16 @@
 import { get } from '@codeperate/utils';
 import { FormSchema, IWidget } from '../form-builder.interface.js';
 import { CustomJSONSchema } from '../type/custom-json-schema';
-import { ArrayWidget, BooleanWidget, DateTimeWidget, DateWidget, NumberWidget, ObjectWidget, StringWidget } from '../widgets';
+import {
+    ArrayWidget,
+    BooleanWidget,
+    DateTimeWidget,
+    DateWidget,
+    NumberWidget,
+    ObjectWidget,
+    StringWidget,
+    TextAreaWidget,
+} from '../widgets';
 type ExtractT<A> = A extends any[] ? A[number] : A;
 export type ConfigByJSONSchema<
     T extends FormSchemaFromJSONSchema<T, J, M>,
@@ -55,6 +64,9 @@ export const defaultTypeMapper = {
     },
     boolean: {
         default: BooleanWidget,
+    },
+    textarea: {
+        default: TextAreaWidget,
     },
 };
 export function buildFormFromJSONSchema<

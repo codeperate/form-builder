@@ -8,6 +8,7 @@ import { DateTimeWidgetConfig } from './widget/datetime-widget/datetime-widget.c
 import { NumberWidgetConfig } from './widget/number-widget/number-widget.config';
 import { ObjectWidgetConfig } from './widget/object-widget/object-widget.config';
 import { StringWidgetConfig } from './widget/string-widget/string-widget.config';
+import { TextAreaWidgetConfig } from './widget/textarea-widget/textarea-widget.config.js';
 
 export const ArrayWidget: IWidget<ArrayWidgetConfig> = {
     template: async ({ path, form }) => {
@@ -43,6 +44,19 @@ export const StringWidget: IWidget<StringWidgetConfig> = {
         formSchema.config.minLength ??= jsonSchema.minLength;
         formSchema.config.enum ??= jsonSchema.enum as string[];
         if (jsonSchema.format == 'email') formSchema.config.type ??= 'email';
+    },
+    columns: 6,
+};
+export const TextAreaWidget: IWidget<TextAreaWidgetConfig> = {
+    template: async ({ path, form }) => {
+        await import('./widget/textarea-widget/textarea-widget.js');
+        return html`<cdp-string-widget .form=${form} .path=${path}></cdp-string-widget>`;
+    },
+    jsonSchemaConverter: (formSchema, jsonSchema) => {
+        formSchema.config ??= {};
+        formSchema.config.default ??= jsonSchema.default as string;
+        formSchema.config.maxLength ??= jsonSchema.maxLength;
+        formSchema.config.minLength ??= jsonSchema.minLength;
     },
     columns: 6,
 };
