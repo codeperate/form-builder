@@ -25,7 +25,7 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
     }
     render() {
         const { required } = this.schema;
-        const { pattern, minLength, maxLength, empty, selectText } = this.config;
+        const { pattern, minLength, maxLength, empty, selectText, type } = this.config;
         const enumVal = this.config.enum;
         const defaultValue = this.config.default;
         if (this.view) return html`<div>${this.value ?? empty}</div>`;
@@ -63,6 +63,7 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
             <input
                 .required=${required}
                 class="cfb-rounded-lg cfb-p-1.5 ${validatedClass} cfb-min-w-0 cfb-w-full"
+                .type=${type}
                 @input=${e => {
                     this.setValue(e.target.value);
                     this.validate();

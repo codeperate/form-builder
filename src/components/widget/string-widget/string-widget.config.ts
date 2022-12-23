@@ -8,9 +8,11 @@ export type StringWidgetConfig = {
     empty?: string;
     enum?: string[];
     selectText?: string;
+    type?: string;
 };
 
 CdpFormBuilder.setConfig(c => c.StringWidget, {
     empty: 'N/A',
     selectText: 'Please Select',
+    type: 'text',
 });
