@@ -1,7 +1,7 @@
 import { Store } from '@codeperate/simple-store';
 import { Listener } from '@codeperate/simple-store/dist/listeners.js';
 import { deepAssign, get } from '@codeperate/utils';
-import { html, LitElement } from 'lit';
+import { html, LitElement, PropertyValueMap } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { until } from 'lit/directives/until.js';
 import { IFormWidget } from './base-class/cdp-widget.js';
@@ -32,6 +32,12 @@ export class FormBuilder extends NonShadow {
         );
         this.store = new Store({ value: this.value });
         this.store.onChange(obj => this.dispatchEvent(new CustomEvent('formChange', { detail: obj.value })));
+    }
+    willUpdate(c): void {
+        super.willUpdate(c);
+        if (c.has('value')) {
+            this.setValue([], this.value);
+        }
     }
     public getSchema(path: (string | number | symbol)[] = []) {
         let curPos = this.schema;

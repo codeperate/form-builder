@@ -107,6 +107,7 @@ export class AppRoot extends NonShadow {
                         this.value = { ...e.detail };
                     }}
                     .value=${{
+                        date: '2022-10-23',
                         array: ['asda', 'dgfsdf', 'dfgfg', 'defrgjkerhugwehui'],
                     }}
                     .view=${!this.view}
