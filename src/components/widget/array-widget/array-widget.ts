@@ -13,6 +13,7 @@ export class CdpArrayWidget extends FormWidgetMixin(CmptType.ArrayWidget, NonSha
     @state() currentIndex: number;
 
     willUpdate(c) {
+        super.willUpdate(c);
         if (this.view) this.mode = 'default';
     }
     add() {
