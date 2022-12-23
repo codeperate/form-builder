@@ -1,7 +1,7 @@
 import { Store } from '@codeperate/simple-store';
 import { Listener } from '@codeperate/simple-store/dist/listeners.js';
 import { deepAssign, get } from '@codeperate/utils';
-import { html, LitElement, PropertyValueMap } from 'lit';
+import { html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { until } from 'lit/directives/until.js';
 import { IFormWidget } from './base-class/cdp-widget.js';
