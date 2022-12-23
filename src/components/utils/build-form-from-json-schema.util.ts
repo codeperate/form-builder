@@ -40,7 +40,7 @@ export interface JSONSchemaTypeMapper {
 }
 
 export const defaultTypeMapper = {
-    string: { 'default': StringWidget, 'date': DateWidget, 'date-time': DateTimeWidget },
+    string: { 'default': StringWidget, 'date': DateWidget, 'date-time': DateTimeWidget, 'email': StringWidget },
     number: {
         default: NumberWidget,
     },
