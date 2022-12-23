@@ -6,7 +6,7 @@ import { Columns } from './utils/columns.utils.js';
 
 export type FormConfig<T> = T extends number ? number : object;
 
-export type FormSchema<T extends { properties?; widget?; items? } = any, C = any> = {
+export type FormSchema<T extends { properties?; widget?; items? } = any, C = unknown> = {
     label?: string | false;
     items?: FormSchema<T['items']>;
     properties?: { [Key in keyof T['properties']]: FormSchema<T['properties'][Key]> } & {
@@ -20,7 +20,7 @@ export type FormSchema<T extends { properties?; widget?; items? } = any, C = any
     hidden?: boolean;
     required?: boolean;
     columns?: Columns;
-    config?: C extends undefined ? T['widget']['config'] : C;
+    config?: C extends unknown ? T['widget']['config'] : C;
     [key: string]: any;
 };
 export interface IWidget<C = any> {

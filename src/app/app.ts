@@ -2,8 +2,9 @@ import { html } from 'lit';
 import { customElement, query, state } from 'lit/decorators.js';
 import { NonShadow } from '../components/base-class/non-shadow';
 import { FormBuilder } from '../components/form-builder';
+import { buildForm } from '../components/index.js';
 import { buildFormFromJSONSchema } from '../components/utils/build-form-from-json-schema.util';
-import { ArrayWidget, DateTimeWidget, NumberWidget, Section, SectionWidget, StringWidget } from '../components/widgets';
+import { ArrayWidget, DateTimeWidget, NumberWidget, Section, SectionWidget, StringWidget, TextAreaWidget } from '../components/widgets';
 
 import './app.css';
 const components = import.meta.glob('../components/**/*.ts', { eager: true });
@@ -13,6 +14,12 @@ export class AppRoot extends NonShadow {
     @state() switch: boolean = false;
     @state() view: boolean = false;
     @state() value: any;
+    @state() schema2 = buildForm({
+        widget: TextAreaWidget,
+        config: {
+            rows: 1,
+        },
+    });
     @state() schema = buildFormFromJSONSchema(
         {
             config: {},
