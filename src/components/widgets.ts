@@ -116,6 +116,6 @@ export const SectionWidget: IWidget<{ title: string }> = {
     columns: 12,
 };
 export const Section = (title: string, formSchema: FormSchema = {}, key?: number | string | symbol) => {
-    const obj = deepAssign({ ...SectionWidget, config: { title } }, formSchema);
+    const obj = deepAssign({ widget: SectionWidget, config: { title } }, formSchema);
     return { [key ?? title]: obj };
 };
