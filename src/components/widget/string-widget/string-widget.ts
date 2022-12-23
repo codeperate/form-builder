@@ -30,6 +30,7 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
         const defaultValue = this.config.default;
         if (this.view) return html`<div>${this.value ?? empty}</div>`;
         let validatedClass = 'cfb-bg-gray-200 hover:cfb-bg-gray-300';
+
         if (this.isValidated)
             validatedClass = this.validatedMeta?.validity
                 ? /*tw*/ 'cfb-bg-valid-100 hover:cfb-bg-valid-200'

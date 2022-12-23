@@ -58,8 +58,8 @@ export class CdpArrayWidget extends FormWidgetMixin(CmptType.ArrayWidget, NonSha
         const { movable, addable, deletable } = this.config;
         const { items } = this.schema;
         return html`
-            <div class="cfb-bg-gray-50 cfb-rounded-lg cfb-p-2">
-                <div class="cfb-grid cfb-grid-flow-col cfb-justify-end cfb-p-1 cfb-mb-2 cfb-gap-2 cfb-col-span-full">
+            <div class="${this.view ? '' : 'cfb-bg-gray-50'} cfb-rounded-lg cfb-p-2">
+                <div class="cfb-grid cfb-grid-flow-col cfb-justify-end cfb-p-1 cfb-mb-2 cfb-gap-2 cfb-col-span-full" .hidden=${this.view}>
                     ${
                         movable
                             ? html`<button
@@ -100,40 +100,48 @@ export class CdpArrayWidget extends FormWidgetMixin(CmptType.ArrayWidget, NonSha
                             : ''
                     }
                 </div>
-                <div class="cfb-grid cfb-grid-cols-6 des:cfb-grid-cols-12 cfb-gap-4 cfb-items-start">
+                <div class="${
+                    this.view
+                        ? 'cfb-flex children:cfb-bg-gray-100 cfb-gap-2 children:cfb-rounded-lg children:cfb-p-1 children:cfb-flex-wrap'
+                        : 'cfb-grid cfb-grid-cols-6 des:cfb-grid-cols-12 cfb-gap-4 cfb-items-start'
+                }">
                     ${(this.value ?? []).map((_, i) => {
                         const { template, columns } = items.widget;
-                        return html`<div class="${columnClass(columns)} cfb-grid cfb-gap-1 cfb-grid-cols-[1fr,min-content] cfb-items-start">
-                            ${until(template({ path: [...this.path, i], form: this.form }))}
-                            ${this.mode === 'delete'
-                                ? html` <button
-                                      type="button"
-                                      class="hover:cfb-bg-gray-200 cfb-rounded-lg cfb-aspect-square cfb-w-6 cfb-bg-gray-100 cfb-text-main-600 cfb-mb-2"
-                                      @click=${() => this.delete(i)}
-                                  >
-                                      <i class="fa-duotone fa-trash"></i>
-                                  </button>`
-                                : null}
-                            ${this.mode === 'move'
-                                ? this.currentIndex == null || this.currentIndex == i
-                                    ? html`<button
+                        if (!items.hidden)
+                            return html`<div
+                                class="${columnClass(columns)} cfb-grid cfb-gap-1 cfb-grid-cols-[1fr,min-content] cfb-items-start"
+                            >
+                                ${until(template({ path: [...this.path, i], form: this.form }))}
+                                ${this.mode === 'delete'
+                                    ? html` <button
                                           type="button"
-                                          class="cfb-rounded-lg cfb-aspect-square cfb-w-6 cfb-cursor-move cfb-mb-2 ${this.currentIndex == i
-                                              ? 'cfb-bg-main-600 cfb-text-white hover:cfb-bg-main-700'
-                                              : 'cfb-bg-gray-100 hover:cfb-bg-gray-200 cfb-text-main-600'}"
-                                          @click=${() => (this.currentIndex = i)}
+                                          class="hover:cfb-bg-gray-200 cfb-rounded-lg cfb-aspect-square cfb-w-6 cfb-bg-gray-100 cfb-text-main-600 cfb-mb-2"
+                                          @click=${() => this.delete(i)}
                                       >
-                                          <i class="fa-duotone fa-right-left"></i>
+                                          <i class="fa-duotone fa-trash"></i>
                                       </button>`
-                                    : html` <button
-                                          type="button"
-                                          class="cfb-mb-2 hover:cfb-bg-gray-200 cfb-rounded-lg cfb-aspect-square cfb-w-6 cfb-bg-gray-100 cfb-text-main-600"
-                                          @click=${() => this.move(i)}
-                                      >
-                                          <i class="fa-duotone fa-arrow-left-to-line"></i>
-                                      </button>`
-                                : ''}
-                        </div> `;
+                                    : null}
+                                ${this.mode === 'move'
+                                    ? this.currentIndex == null || this.currentIndex == i
+                                        ? html`<button
+                                              type="button"
+                                              class="cfb-rounded-lg cfb-aspect-square cfb-w-6 cfb-cursor-move cfb-mb-2 ${this
+                                                  .currentIndex == i
+                                                  ? 'cfb-bg-main-600 cfb-text-white hover:cfb-bg-main-700'
+                                                  : 'cfb-bg-gray-100 hover:cfb-bg-gray-200 cfb-text-main-600'}"
+                                              @click=${() => (this.currentIndex = i)}
+                                          >
+                                              <i class="fa-duotone fa-right-left"></i>
+                                          </button>`
+                                        : html` <button
+                                              type="button"
+                                              class="cfb-mb-2 hover:cfb-bg-gray-200 cfb-rounded-lg cfb-aspect-square cfb-w-6 cfb-bg-gray-100 cfb-text-main-600"
+                                              @click=${() => this.move(i)}
+                                          >
+                                              <i class="fa-duotone fa-arrow-left-to-line"></i>
+                                          </button>`
+                                    : ''}
+                            </div> `;
                     })}
                     </div>
                 </div>

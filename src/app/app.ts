@@ -13,11 +13,15 @@ export class AppRoot extends NonShadow {
     @state() switch: boolean = false;
     @state() view: boolean = false;
     @state() value: any;
-    schema = buildFormFromJSONSchema(
+    @state() schema = buildFormFromJSONSchema(
         {
             config: {},
             properties: {
-                name: { config: {} },
+                name: {
+                    label: 'asdasdasd',
+                    widget: StringWidget,
+                    config: {},
+                },
                 date: {},
                 dateTime: {
                     widget: DateTimeWidget,
@@ -53,7 +57,72 @@ export class AppRoot extends NonShadow {
         {
             type: 'object',
             properties: {
-                name: { type: 'string', format: 'date', default: '2022-01-28' },
+                boolean: { type: 'boolean' },
+                date: {
+                    $ref: '#/components/Date',
+                },
+                enum: {
+                    type: 'string',
+                    enum: ['Y', 'N'],
+                },
+            },
+            required: ['name'],
+        },
+        {
+            refSchema: {
+                components: {
+                    Date: {
+                        type: 'string',
+                        format: 'date',
+                    },
+                },
+            },
+        },
+    );
+    schema2: any = buildFormFromJSONSchema(
+        {
+            config: {},
+            properties: {
+                name: {
+                    widget: StringWidget,
+                    config: {},
+                    hidden: false,
+                },
+                date: {},
+                dateTime: {
+                    widget: DateTimeWidget,
+                },
+                TITLE: {
+                    label: false,
+                    widget: SectionWidget,
+                    config: {
+                        title: 'TITLE',
+                    },
+                },
+                number: {
+                    widget: NumberWidget,
+                    config: {
+                        multipleOf: 0.01,
+                    },
+                },
+
+                array: {
+                    widget: ArrayWidget,
+                    items: {
+                        widget: StringWidget,
+                        required: true,
+                    },
+                },
+                boolean: {
+                    //widget: BooleanWidget,
+                    required: true,
+                },
+                enum: {},
+            },
+        },
+        {
+            type: 'object',
+            properties: {
                 boolean: { type: 'boolean' },
                 date: {
                     $ref: '#/components/Date',
@@ -90,13 +159,16 @@ export class AppRoot extends NonShadow {
                 <button @click=${() => console.log(this.formEl.getSchema())}>GetSchema</button>
                 <button @click=${() => console.log(this.formEl.load())}>Load History</button>
                 <button @click=${() => console.log(this.formEl.save())}>Save History</button>
+                <button @click=${() => (this.schema = this.schema2)}>Switch Schema</button>
                 <cdp-form-builder
                     .schema=${this.schema}
                     @formChange=${e => {
                         this.value = { ...e.detail };
                     }}
-                    .value=${{}}
-                    .view=${this.view}
+                    .value=${{
+                        array: ['asda', 'dgfsdf', 'dfgfg', 'defrgjkerhugwehui'],
+                    }}
+                    .view=${!this.view}
                     name="asd"
                 >
                 </cdp-form-builder>

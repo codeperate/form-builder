@@ -36,7 +36,7 @@ export const StringWidget: IWidget<StringWidgetConfig> = {
     },
     jsonSchemaConverter: (formSchema, jsonSchema) => {
         formSchema.config ??= {};
-        formSchema.config.default ??= String(jsonSchema.default);
+        formSchema.config.default ??= jsonSchema.default as string;
         formSchema.config.pattern ??= jsonSchema.pattern;
         formSchema.config.maxLength ??= jsonSchema.maxLength;
         formSchema.config.minLength ??= jsonSchema.minLength;
@@ -89,7 +89,7 @@ export const NumberWidget: IWidget<NumberWidgetConfig> = {
         formSchema.config.maximum ??= jsonSchema.maximum;
         formSchema.config.multipleOf ??= jsonSchema.multipleOf;
         formSchema.config.default ??= jsonSchema.default as number;
-        if ((jsonSchema.type = 'integer')) formSchema.config.multipleOf ??= 1;
+        if (jsonSchema.type == 'integer') formSchema.config.multipleOf ??= 1;
     },
     columns: 6,
 };
