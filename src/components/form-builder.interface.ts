@@ -21,6 +21,7 @@ export type FormSchema<T extends { properties?; widget?; items? } = any, C = any
     required?: boolean;
     columns?: Columns;
     config?: C extends undefined ? T['widget']['config'] : C;
+    [key: string]: any;
 };
 export interface IWidget<C = any> {
     template: (props: FormWidgetProps) => Promise<TemplateResult>;
