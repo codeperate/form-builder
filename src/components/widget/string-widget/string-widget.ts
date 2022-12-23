@@ -38,7 +38,7 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
         if (enumVal) {
             return html`
                 <select
-                    class="${validatedClass} cfb-w-full cfb-rounded-lg cfb-bg-gray-200 cfb-p-2"
+                    class="${validatedClass} cfb-w-full cfb-rounded-lg cfb-bg-gray-200 cfb-p-1.5"
                     ?required=${required}
                     .value=${this.value || ''}
                     @change=${e => {
