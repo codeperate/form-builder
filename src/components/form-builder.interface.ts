@@ -15,6 +15,7 @@ export type FormSchema<T extends { properties?; widget?; items? } = any, C = any
     widget?: IWidget;
     validate?: boolean;
     validateFn?: (value: any, extra: { form: FormBuilder; defaultValidator: () => ValidatedMeta }) => ValidatedMeta;
+    targetPath?: (string | symbol | number)[];
     view?: boolean;
     hidden?: boolean;
     required?: boolean;
