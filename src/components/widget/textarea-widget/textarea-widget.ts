@@ -7,10 +7,9 @@ import { CmptType } from '../../config.js';
 import './textarea-widget.config.js';
 @customElement('cdp-textarea-widget')
 export class CdpTextAreaWidget extends FormWidgetMixin(CmptType.TextAreaWidget, NonShadow) {
-    @query('input') inputEl: HTMLInputElement;
-    @query('select') selectEl: HTMLSelectElement;
+    @query('textarea') inputEl: HTMLTextAreaElement;
     validator() {
-        let el = this.inputEl || this.selectEl;
+        let el = this.inputEl;
         const meta = super.validator();
         meta.validity = el.checkValidity();
         if (el.validationMessage) meta.err ??= [{ msg: el.validationMessage }];
