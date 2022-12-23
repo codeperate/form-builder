@@ -8,6 +8,7 @@ import { DateTimeWidgetConfig } from './widget/datetime-widget/datetime-widget.c
 import { NumberWidgetConfig } from './widget/number-widget/number-widget.config';
 import { ObjectWidgetConfig } from './widget/object-widget/object-widget.config';
 import { StringWidgetConfig } from './widget/string-widget/string-widget.config';
+import { TextAreaWidgetConfig } from './widget/textarea-widget/textarea-widget.config.js';
 export type FormBuilderConfig = CmptConfig;
 
 const config = {};
@@ -28,6 +29,7 @@ export enum CmptType {
     FormBuilder = 'FormBuilder',
     ObjectWidget = 'ObjectWidget',
     StringWidget = 'StringWidget',
+    TextAreaWidget = 'TextAreaWidget',
     ArrayWidget = 'ArrayWidget',
     DateWidget = 'DateWidget',
     DateTimeWidget = 'DateTimeWidget',
@@ -40,6 +42,7 @@ export interface CmptConfig {
     [CmptType.ObjectWidget]: ObjectWidgetConfig;
     [CmptType.StringWidget]: StringWidgetConfig;
     [CmptType.ArrayWidget]: ArrayWidgetConfig;
+    [CmptType.TextAreaWidget]: TextAreaWidgetConfig;
     [CmptType.DataViewerWidget]: any;
     [CmptType.DateWidget]: DateWidgetConfig;
     [CmptType.DateTimeWidget]: DateTimeWidgetConfig;
