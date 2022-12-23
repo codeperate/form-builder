@@ -26,7 +26,7 @@ export class CdpTextAreaWidget extends FormWidgetMixin(CmptType.TextAreaWidget, 
     render() {
         const { required } = this.schema;
         const { minLength, maxLength, empty, rows } = this.config;
-        if (this.view) return html`<pre class="whitespace-pre-wrap">${this.value ?? empty}</pre>`;
+        if (this.view) return html`<pre class="cfb-whitespace-pre-wrap">${this.value ?? empty}</pre>`;
         let validatedClass = 'cfb-bg-gray-200 hover:cfb-bg-gray-300';
         if (this.isValidated)
             validatedClass = this.validatedMeta?.validity
