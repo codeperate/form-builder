@@ -101,15 +101,19 @@ export class AppRoot extends NonShadow {
                 <button @click=${() => console.log(this.formEl.load())}>Load History</button>
                 <button @click=${() => console.log(this.formEl.save())}>Save History</button>
                 <button @click=${() => (this.schema = this.schema2)}>Switch Schema</button>
+                <button
+                    @click=${() => {
+                        this.value = { name: 'aekjdhakjs' };
+                    }}
+                >
+                    Switch Value
+                </button>
                 <cdp-form-builder
                     .schema=${this.schema}
                     @formChange=${e => {
-                        this.value = { ...e.detail };
+                        //this.value = { ...e.detail };
                     }}
-                    .value=${{
-                        date: '2022-10-23',
-                        array: ['asda', 'dgfsdf', 'dfgfg', 'defrgjkerhugwehui'],
-                    }}
+                    .value=${this.value}
                     .view=${!this.view}
                     name="asd"
                 >
