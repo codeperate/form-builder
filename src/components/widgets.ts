@@ -99,3 +99,6 @@ export const SectionWidget: IWidget<{ title: string }> = {
     },
     columns: 12,
 };
+export const Section = (title: string, key?: number | string | symbol) => {
+    return { [key ?? title]: { ...SectionWidget, config: { title } } };
+};
