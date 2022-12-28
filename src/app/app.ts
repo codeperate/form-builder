@@ -148,6 +148,7 @@ export class AppRoot extends NonShadow {
                 <button @click=${() => console.log(this.formEl.load())}>Load History</button>
                 <button @click=${() => console.log(this.formEl.save())}>Save History</button>
                 <button @click=${() => (this.schema = this.schema2)}>Switch Schema</button>
+                <button @click=${() => this.formEl.setValue([], [{ name: '123123' }])}>Set Value</button>
                 <button
                     @click=${() => {
                         this.value = { name: 'aekjdhakjs' };
@@ -161,7 +162,7 @@ export class AppRoot extends NonShadow {
                         console.log(e.detail);
                     }}
                     .value=${this.value}
-                    .view=${!this.view}
+                    .view=${this.view}
                     name="asd"
                 >
                 </cdp-form-builder>

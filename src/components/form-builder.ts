@@ -59,6 +59,7 @@ export class FormBuilder extends NonShadow {
     }
     public setValue(path: (string | number | symbol)[], value: any) {
         lazySet(this.store.state, ['value', ...path], value);
+        this.getWidgets().forEach(w => w.updateValue());
     }
     public regWidget(path: (string | number | symbol)[], widget: any) {
         let currentNode = this.widgetRecord;
