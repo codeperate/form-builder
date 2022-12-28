@@ -1,5 +1,5 @@
 import { TemplateResult } from 'lit';
-import { FormWidgetProps, ValidatedMeta } from './base-class/cdp-widget.js';
+import { FormWidgetProps, IFormWidget, ValidatedMeta } from './base-class/cdp-widget.js';
 import type { FormBuilder } from './form-builder.js';
 import { CustomJSONSchema } from './type/custom-json-schema.js';
 import { Columns } from './utils/columns.utils.js';
@@ -17,8 +17,8 @@ export type FormSchema<T extends { properties?; widget?; items? } = any, C = unk
     validateFn?: (value: any, extra: { form: FormBuilder; defaultValidator: () => ValidatedMeta }) => ValidatedMeta;
     targetPath?: (string | symbol | number)[];
     view?: boolean;
-    hidden?: boolean;
-    required?: boolean;
+    hidden?: boolean | ((this: FormBuilder | IFormWidget) => boolean);
+    required?: boolean | ((this: FormBuilder | IFormWidget) => boolean);
     columns?: Columns;
     config?: C extends unknown ? T['widget']['config'] : C;
     [key: string]: any;

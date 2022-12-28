@@ -135,7 +135,8 @@ export class FormBuilder extends NonShadow {
         if (this.config.save) LocalStorage.remove(this.config.save.location);
     }
     render() {
-        if (!this.schema?.hidden) return html`${until(this.schema.widget.template({ form: this, path: [] }))}`;
+        let hidden = typeof this.schema.hidden == 'function' ? this.schema.hidden.bind(this)() : this.schema.hidden;
+        if (!hidden) return html`${until(this.schema.widget.template({ form: this, path: [] }))}`;
     }
 }
 declare global {
