@@ -24,7 +24,8 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
         }
     }
     render() {
-        const { required } = this.schema;
+        let { required } = this.schema;
+        required = typeof required == 'function' ? required.bind(this)() : required;
         const { pattern, minLength, maxLength, empty, selectText, type } = this.config;
         const enumVal = this.config.enum;
         const defaultValue = this.config.default;

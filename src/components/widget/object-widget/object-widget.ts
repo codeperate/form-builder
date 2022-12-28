@@ -23,6 +23,7 @@ export class CdpObjectWidget extends FormWidgetMixin(CmptType.ObjectWidget, NonS
                 key => {
                     let { label, required, hidden, columns } = this.schema.properties[key];
                     hidden = typeof hidden == 'function' ? hidden.bind(this)() : hidden;
+                    required = typeof required == 'function' ? required.bind(this)() : required;
                     if (!this.schema.properties[key].widget) return;
                     const { template, columns: defaultColumns } = this.schema.properties[key].widget;
                     if (!hidden)

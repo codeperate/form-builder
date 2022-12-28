@@ -22,7 +22,8 @@ export class CdpBooleanWidget extends FormWidgetMixin(CmptType.BooleanWidget, No
         }
     }
     render() {
-        const { required } = this.schema;
+        let { required } = this.schema;
+        required = typeof required == 'function' ? required.bind(this)() : required;
         const { empty, trueVal, falseVal } = this.config;
         if (this.view) return html`<div>${this.value != null ? (this.value ? trueVal : falseVal) : empty}</div>`;
         let validatedClass = this.value ? /*tw*/ 'cfb-bg-main-500 hover:cfb-bg-main-600' : /*tw*/ 'cfb-bg-gray-500 hover:cfb-bg-gray-600';

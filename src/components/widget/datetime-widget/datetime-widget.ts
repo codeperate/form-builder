@@ -23,7 +23,8 @@ export class CdpDateTimeWidget extends FormWidgetMixin(CmptType.DateTimeWidget, 
         }
     }
     render() {
-        const { required } = this.schema;
+        let { required } = this.schema;
+        required = typeof required == 'function' ? required.bind(this)() : required;
         const { empty, view } = this.config;
         if (this.view) return html`<div>${view.template(this.value) ?? empty}</div>`;
         let validatedClass = 'cfb-bg-gray-200 hover:cfb-bg-gray-300';

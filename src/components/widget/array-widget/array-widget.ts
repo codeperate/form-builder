@@ -42,7 +42,8 @@ export class CdpArrayWidget extends FormWidgetMixin(CmptType.ArrayWidget, NonSha
     }
     validator() {
         let result = super.validator();
-        const { required } = this.schema;
+        let { required } = this.schema;
+        required = typeof required == 'function' ? required.bind(this)() : required;
         const { minItems, maxItems } = this.config;
         if (required && this.value == null) result.validity = false;
         if (minItems > 0 && this.value == null) result.validity = false;
