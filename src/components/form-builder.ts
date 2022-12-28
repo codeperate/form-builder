@@ -35,12 +35,12 @@ export class FormBuilder extends NonShadow {
     }
     willUpdate(c): void {
         super.willUpdate(c);
-    }
-    updated(c) {
-        super.updated(c);
         if (c.has('value')) {
             this.setValue([], this.value);
         }
+    }
+    updated(c) {
+        super.updated(c);
     }
     public getSchema(path: (string | number | symbol)[] = []) {
         let curPos = this.schema;
