@@ -50,11 +50,14 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
         validator() {
             return { validity: true, path: this.path };
         }
+        getPath() {
+            return this.schema.targetPath ?? this.path;
+        }
         setValue(value) {
-            this.form.setValue(this.schema.targetPath ?? this.path, value);
+            this.form.setValue(this.getPath(), value);
         }
         updateValue() {
-            this.value = this.form.getValue(this.schema.targetPath ?? this.path);
+            this.value = this.form.getValue(this.getPath());
         }
         validate() {
             let result;
