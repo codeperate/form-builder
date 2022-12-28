@@ -67,72 +67,108 @@ export class AppRoot extends NonShadow {
             },
         },
     });
-    @state() schema = buildFormFromJSONSchema(
-        {
-            config: {},
-            properties: {
-                name: {
-                    label: 'asdasdasd',
+    @state() schema = buildForm({
+        config: {},
+        widget: ObjectWidget,
+        properties: {
+            name: {
+                label: 'asdasdasd',
+                widget: StringWidget,
+                config: {},
+            },
+            date: {},
+            dateTime: {
+                widget: DateTimeWidget,
+            },
+            TITLE: {
+                label: false,
+                widget: SectionWidget,
+                config: {
+                    title: 'TITLE',
+                },
+            },
+            number: {
+                widget: NumberWidget,
+                config: {
+                    multipleOf: 0.01,
+                },
+            },
+            ...Section('Testing'),
+            array: {
+                widget: ArrayWidget,
+                items: {
                     widget: StringWidget,
-                    config: {},
-                },
-                date: {},
-                dateTime: {
-                    widget: DateTimeWidget,
-                },
-                TITLE: {
-                    label: false,
-                    widget: SectionWidget,
-                    config: {
-                        title: 'TITLE',
-                    },
-                },
-                number: {
-                    widget: NumberWidget,
-                    config: {
-                        multipleOf: 0.01,
-                    },
-                },
-                ...Section('Testing'),
-                array: {
-                    widget: ArrayWidget,
-                    items: {
-                        widget: StringWidget,
-                        required: true,
-                    },
-                },
-                boolean: {
-                    //widget: BooleanWidget,
                     required: true,
                 },
-                enum: {},
             },
-        },
-        {
-            type: 'object',
-            properties: {
-                boolean: { type: 'boolean' },
-                date: {
-                    $ref: '#/components/Date',
-                },
-                enum: {
-                    type: 'string',
-                    enum: ['Y', 'N'],
+            boolean: {
+                //widget: BooleanWidget,
+                required: true,
+            },
+            enum: {},
+            number2: {
+                widget: NumberWidget,
+                config: {
+                    multipleOf: 0.01,
                 },
             },
-            required: ['name'],
-        },
-        {
-            refSchema: {
-                components: {
-                    Date: {
-                        type: 'string',
-                        format: 'date',
-                    },
+            number3: {
+                widget: NumberWidget,
+                config: {
+                    multipleOf: 0.01,
                 },
             },
+            number4: {
+                widget: NumberWidget,
+                config: {
+                    multipleOf: 0.01,
+                },
+                required: true,
+            },
+            number5: {
+                widget: NumberWidget,
+                config: {
+                    multipleOf: 0.01,
+                },
+                required: true,
+            },
+            number6: {
+                widget: NumberWidget,
+                config: {
+                    multipleOf: 0.01,
+                },
+                required: true,
+            },
+            number7: {
+                widget: NumberWidget,
+                config: {
+                    multipleOf: 0.01,
+                },
+                required: true,
+            },
+            number8: {
+                widget: NumberWidget,
+                config: {
+                    multipleOf: 0.01,
+                },
+                required: true,
+            },
+            number9: {
+                widget: NumberWidget,
+                config: {
+                    multipleOf: 0.01,
+                },
+                required: true,
+            },
+            number10: {
+                widget: NumberWidget,
+                config: {
+                    multipleOf: 0.01,
+                },
+                required: true,
+            },
         },
-    );
+    });
     render() {
         if (this.switch) {
             return html` <button @click=${() => (this.switch = false)}>Click</button>`;
@@ -157,7 +193,7 @@ export class AppRoot extends NonShadow {
                     Switch Value
                 </button>
                 <cdp-form-builder
-                    .schema=${this.schema2}
+                    .schema=${this.schema}
                     @formChange=${e => {
                         console.log(e.detail);
                     }}

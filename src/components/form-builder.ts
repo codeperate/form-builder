@@ -118,8 +118,18 @@ export class FormBuilder extends NonShadow {
             },
         });
     }
-    public validate() {
-        return this.getWidgets().map(w => w.validate());
+    public validate(option: { scrollToInvalidWidget?: boolean } = {}) {
+        const defaultOption = {
+            scrollToInvalidWidget: true,
+        };
+        Object.assign(option, defaultOption);
+        const result = this.getWidgets().map(w => w.validate());
+        if (option.scrollToInvalidWidget) {
+            let invalidField = result.find(r => r.validity == false);
+            if (invalidField) {
+                this.getWidgets(invalidField.path)[0].scrollIntoView({ behavior: 'smooth' });
+            }
+        }
     }
     public undoValidate() {
         return this.getWidgets().forEach(w => w.undoValidate());
@@ -136,7 +146,8 @@ export class FormBuilder extends NonShadow {
         if (this.config.save) LocalStorage.remove(this.config.save.location);
     }
     render() {
-        let hidden = typeof this.schema.hidden == 'function' ? this.schema.hidden.bind(this)() : this.schema.hidden;
+        let hidden;
+        if (this.schema.hidden) hidden = typeof this.schema.hidden == 'function' ? this.schema.hidden.bind(this)() : this.schema.hidden;
         if (!hidden) return html`${until(this.schema.widget.template({ form: this, path: [] }))}`;
     }
 }
