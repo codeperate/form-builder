@@ -4,6 +4,7 @@ import { NonShadow } from '../components/base-class/non-shadow';
 import { FormBuilder } from '../components/form-builder';
 import { buildForm } from '../components/index.js';
 import { buildFormFromJSONSchema } from '../components/utils/build-form-from-json-schema.util';
+import { GenerateFormFromJSONSchema } from '../components/utils/generate-form-from-json-schema.util.js';
 import { ArrayWidget, DateTimeWidget, NumberWidget, Section, SectionWidget, StringWidget, TextAreaWidget } from '../components/widgets';
 
 import './app.css';
@@ -14,6 +15,32 @@ export class AppRoot extends NonShadow {
     @state() switch: boolean = false;
     @state() view: boolean = false;
     @state() value: any;
+    @state() schema3 = GenerateFormFromJSONSchema(
+        {
+            type: 'object',
+            properties: {
+                boolean: { type: 'boolean' },
+                date: {
+                    $ref: '#/components/Date',
+                },
+                enum: {
+                    type: 'string',
+                    enum: ['Y', 'N'],
+                },
+            },
+            required: ['name'],
+        },
+        {
+            refSchema: {
+                components: {
+                    Date: {
+                        type: 'string',
+                        format: 'date',
+                    },
+                },
+            },
+        },
+    );
     @state() schema2 = buildForm({
         widget: TextAreaWidget,
         config: {
@@ -109,7 +136,7 @@ export class AppRoot extends NonShadow {
                     Switch Value
                 </button>
                 <cdp-form-builder
-                    .schema=${this.schema}
+                    .schema=${this.schema3}
                     @formChange=${e => {
                         //this.value = { ...e.detail };
                     }}
