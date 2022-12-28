@@ -8,16 +8,19 @@ export function lazySet<T extends object, K>(obj: T, path: ((obj: T) => K) | (st
     let curPos = obj;
     for (let i = 0; i < pathArr.length; i++) {
         let curPath = pathArr[i];
+        let nextPath = pathArr[i + 1];
 
         if (i == lastIndex) {
             curPos[curPath] = value;
             break;
         }
         let newVal: [] | {} = [];
-        if (typeof curPath == 'string' && Number.isNaN(parseInt(curPath))) newVal = {};
+
+        if (typeof nextPath == 'string' && Number.isNaN(parseInt(nextPath))) newVal = {};
         if (curPos[curPath] != null) {
-            if (Array.isArray(curPos) !== Array.isArray(newVal)) curPos[curPath] = newVal;
+            if (Array.isArray(curPos[curPath]) !== Array.isArray(newVal)) curPos[curPath] = newVal;
         } else curPos[curPath] = newVal;
+
         curPos = curPos[curPath];
     }
 }

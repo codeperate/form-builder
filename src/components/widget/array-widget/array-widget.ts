@@ -18,7 +18,7 @@ export class CdpArrayWidget extends FormWidgetMixin(CmptType.ArrayWidget, NonSha
     }
     add() {
         if (this.value == undefined) this.setValue([]);
-        this.form.setValue([...this.path, this.value.length.toString()], undefined);
+        this.form.setValue([...this.path, this.value.length], undefined);
         this.validate();
         //this.requestUpdate();
     }

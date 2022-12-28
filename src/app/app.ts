@@ -5,7 +5,16 @@ import { FormBuilder } from '../components/form-builder';
 import { buildForm } from '../components/index.js';
 import { buildFormFromJSONSchema } from '../components/utils/build-form-from-json-schema.util';
 import { GenerateFormFromJSONSchema } from '../components/utils/generate-form-from-json-schema.util.js';
-import { ArrayWidget, DateTimeWidget, NumberWidget, Section, SectionWidget, StringWidget, TextAreaWidget } from '../components/widgets';
+import {
+    ArrayWidget,
+    DateTimeWidget,
+    NumberWidget,
+    ObjectWidget,
+    Section,
+    SectionWidget,
+    StringWidget,
+    TextAreaWidget,
+} from '../components/widgets';
 
 import './app.css';
 const components = import.meta.glob('../components/**/*.ts', { eager: true });
@@ -42,9 +51,20 @@ export class AppRoot extends NonShadow {
         },
     );
     @state() schema2 = buildForm({
-        widget: TextAreaWidget,
-        config: {
-            rows: 1,
+        widget: ArrayWidget,
+        items: {
+            widget: ObjectWidget,
+            properties: {
+                name: {
+                    label: 'asdasdasd',
+                    widget: StringWidget,
+                    config: {},
+                },
+                date: {},
+                dateTime: {
+                    widget: DateTimeWidget,
+                },
+            },
         },
     });
     @state() schema = buildFormFromJSONSchema(
@@ -136,9 +156,9 @@ export class AppRoot extends NonShadow {
                     Switch Value
                 </button>
                 <cdp-form-builder
-                    .schema=${this.schema3}
+                    .schema=${this.schema2}
                     @formChange=${e => {
-                        //this.value = { ...e.detail };
+                        console.log(e.detail);
                     }}
                     .value=${this.value}
                     .view=${!this.view}
