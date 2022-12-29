@@ -122,6 +122,7 @@ export const Section = (title: string, formSchema: FormSchema = {}, key?: number
 
 export const FileWidget: IWidget = {
     template: async ({ form, path }) => {
+        await import('./widget/file-widget/file-widget.js');
         return html`<cdp-file-widget .form=${form} .path=${path}></cdp-file-widget>`;
     },
     columns: 12,
