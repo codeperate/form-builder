@@ -168,7 +168,7 @@ export class AppRoot extends NonShadow {
                 required: true,
             },
         },
-    );
+    });
     fileSchema = buildForm({
         widget: FileWidget,
     });
