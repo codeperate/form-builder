@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { customElement, query, state } from 'lit/decorators.js';
 import { NonShadow } from '../components/base-class/non-shadow';
 import { FormBuilder } from '../components/form-builder';
-import { buildForm } from '../components/index.js';
+import { buildForm, CdpFormBuilder } from '../components/index.js';
 import { buildFormFromJSONSchema } from '../components/utils/build-form-from-json-schema.util';
 import { GenerateFormFromJSONSchema } from '../components/utils/generate-form-from-json-schema.util.js';
 import {
@@ -73,8 +73,14 @@ export class AppRoot extends NonShadow {
             properties: {
                 name: {
                     label: 'asdasdasd',
-                    widget: StringWidget,
-                    config: {},
+                    // widget: StringWidget,
+                    config: {
+                        enum: ['Male','Female','a','b'],
+                        enumMap: {
+                            Male: "FORM MALE",
+                            Female: "FORM FEMALE",
+                        }
+                    },
                 },
                 date: {},
                 dateTime: {
@@ -119,6 +125,12 @@ export class AppRoot extends NonShadow {
                     type: 'string',
                     enum: ['Y', 'N'],
                 },
+                name:{
+                    'x-cdp-widget-type': 'string',
+                    'x-cdp-enum-mapper': {
+                        Male: "CONFIG MALE",
+                    }
+                }
             },
             required: ['name'],
         },
@@ -147,7 +159,7 @@ export class AppRoot extends NonShadow {
                 <button @click=${() => console.log(this.formEl.getSchema())}>GetSchema</button>
                 <button @click=${() => console.log(this.formEl.load())}>Load History</button>
                 <button @click=${() => console.log(this.formEl.save())}>Save History</button>
-                <button @click=${() => (this.schema = this.schema2)}>Switch Schema</button>
+                <button @click=${() => (this.schema = this.schema2 as any)}>Switch Schema</button>
                 <button @click=${() => this.formEl.setValue([], [{ name: '123123' }])}>Set Value</button>
                 <button
                     @click=${() => {
@@ -157,7 +169,7 @@ export class AppRoot extends NonShadow {
                     Switch Value
                 </button>
                 <cdp-form-builder
-                    .schema=${this.schema2}
+                    .schema=${this.schema}
                     @formChange=${e => {
                         console.log(e.detail);
                     }}
@@ -177,3 +189,11 @@ declare global {
         'app-root': AppRoot;
     }
 }
+
+CdpFormBuilder.init({
+    EnumMapper:{
+        Male: "GLOBAL MALE",
+        Female: "GLOBAL FEMALE",
+        a: "GLOBAL a",
+    }
+})

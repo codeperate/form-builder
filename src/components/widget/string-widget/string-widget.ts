@@ -3,7 +3,7 @@ import { customElement, query } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { FormWidgetMixin } from '../../base-class/cdp-widget.js';
 import { NonShadow } from '../../base-class/non-shadow.js';
-import { CmptType } from '../../config.js';
+import { CdpFormBuilder, CmptType } from '../../config.js';
 import './string-widget.config.js';
 @customElement('cdp-string-widget')
 export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonShadow) {
@@ -22,12 +22,15 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
         if (defaultValue && this.value == null) {
             this.form.setValue(this.path, defaultValue);
         }
+        let x=CdpFormBuilder.getConfig(o=>o.EnumMapper);
+        if(x) this.config.enumMap = { ...x, ...this.config.enumMap }
     }
     render() {
         let { required } = this.schema;
         required = typeof required == 'function' ? required.bind(this)() : required;
         const { pattern, minLength, maxLength, empty, selectText, type } = this.config;
         const enumVal = this.config.enum;
+        const enumMap = this.config.enumMap;
         const defaultValue = this.config.default;
         if (this.view) return html`<div>${this.value ?? empty}</div>`;
         let validatedClass = 'cfb-bg-gray-200 hover:cfb-bg-gray-300';
@@ -53,7 +56,7 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
                         .map(
                             val =>
                                 html`<option value=${val} ?selected=${this.value ? this.value === val : defaultValue === val}>
-                                    ${val}
+                                    ${enumMap?enumMap[val]??val:val}
                                 </option>`,
                         )}
                 </select>

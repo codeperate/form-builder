@@ -108,6 +108,7 @@ export function buildFormFromJSONSchema<
 
         let type = Array.isArray(js.type) ? js.type[0] : js.type;
         if (js['x-cdp-widget-type']) type = js['x-cdp-widget-type'] as any;
+        if (js['x-cdp-enum-mapper']) f.config.enumMap = {...f.config.enumMap, ...js['x-cdp-enum-mapper']}
         let format = js.format ?? 'default';
         if (!mapper[type]) throw new Error(`Type:${type} does not exist`);
         if (!mapper[type][format]) throw new Error(`Format:${format} does not exist`);

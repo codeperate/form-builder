@@ -12,5 +12,6 @@ export interface CustomJSONSchema<T extends { items?; properties?; format?; type
     };
     format?: StringOnly<keyof M[T['type']]>;
     ['x-cdp-widget-type']?: string;
+    ['x-cdp-enum-mapper']?: {[key:string]:string} | Record<string,string>
     [key: string]: any;
 }

@@ -36,6 +36,7 @@ export enum CmptType {
     NumberWidget = 'NumberWidget',
     DataViewerWidget = 'DataViewerWidget',
     BooleanWidget = 'BooleanWidget',
+    EnumMapper = 'EnumMapper'
 }
 export interface CmptConfig {
     [CmptType.FormBuilder]: FormBuilderOption;
@@ -48,6 +49,7 @@ export interface CmptConfig {
     [CmptType.DateTimeWidget]: DateTimeWidgetConfig;
     [CmptType.BooleanWidget]: BooleanWidgetConfig;
     [CmptType.NumberWidget]: NumberWidgetConfig;
+    [CmptType.EnumMapper]: Record<string,string> | {[key:string]:string}
     [key: string]: any;
 }
 export type ConfigType<K extends string> = K extends keyof CmptConfig ? CmptConfig[K] : any;
