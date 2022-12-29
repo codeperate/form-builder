@@ -119,3 +119,11 @@ export const Section = (title: string, formSchema: FormSchema = {}, key?: number
     const obj = deepAssign({ widget: SectionWidget, config: { title }, label: false }, formSchema);
     return { [key ?? title]: obj };
 };
+
+export const FileWidget: IWidget = {
+    template: async ({ form, path }) => {
+        await import('./widget/file-widget/file-widget.js');
+        return html`<cdp-file-widget .form=${form} .path=${path}></cdp-file-widget>`;
+    },
+    columns: 12,
+};

@@ -8,6 +8,7 @@ import { GenerateFormFromJSONSchema } from '../components/utils/generate-form-fr
 import {
     ArrayWidget,
     DateTimeWidget,
+    FileWidget,
     NumberWidget,
     ObjectWidget,
     Section,
@@ -67,84 +68,110 @@ export class AppRoot extends NonShadow {
             },
         },
     });
-    @state() schema = buildFormFromJSONSchema(
-        {
-            config: {},
-            properties: {
-                name: {
-                    label: 'asdasdasd',
-                    // widget: StringWidget,
-                    config: {
-                        enum: ['Male','Female','a','b'],
-                        enumMap: {
-                            Male: "FORM MALE",
-                            Female: "FORM FEMALE",
-                        }
-                    },
+    @state() schema = buildForm({
+        config: {},
+        widget: ObjectWidget,
+        properties: {
+            name: {
+                label: 'asdasdasd',
+                widget: StringWidget,
+                config: {},
+            },
+            date: {},
+            dateTime: {
+                widget: DateTimeWidget,
+            },
+            TITLE: {
+                label: false,
+                widget: SectionWidget,
+                config: {
+                    title: 'TITLE',
                 },
-                date: {},
-                dateTime: {
-                    widget: DateTimeWidget,
+            },
+            number: {
+                widget: NumberWidget,
+                config: {
+                    multipleOf: 0.01,
                 },
-                TITLE: {
-                    label: false,
-                    widget: SectionWidget,
-                    config: {
-                        title: 'TITLE',
-                    },
-                },
-                number: {
-                    widget: NumberWidget,
-                    config: {
-                        multipleOf: 0.01,
-                    },
-                },
-                ...Section('Testing'),
-                array: {
-                    widget: ArrayWidget,
-                    items: {
-                        widget: StringWidget,
-                        required: true,
-                    },
-                },
-                boolean: {
-                    //widget: BooleanWidget,
+            },
+            ...Section('Testing'),
+            array: {
+                widget: ArrayWidget,
+                items: {
+                    widget: StringWidget,
                     required: true,
                 },
-                enum: {},
             },
-        },
-        {
-            type: 'object',
-            properties: {
-                boolean: { type: 'boolean' },
-                date: {
-                    $ref: '#/components/Date',
-                },
-                enum: {
-                    type: 'string',
-                    enum: ['Y', 'N'],
-                },
-                name:{
-                    'x-cdp-widget-type': 'string',
-                    'x-cdp-enum-mapper': {
-                        Male: "CONFIG MALE",
-                    }
-                }
+            boolean: {
+                //widget: BooleanWidget,
+                required: true,
             },
-            required: ['name'],
-        },
-        {
-            refSchema: {
-                components: {
-                    Date: {
-                        type: 'string',
-                        format: 'date',
-                    },
+            enum: {},
+            number2: {
+                widget: NumberWidget,
+                config: {
+                    multipleOf: 0.01,
                 },
+            },
+            number3: {
+                widget: NumberWidget,
+                config: {
+                    multipleOf: 0.01,
+                },
+            },
+            number4: {
+                widget: NumberWidget,
+                config: {
+                    multipleOf: 0.01,
+                },
+                required: true,
+            },
+            number5: {
+                widget: NumberWidget,
+                config: {
+                    multipleOf: 0.01,
+                },
+                required: true,
+            },
+            number6: {
+                widget: NumberWidget,
+                config: {
+                    multipleOf: 0.01,
+                },
+                required: true,
+            },
+            number7: {
+                widget: NumberWidget,
+                config: {
+                    multipleOf: 0.01,
+                },
+                required: true,
+            },
+            number8: {
+                widget: NumberWidget,
+                config: {
+                    multipleOf: 0.01,
+                },
+            },
+            number9: {
+                widget: NumberWidget,
+                config: {
+                    multipleOf: 0.01,
+                },
+                required: true,
+            },
+            number10: {
+                widget: NumberWidget,
+                config: {
+                    multipleOf: 0.01,
+                },
+                required: true,
             },
         },
     );
+    fileSchema = buildForm({
+        widget: FileWidget,
+    });
     render() {
         if (this.switch) {
             return html` <button @click=${() => (this.switch = false)}>Click</button>`;
@@ -159,7 +186,7 @@ export class AppRoot extends NonShadow {
                 <button @click=${() => console.log(this.formEl.getSchema())}>GetSchema</button>
                 <button @click=${() => console.log(this.formEl.load())}>Load History</button>
                 <button @click=${() => console.log(this.formEl.save())}>Save History</button>
-                <button @click=${() => (this.schema = this.schema2 as any)}>Switch Schema</button>
+                <button @click=${() => (this.schema = this.schema2)}>Switch Schema</button>
                 <button @click=${() => this.formEl.setValue([], [{ name: '123123' }])}>Set Value</button>
                 <button
                     @click=${() => {
@@ -169,7 +196,7 @@ export class AppRoot extends NonShadow {
                     Switch Value
                 </button>
                 <cdp-form-builder
-                    .schema=${this.schema}
+                    .schema=${this.schema2}
                     @formChange=${e => {
                         console.log(e.detail);
                     }}
