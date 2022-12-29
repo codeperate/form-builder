@@ -8,6 +8,7 @@ import { GenerateFormFromJSONSchema } from '../components/utils/generate-form-fr
 import {
     ArrayWidget,
     DateTimeWidget,
+    FileWidget,
     NumberWidget,
     ObjectWidget,
     Section,
@@ -169,6 +170,9 @@ export class AppRoot extends NonShadow {
             },
         },
     });
+    fileSchema = buildForm({
+        widget: FileWidget,
+    });
     render() {
         if (this.switch) {
             return html` <button @click=${() => (this.switch = false)}>Click</button>`;
@@ -193,7 +197,7 @@ export class AppRoot extends NonShadow {
                     Switch Value
                 </button>
                 <cdp-form-builder
-                    .schema=${this.schema}
+                    .schema=${this.fileSchema}
                     @formChange=${e => {
                         console.log(e.detail);
                     }}
