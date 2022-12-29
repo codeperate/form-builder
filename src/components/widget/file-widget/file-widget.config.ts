@@ -1,5 +1,6 @@
 import { CdpFormBuilder } from '../../config';
 import { byteSize } from '../../utils/byte-size.utils.js';
+import { CdpFileWidget } from './file-widget.js';
 
 export type FileWidgetConfig = {
     fileSizeBytesLimit?: number;
@@ -10,7 +11,7 @@ export type FileWidgetConfig = {
     empty?: string;
     uploadText?: string;
     uploadButton?: false | string;
-    uploadFn?: (file: File, progress: (percentage: number) => void) => Promise<any>;
+    uploadFn?: (this: CdpFileWidget, file: File, progress: (percentage: number) => void) => Promise<any>;
 };
 
 CdpFormBuilder.setConfig(c => c.FileWidget, {

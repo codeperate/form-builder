@@ -60,7 +60,7 @@ export class CdpFileWidget extends FormWidgetMixin(CmptType.FileWidget, NonShado
         for (const file of this.value) {
             const state = this.fileState.get(file);
             if (state.error) continue;
-            await uploadFn(file, percentage => {
+            await uploadFn.bind(this)(file, percentage => {
                 state.progress = percentage;
                 this.requestUpdate();
             });
@@ -79,15 +79,7 @@ export class CdpFileWidget extends FormWidgetMixin(CmptType.FileWidget, NonShado
         this.requestUpdate();
     }
     render() {
-        const {
-            uploadText,
-            fileNumberLimitText,
-            fileSizeBytesLimitText,
-            fileNumberLimit,
-            fileSizeBytesLimit,
-            fileSizeBytesLimitErr,
-            uploadButton,
-        } = this.config;
+        const { uploadText, fileNumberLimitText, fileSizeBytesLimitText, fileNumberLimit, fileSizeBytesLimit, uploadButton } = this.config;
         const files = Array.from(this.value ?? []);
 
         return html` <input @change=${e => this.changeHandler(e)} class="cfb-hidden" type="file" .multiple=${true} />
