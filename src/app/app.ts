@@ -179,23 +179,25 @@ export class AppRoot extends NonShadow {
         }
         return html`
             <div class="cfb-p-4">
-                <button @click=${() => (this.switch = true)}>Hide</button>
-                <button @click=${() => this.formEl.validate()}>Validate</button>
-                <button @click=${() => this.formEl.undoValidate()}>Undo Validate</button>
-                <button @click=${() => (this.view = !this.view)}>View</button>
-                <button @click=${() => console.log(this.formEl.getWidgets())}>GetWidgets</button>
-                <button @click=${() => console.log(this.formEl.getSchema())}>GetSchema</button>
-                <button @click=${() => console.log(this.formEl.load())}>Load History</button>
-                <button @click=${() => console.log(this.formEl.save())}>Save History</button>
-                <button @click=${() => (this.schema = this.schema2)}>Switch Schema</button>
-                <button @click=${() => this.formEl.setValue([], [{ name: '123123' }])}>Set Value</button>
-                <button
-                    @click=${() => {
-                        this.value = { name: 'aekjdhakjs' };
-                    }}
-                >
-                    Switch Value
-                </button>
+                <div class="cfb-flex cfb-gap-2 cfb-flex-wrap">
+                    <button @click=${() => (this.switch = true)}>Hide</button>
+                    <button @click=${() => this.formEl.validate()}>Validate</button>
+                    <button @click=${() => this.formEl.undoValidate()}>Undo Validate</button>
+                    <button @click=${() => (this.view = !this.view)}>View</button>
+                    <button @click=${() => console.log(this.formEl.getWidgets())}>GetWidgets</button>
+                    <button @click=${() => console.log(this.formEl.getSchema())}>GetSchema</button>
+                    <button @click=${() => console.log(this.formEl.load())}>Load History</button>
+                    <button @click=${() => console.log(this.formEl.save())}>Save History</button>
+                    <button @click=${() => (this.schema = this.schema2)}>Switch Schema</button>
+                    <button @click=${() => this.formEl.setValue([], [{ name: '123123' }])}>Set Value</button>
+                    <button
+                        @click=${() => {
+                            this.value = { name: 'aekjdhakjs' };
+                        }}
+                    >
+                        Switch Value
+                    </button>
+                </div>
                 <cdp-form-builder
                     .schema=${this.fileSchema}
                     @formChange=${e => {
