@@ -8,7 +8,7 @@ export type BooleanWidgetConfig = {
     falseVal?: string | TemplateResult;
 };
 
-CdpFormBuilder.setConfig(c => c.BooleanWidget, {
+CdpFormBuilder.setDefaultConfig(c => c.BooleanWidget, {
     empty: 'N/A',
     trueVal: 'Y',
     falseVal: 'N',

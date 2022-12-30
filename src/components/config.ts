@@ -17,6 +17,10 @@ export namespace CdpFormBuilder {
     export function setConfig<C>(path: (obj: FormBuilderConfig) => C, value: C) {
         return safeSet(config, path, value);
     }
+    export function setDefaultConfig<C>(path: (obj: FormBuilderConfig) => C, value: C){
+        const currentConfig=CdpFormBuilder.getConfig(path)??{}
+        CdpFormBuilder.setConfig(path,deepAssign(value, currentConfig))
+    }
     export function getConfig<C>(path: (obj: FormBuilderConfig) => C) {
         return safeGet(config, path);
     }

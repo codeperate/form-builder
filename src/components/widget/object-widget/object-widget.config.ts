@@ -5,7 +5,7 @@ export type ObjectWidgetConfig = {
         text: string;
     };
 };
-CdpFormBuilder.setConfig(o => o.ObjectWidget, {
+CdpFormBuilder.setDefaultConfig(o => o.ObjectWidget, {
     required: {
         text: '*',
     },

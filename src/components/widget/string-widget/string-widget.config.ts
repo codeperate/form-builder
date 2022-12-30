@@ -12,7 +12,7 @@ export type StringWidgetConfig = {
     type?: string;
 };
 
-CdpFormBuilder.setConfig(c => c.StringWidget, {
+CdpFormBuilder.setDefaultConfig(c => c.StringWidget, {
     empty: 'N/A',
     selectText: 'Please Select',
     type: 'text',

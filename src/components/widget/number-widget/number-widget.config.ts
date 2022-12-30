@@ -8,7 +8,7 @@ export type NumberWidgetConfig = {
     maximum?: number;
 };
 
-CdpFormBuilder.setConfig(c => c.NumberWidget, {
+CdpFormBuilder.setDefaultConfig(c => c.NumberWidget, {
     empty: 'N/A',
     multipleOf: 0.01,
 });

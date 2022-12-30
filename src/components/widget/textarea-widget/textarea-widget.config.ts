@@ -8,7 +8,7 @@ export type TextAreaWidgetConfig = {
     rows?: number;
 };
 
-CdpFormBuilder.setConfig(c => c.TextAreaWidget, {
+CdpFormBuilder.setDefaultConfig(c => c.TextAreaWidget, {
     empty: 'N/A',
     rows: 5,
 });

@@ -19,6 +19,18 @@ import {
 
 import './app.css';
 const components = import.meta.glob('../components/**/*.ts', { eager: true });
+
+CdpFormBuilder.init({
+    StringWidget:{
+        selectText: "asdf"
+    },
+    EnumMapper:{
+        Male: "GLOBAL MALE",
+        Female: "GLOBAL FEMALE",
+        a: "GLOBAL a",
+    }
+})
+
 @customElement('app-root')
 export class AppRoot extends NonShadow {
     @query('cdp-form-builder') formEl: FormBuilder;
@@ -76,6 +88,7 @@ export class AppRoot extends NonShadow {
                 label: 'asdasdasd',
                 widget: StringWidget,
                 config: {},
+                enum: ['asdf']
             },
             date: {},
             dateTime: {
@@ -196,7 +209,7 @@ export class AppRoot extends NonShadow {
                     Switch Value
                 </button>
                 <cdp-form-builder
-                    .schema=${this.schema2}
+                    .schema=${this.schema3}
                     @formChange=${e => {
                         console.log(e.detail);
                     }}
@@ -216,11 +229,3 @@ declare global {
         'app-root': AppRoot;
     }
 }
-
-CdpFormBuilder.init({
-    EnumMapper:{
-        Male: "GLOBAL MALE",
-        Female: "GLOBAL FEMALE",
-        a: "GLOBAL a",
-    }
-})
