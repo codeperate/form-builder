@@ -7,7 +7,7 @@ export type StringWidgetConfig = {
     pattern?: string | RegExp;
     empty?: string;
     enum?: string[];
-    enumMap?: {[key:string]:string} | Record<string,string>;
+    enumMapper?: {[key:string]:string} | Record<string,string>;
     selectText?: string;
     type?: string;
 };

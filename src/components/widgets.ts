@@ -43,6 +43,7 @@ export const StringWidget: IWidget<StringWidgetConfig> = {
         formSchema.config.maxLength ??= jsonSchema.maxLength;
         formSchema.config.minLength ??= jsonSchema.minLength;
         formSchema.config.enum ??= jsonSchema.enum as string[];
+        formSchema.config.enumMapper = {...formSchema.config.enumMapper, ...jsonSchema['x-cdp-enum-mapper']}
         if (jsonSchema.format == 'email') formSchema.config.type ??= 'email';
     },
     columns: 6,
