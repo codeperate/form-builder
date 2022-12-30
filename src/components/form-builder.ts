@@ -130,6 +130,7 @@ export class FormBuilder extends NonShadow {
                 this.getWidgets(invalidField.path)[0].scrollIntoView({ behavior: 'smooth' });
             }
         }
+        return result;
     }
     public undoValidate() {
         return this.getWidgets().forEach(w => w.undoValidate());
