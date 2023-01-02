@@ -21,15 +21,15 @@ import './app.css';
 const components = import.meta.glob('../components/**/*.ts', { eager: true });
 
 CdpFormBuilder.init({
-    StringWidget:{
-        selectText: "asdf"
+    StringWidget: {
+        selectText: 'asdf',
     },
-    EnumMapper:{
-        Male: "GLOBAL MALE",
-        Female: "GLOBAL FEMALE",
-        a: "GLOBAL a",
-    }
-})
+    EnumMapper: {
+        Male: 'GLOBAL MALE',
+        Female: 'GLOBAL FEMALE',
+        a: 'GLOBAL a',
+    },
+});
 
 @customElement('app-root')
 export class AppRoot extends NonShadow {
@@ -88,7 +88,7 @@ export class AppRoot extends NonShadow {
                 label: 'asdasdasd',
                 widget: StringWidget,
                 config: {},
-                enum: ['asdf']
+                enum: ['asdf'],
             },
             date: {},
             dateTime: {
@@ -215,7 +215,9 @@ export class AppRoot extends NonShadow {
                     }}
                     .value=${this.value}
                     .view=${this.view}
-                    name="asd"
+                    .config=${{
+                        save: { location: 'test', autoSave: true },
+                    }}
                 >
                 </cdp-form-builder>
                 <pre>${JSON.stringify(this.value, null, 2)}</pre>
