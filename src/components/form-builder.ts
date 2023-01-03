@@ -52,7 +52,7 @@ export class FormBuilder extends NonShadow {
         return curPos;
     }
     public getTarget() {
-        return this.store.getTarget().value;
+        return this.store.getTarget();
     }
     public getValue(path: (string | number | symbol)[], { target }: { target?: boolean } = {}) {
         return get(target ? this.store.getTarget() : this.store.state, ['value', ...path]);
@@ -114,7 +114,7 @@ export class FormBuilder extends NonShadow {
                 return selector;
             },
             listener: (data, proxiedData) => {
-                if (this.config.save && this.config.save.autoSave) this.save();
+                if (this._config.save && this._config.save.autoSave) this.save();
                 listener(data, proxiedData);
             },
         });
@@ -137,15 +137,19 @@ export class FormBuilder extends NonShadow {
         return this.getWidgets().forEach(w => w.undoValidate());
     }
     public save() {
-        if (!this.config.save) throw new Error('You must enable save option first.');
-        LocalStorage.set(this.config.save.location, { value: this.getTarget().value });
+        if (!this._config.save) throw new Error('You must enable save option first.');
+        LocalStorage.set(this._config.save.location, { value: this.getTarget().value });
     }
     public load() {
-        if (!this.config.save) throw new Error('You must enable save option first.');
-        this.setValue([], LocalStorage.get(this.config.save.location).value);
+        if (!this._config.save) throw new Error('You must enable save option first.');
+        this.setValue([], LocalStorage.get(this._config.save.location)?.value);
+    }
+    public getHistory() {
+        if (!this._config.save) throw new Error('You must enable save option first.');
+        return LocalStorage.get(this._config.save.location)?.value;
     }
     public clearHistory() {
-        if (this.config.save) LocalStorage.remove(this.config.save.location);
+        if (this._config.save) LocalStorage.remove(this._config.save.location);
     }
     render() {
         let hidden;
