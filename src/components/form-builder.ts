@@ -57,8 +57,9 @@ export class FormBuilder extends NonShadow {
     public getValue(path: (string | number | symbol)[], { target }: { target?: boolean } = {}) {
         return get(target ? this.store.getTarget() : this.store.state, ['value', ...path]);
     }
-    public setValue(path: (string | number | symbol)[], value: any) {
-        lazySet(this.store.state, ['value', ...path], value);
+    public setValue(path: (string | number | symbol)[], value: any, option: { silence?: boolean } = {}) {
+        if (option.silence) this.store.silence(state => lazySet(state, ['value', ...path], value));
+        else lazySet(this.store.state, ['value', ...path], value);
         this.getWidgets().forEach(w => w.updateValue());
     }
     public regWidget(path: (string | number | symbol)[], widget: any) {

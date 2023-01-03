@@ -20,10 +20,10 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
         super.connectedCallback();
         const defaultValue = this.config.default;
         if (defaultValue && this.value == null) {
-            this.form.setValue(this.path, defaultValue);
+            this.form.setValue(this.path, defaultValue, { silence: true });
         }
-        let x=CdpFormBuilder.getConfig(o=>o.EnumMapper);
-        if(x) this.config.enumMapper = { ...x, ...this.config.enumMapper }
+        let x = CdpFormBuilder.getConfig(o => o.EnumMapper);
+        if (x) this.config.enumMapper = { ...x, ...this.config.enumMapper };
     }
     render() {
         let { required } = this.schema;
@@ -56,7 +56,7 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
                         .map(
                             val =>
                                 html`<option value=${val} ?selected=${this.value ? this.value === val : defaultValue === val}>
-                                    ${enumMapper?enumMapper[val]??val:val}
+                                    ${enumMapper ? enumMapper[val] ?? val : val}
                                 </option>`,
                         )}
                 </select>
