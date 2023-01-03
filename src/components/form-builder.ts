@@ -36,7 +36,7 @@ export class FormBuilder extends NonShadow {
     willUpdate(c): void {
         super.willUpdate(c);
         if (c.has('value')) {
-            this.setValue([], this.value);
+            this.setValue([], this.value, { silence: true });
         }
     }
     updated(c) {
