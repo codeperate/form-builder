@@ -87,7 +87,9 @@ export class AppRoot extends NonShadow {
             name: {
                 label: 'asdasdasd',
                 widget: StringWidget,
-                config: {},
+                config: {
+                    default: 'weurhuiehwr',
+                },
                 enum: ['asdf'],
             },
             date: {},
@@ -209,7 +211,7 @@ export class AppRoot extends NonShadow {
                     Switch Value
                 </button>
                 <cdp-form-builder
-                    .schema=${this.schema3}
+                    .schema=${this.schema}
                     @formChange=${e => {
                         console.log(e.detail);
                     }}
