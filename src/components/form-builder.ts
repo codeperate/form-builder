@@ -52,7 +52,7 @@ export class FormBuilder extends NonShadow {
         return curPos;
     }
     public getTarget() {
-        return this.store.getTarget();
+        return this.store.getTarget()?.value;
     }
     public getValue(path: (string | number | symbol)[], { target }: { target?: boolean } = {}) {
         return get(target ? this.store.getTarget() : this.store.state, ['value', ...path]);
