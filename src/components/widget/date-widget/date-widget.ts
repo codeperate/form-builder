@@ -19,7 +19,7 @@ export class CdpDateWidget extends FormWidgetMixin(CmptType.DateWidget, NonShado
         super.connectedCallback();
         const defaultValue = this.config.default;
         if (defaultValue && this.value == null) {
-            this.form.setValue(this.path, defaultValue, { silence: true });
+            this.setValue(defaultValue, { silence: true });
         }
     }
     render() {

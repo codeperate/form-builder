@@ -20,7 +20,7 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
         super.connectedCallback();
         const defaultValue = this.config.default;
         if (defaultValue && this.value == null) {
-            this.form.setValue(this.path, defaultValue, { silence: true });
+            this.setValue(defaultValue, { silence: true });
         }
         let x = CdpFormBuilder.getConfig(o => o.EnumMapper);
         if (x) this.config.enumMapper = { ...x, ...this.config.enumMapper };

@@ -22,7 +22,7 @@ export interface IFormWidget<T = any> {
     config: T;
     view: boolean;
     validator(): ValidatedMeta;
-    setValue(value: any): void;
+    setValue(value: any, option?: { silence?: boolean }): void;
     updateValue(): void;
     validate(): ValidatedMeta | undefined;
     undoValidate(): void;
@@ -53,8 +53,8 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
         getPath() {
             return this.schema.targetPath ?? this.path;
         }
-        setValue(value) {
-            this.form.setValue(this.getPath(), value);
+        setValue(value, option: { silence?: boolean } = {}) {
+            this.form.setValue(this.getPath(), value, option);
         }
         updateValue() {
             this.value = this.form.getValue(this.getPath());
