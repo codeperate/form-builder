@@ -55,7 +55,7 @@ export class FormBuilder extends NonShadow {
         return this.store.getTarget()?.value;
     }
     public getValue(path: (string | number | symbol)[], { target }: { target?: boolean } = {}) {
-        return get(target ? this.store.getTarget() : this.store.state, [...path]);
+        return get(target ? this.store.getTarget() : this.store.state.value, [...path]);
     }
     public setValue(path: (string | number | symbol)[], value: any, option: { silence?: boolean } = {}) {
         if (option.silence) this.store.silence(() => lazySet(this.store.state, ['value', ...path], value));
@@ -138,7 +138,7 @@ export class FormBuilder extends NonShadow {
     }
     public save() {
         if (!this._config.save) throw new Error('You must enable save option first.');
-        LocalStorage.set(this._config.save.location, { value: this.getTarget().value });
+        LocalStorage.set(this._config.save.location, { value: this.getTarget() });
     }
     public load() {
         if (!this._config.save) throw new Error('You must enable save option first.');
