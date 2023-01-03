@@ -142,7 +142,8 @@ export class FormBuilder extends NonShadow {
     }
     public load() {
         if (!this._config.save) throw new Error('You must enable save option first.');
-        this.setValue([], LocalStorage.get(this._config.save.location)?.value);
+        const value = LocalStorage.get(this._config.save.location)?.value;
+        if (value != null) this.setValue([], value);
     }
     public getHistory() {
         if (!this._config.save) throw new Error('You must enable save option first.');
