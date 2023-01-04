@@ -32,7 +32,10 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
         const enumVal = this.config.enum;
         const enumMapper = this.config.enumMapper;
         const defaultValue = this.config.default;
-        if (this.view) return html`<div>${this.value ?? empty}</div>`;
+        if (this.view) {
+            if(enumVal && this.value) return html`<div>${enumMapper ? enumMapper[this.value]??this.value : this.value}</div>`
+            return html`<div>${this.value ?? empty}</div>`;
+        }
         let validatedClass = 'cfb-bg-gray-200 hover:cfb-bg-gray-300';
 
         if (this.isValidated)
