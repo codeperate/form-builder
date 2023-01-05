@@ -23,7 +23,7 @@ export class CdpPasswordWidget extends FormWidgetMixin(CmptType.PasswordWidget, 
     render() {
         let { required } = this.schema;
         required = typeof required == 'function' ? required.bind(this)() : required;
-        const { pattern, minLength, maxLength, empty} = this.config;
+        const { pattern, minLength, maxLength, empty } = this.config;
         if (this.view) return html`<div>${empty}</div>`;
         let validatedClass = 'cfb-bg-gray-200 hover:cfb-bg-gray-300';
 
@@ -32,11 +32,11 @@ export class CdpPasswordWidget extends FormWidgetMixin(CmptType.PasswordWidget, 
                 ? /*tw*/ 'cfb-bg-valid-100 hover:cfb-bg-valid-200'
                 : /*tw*/ 'cfb-bg-danger-100 hover:cfb-bg-danger-200';
         return html`
-            <div class="cfb-w-full cfb-rounded-lg ${validatedClass} cfb-flex cfb-pr-2" >
+            <div class="cfb-w-full cfb-rounded-lg ${validatedClass} cfb-flex cfb-pr-1 cfb-items-center">
                 <input
                     .required=${required}
                     class="cfb-flex-grow cfb-bg-opacity-0 cfb-bg-white cfb-p-1.5 cfb-rounded-lg focus:cfb-outline-none"
-                    .type=${this.revealPw?'text':'password'}
+                    .type=${this.revealPw ? 'text' : 'password'}
                     @input=${e => {
                         this.setValue(e.target.value);
                         this.validate();
@@ -46,7 +46,10 @@ export class CdpPasswordWidget extends FormWidgetMixin(CmptType.PasswordWidget, 
                     maxlength=${ifDefined(maxLength)}
                     pattern=${ifDefined(pattern)}
                 />
-                <button class="" @click=${() => this.revealPw=!this.revealPw}>
+                <button
+                    class="cfb-aspect-square cfb-w-7 cfb-rounded-lg hover:cfb-bg-gray-400"
+                    @click=${() => (this.revealPw = !this.revealPw)}
+                >
                     <i class="fa-solid  ${this.revealPw ? 'fa-eye' : 'fa-eye-slash'}"></i>
                 </button>
             </div>
