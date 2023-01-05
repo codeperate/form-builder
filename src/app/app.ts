@@ -11,6 +11,7 @@ import {
     FileWidget,
     NumberWidget,
     ObjectWidget,
+    PasswordWidget,
     Section,
     SectionWidget,
     StringWidget,
@@ -71,7 +72,9 @@ export class AppRoot extends NonShadow {
                 name: {
                     label: 'asdasdasd',
                     widget: StringWidget,
-                    config: {},
+                    config: {
+                        
+                    },
                 },
                 date: {},
                 dateTime: {
@@ -106,6 +109,9 @@ export class AppRoot extends NonShadow {
                 config: {
                     multipleOf: 0.01,
                 },
+            },
+            password: {
+                widget: PasswordWidget,
             },
             ...Section('Testing'),
             array: {
@@ -209,7 +215,7 @@ export class AppRoot extends NonShadow {
                     Switch Value
                 </button>
                 <cdp-form-builder
-                    .schema=${this.schema3}
+                    .schema=${this.schema}
                     @formChange=${e => {
                         console.log(e.detail);
                     }}
