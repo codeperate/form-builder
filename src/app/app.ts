@@ -3,7 +3,6 @@ import { customElement, query, state } from 'lit/decorators.js';
 import { NonShadow } from '../components/base-class/non-shadow';
 import { FormBuilder } from '../components/form-builder';
 import { buildForm, CdpFormBuilder } from '../components/index.js';
-import { buildFormFromJSONSchema } from '../components/utils/build-form-from-json-schema.util';
 import { GenerateFormFromJSONSchema } from '../components/utils/generate-form-from-json-schema.util.js';
 import {
     ArrayWidget,
@@ -15,29 +14,30 @@ import {
     Section,
     SectionWidget,
     StringWidget,
-    TextAreaWidget,
 } from '../components/widgets';
 
 import './app.css';
 const components = import.meta.glob('../components/**/*.ts', { eager: true });
 
 CdpFormBuilder.init({
-    StringWidget:{
-        selectText: "asdf"
+    StringWidget: {
+        selectText: 'asdf',
     },
-    EnumMapper:{
-        Male: "GLOBAL MALE",
-        Female: "GLOBAL FEMALE",
-        a: "GLOBAL a",
-    }
-})
+    EnumMapper: {
+        Male: 'GLOBAL MALE',
+        Female: 'GLOBAL FEMALE',
+        a: 'GLOBAL a',
+    },
+});
 
 @customElement('app-root')
 export class AppRoot extends NonShadow {
     @query('cdp-form-builder') formEl: FormBuilder;
     @state() switch: boolean = false;
     @state() view: boolean = false;
-    @state() value: any;
+    @state() value = {
+        name: 'asuidhasuidh',
+    };
     @state() schema3 = GenerateFormFromJSONSchema(
         {
             type: 'object',
@@ -90,8 +90,10 @@ export class AppRoot extends NonShadow {
             name: {
                 label: 'asdasdasd',
                 widget: StringWidget,
-                config: {},
-                enum: ['asdf']
+                config: {
+                    default: 'weurhuiehwr',
+                },
+                enum: ['asdf'],
             },
             date: {},
             dateTime: {
@@ -221,7 +223,9 @@ export class AppRoot extends NonShadow {
                     }}
                     .value=${this.value}
                     .view=${this.view}
-                    name="asd"
+                    .config=${{
+                        save: { location: 'test', autoSave: true },
+                    }}
                 >
                 </cdp-form-builder>
                 <pre>${JSON.stringify(this.value, null, 2)}</pre>

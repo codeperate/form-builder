@@ -18,7 +18,7 @@ export class CdpBooleanWidget extends FormWidgetMixin(CmptType.BooleanWidget, No
         super.connectedCallback();
         const defaultValue = this.config.default;
         if (defaultValue && this.value == null) {
-            this.form.setValue(this.path, defaultValue);
+            this.setValue(defaultValue, { silence: true });
         }
     }
     render() {

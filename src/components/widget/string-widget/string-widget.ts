@@ -20,10 +20,10 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
         super.connectedCallback();
         const defaultValue = this.config.default;
         if (defaultValue && this.value == null) {
-            this.form.setValue(this.path, defaultValue);
+            this.setValue(defaultValue, { silence: true });
         }
-        let x=CdpFormBuilder.getConfig(o=>o.EnumMapper);
-        if(x) this.config.enumMapper = { ...x, ...this.config.enumMapper }
+        let x = CdpFormBuilder.getConfig(o => o.EnumMapper);
+        if (x) this.config.enumMapper = { ...x, ...this.config.enumMapper };
     }
     render() {
         let { required } = this.schema;
@@ -32,7 +32,10 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
         const enumVal = this.config.enum;
         const enumMapper = this.config.enumMapper;
         const defaultValue = this.config.default;
-        if (this.view) return html`<div>${this.value ?? empty}</div>`;
+        if (this.view) {
+            if(enumVal && this.value) return html`<div>${enumMapper ? enumMapper[this.value]??this.value : this.value}</div>`
+            return html`<div>${this.value ?? empty}</div>`;
+        }
         let validatedClass = 'cfb-bg-gray-200 hover:cfb-bg-gray-300';
 
         if (this.isValidated)
@@ -56,7 +59,7 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
                         .map(
                             val =>
                                 html`<option value=${val} ?selected=${this.value ? this.value === val : defaultValue === val}>
-                                    ${enumMapper?enumMapper[val]??val:val}
+                                    ${enumMapper ? enumMapper[val] ?? val : val}
                                 </option>`,
                         )}
                 </select>
