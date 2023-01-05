@@ -47,6 +47,7 @@ export class CdpPasswordWidget extends FormWidgetMixin(CmptType.PasswordWidget, 
                     pattern=${ifDefined(pattern)}
                 />
                 <button
+                    type="button"
                     class="cfb-aspect-square cfb-w-7 cfb-rounded-lg hover:cfb-bg-gray-400"
                     @click=${() => (this.revealPw = !this.revealPw)}
                 >
