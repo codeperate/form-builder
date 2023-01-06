@@ -36,7 +36,7 @@ export class FormBuilder extends NonShadow {
     willUpdate(c): void {
         super.willUpdate(c);
         if (c.has('value')) {
-            this.setValue([], this.value);
+            this.setValue([], this.value, { silence: true });
         }
     }
     updated(c) {
@@ -52,13 +52,14 @@ export class FormBuilder extends NonShadow {
         return curPos;
     }
     public getTarget() {
-        return this.store.getTarget();
+        return this.store.getTarget()?.value;
     }
     public getValue(path: (string | number | symbol)[], { target }: { target?: boolean } = {}) {
-        return get(target ? this.store.getTarget() : this.store.state, ['value', ...path]);
+        return get(target ? this.store.getTarget() : this.store.state.value, [...path]);
     }
-    public setValue(path: (string | number | symbol)[], value: any) {
-        lazySet(this.store.state, ['value', ...path], value);
+    public setValue(path: (string | number | symbol)[], value: any, option: { silence?: boolean } = {}) {
+        if (option.silence) this.store.silence(() => lazySet(this.store.state, ['value', ...path], value));
+        else lazySet(this.store.state, ['value', ...path], value);
         this.getWidgets().forEach(w => w.updateValue());
     }
     public regWidget(path: (string | number | symbol)[], widget: any) {
@@ -137,11 +138,12 @@ export class FormBuilder extends NonShadow {
     }
     public save() {
         if (!this._config.save) throw new Error('You must enable save option first.');
-        LocalStorage.set(this._config.save.location, { value: this.getTarget().value });
+        LocalStorage.set(this._config.save.location, { value: this.getTarget() });
     }
     public load() {
         if (!this._config.save) throw new Error('You must enable save option first.');
-        this.setValue([], LocalStorage.get(this._config.save.location)?.value);
+        const value = LocalStorage.get(this._config.save.location)?.value;
+        if (value != null) this.setValue([], value);
     }
     public getHistory() {
         if (!this._config.save) throw new Error('You must enable save option first.');

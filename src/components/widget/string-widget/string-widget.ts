@@ -20,7 +20,7 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
         super.connectedCallback();
         const defaultValue = this.config.default;
         if (defaultValue && this.value == null) {
-            this.form.setValue(this.path, defaultValue);
+            this.setValue(defaultValue, { silence: true });
         }
         let enumMapper = CdpFormBuilder.getConfig(o => o.EnumMapper);
         if (enumMapper) this.config.enumMapper = { ...enumMapper, ...this.config.enumMapper };
@@ -32,7 +32,10 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
         const enumVal = this.config.enum;
         const enumMapper = this.config.enumMapper;
         const defaultValue = this.config.default;
-        if (this.view) return html`<div>${this.value ?? empty}</div>`;
+        if (this.view) {
+            if (enumVal && this.value) return html`<div>${enumMapper ? enumMapper[this.value] ?? this.value : this.value}</div>`;
+            return html`<div>${this.value ?? empty}</div>`;
+        }
         let validatedClass = 'cfb-bg-gray-200 hover:cfb-bg-gray-300';
 
         if (this.isValidated)

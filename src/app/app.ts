@@ -3,7 +3,6 @@ import { customElement, query, state } from 'lit/decorators.js';
 import { NonShadow } from '../components/base-class/non-shadow';
 import { FormBuilder } from '../components/form-builder';
 import { buildForm, CdpFormBuilder } from '../components/index.js';
-import { buildFormFromJSONSchema } from '../components/utils/build-form-from-json-schema.util';
 import { GenerateFormFromJSONSchema } from '../components/utils/generate-form-from-json-schema.util.js';
 import {
     ArrayWidget,
@@ -11,10 +10,10 @@ import {
     FileWidget,
     NumberWidget,
     ObjectWidget,
+    PasswordWidget,
     Section,
     SectionWidget,
     StringWidget,
-    TextAreaWidget,
 } from '../components/widgets';
 
 import './app.css';
@@ -36,7 +35,9 @@ export class AppRoot extends NonShadow {
     @query('cdp-form-builder') formEl: FormBuilder;
     @state() switch: boolean = false;
     @state() view: boolean = false;
-    @state() value: any;
+    @state() value = {
+        name: 'asuidhasuidh',
+    };
     @state() schema3 = GenerateFormFromJSONSchema(
         {
             type: 'object',
@@ -87,7 +88,9 @@ export class AppRoot extends NonShadow {
             name: {
                 label: 'asdasdasd',
                 widget: StringWidget,
-                config: {},
+                config: {
+                    default: 'weurhuiehwr',
+                },
                 enum: ['asdf'],
             },
             date: {},
@@ -106,6 +109,9 @@ export class AppRoot extends NonShadow {
                 config: {
                     multipleOf: 0.01,
                 },
+            },
+            password: {
+                widget: PasswordWidget,
             },
             ...Section('Testing'),
             array: {
@@ -212,7 +218,7 @@ export class AppRoot extends NonShadow {
                     Switch Value
                 </button>
                 <cdp-form-builder
-                    .schema=${this.fileSchema}
+                    .schema=${this.schema}
                     @formChange=${e => {
                         console.log(e.detail);
                     }}

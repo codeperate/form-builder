@@ -8,6 +8,7 @@ import { DateTimeWidgetConfig } from './widget/datetime-widget/datetime-widget.c
 import { FileWidgetConfig } from './widget/file-widget/file-widget.config.js';
 import { NumberWidgetConfig } from './widget/number-widget/number-widget.config';
 import { ObjectWidgetConfig } from './widget/object-widget/object-widget.config';
+import { PasswordWidgetConfig } from './widget/password-widget/password-widget.config.js';
 import { StringWidgetConfig } from './widget/string-widget/string-widget.config';
 import { TextAreaWidgetConfig } from './widget/textarea-widget/textarea-widget.config.js';
 export type FormBuilderConfig = CmptConfig;
@@ -42,7 +43,8 @@ export enum CmptType {
     NumberWidget = 'NumberWidget',
     DataViewerWidget = 'DataViewerWidget',
     BooleanWidget = 'BooleanWidget',
-    EnumMapper = 'EnumMapper'
+    EnumMapper = 'EnumMapper',
+    PasswordWidget = 'PasswordWidget',
 }
 export interface CmptConfig {
     [CmptType.FormBuilder]: FormBuilderOption;
@@ -57,6 +59,7 @@ export interface CmptConfig {
     [CmptType.NumberWidget]: NumberWidgetConfig;
     [CmptType.EnumMapper]: Record<string,string> | {[key:string]:string}
     [CmptType.FileWidget]: FileWidgetConfig;
+    [CmptType.PasswordWidget]: PasswordWidgetConfig;
     [key: string]: any;
 }
 export type ConfigType<K extends string> = K extends keyof CmptConfig ? CmptConfig[K] : any;

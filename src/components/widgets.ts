@@ -7,6 +7,7 @@ import { DateWidgetConfig } from './widget/date-widget/date-widget.config';
 import { DateTimeWidgetConfig } from './widget/datetime-widget/datetime-widget.config';
 import { NumberWidgetConfig } from './widget/number-widget/number-widget.config';
 import { ObjectWidgetConfig } from './widget/object-widget/object-widget.config';
+import { PasswordWidgetConfig } from './widget/password-widget/password-widget.config.js';
 import { StringWidgetConfig } from './widget/string-widget/string-widget.config';
 import { TextAreaWidgetConfig } from './widget/textarea-widget/textarea-widget.config.js';
 
@@ -45,6 +46,20 @@ export const StringWidget: IWidget<StringWidgetConfig> = {
         formSchema.config.enum ??= jsonSchema.enum as string[];
         formSchema.config.enumMapper = {...formSchema.config.enumMapper, ...jsonSchema['x-cdp-enum-mapper']}
         if (jsonSchema.format == 'email') formSchema.config.type ??= 'email';
+    },
+    columns: 6,
+};
+export const PasswordWidget: IWidget<PasswordWidgetConfig> = {
+    template: async ({ path, form }) => {
+        await import('./widget/password-widget/password-widget.js');
+        return html`<cdp-password-widget .form=${form} .path=${path}></cdp-password-widget>`;
+    },
+    jsonSchemaConverter: (formSchema, jsonSchema) => {
+        formSchema.config ??= {};
+        formSchema.config.default ??= jsonSchema.default as string;
+        formSchema.config.pattern ??= jsonSchema.pattern;
+        formSchema.config.maxLength ??= jsonSchema.maxLength;
+        formSchema.config.minLength ??= jsonSchema.minLength;
     },
     columns: 6,
 };
