@@ -7,6 +7,7 @@ import { GenerateFormFromJSONSchema } from '../components/utils/generate-form-fr
 import {
     ArrayWidget,
     DateTimeWidget,
+    DateWidget,
     FileWidget,
     NumberWidget,
     ObjectWidget,
@@ -190,9 +191,9 @@ export class AppRoot extends NonShadow {
         },
     });
     fileSchema = buildForm({
-        widget: ArrayWidget,
-        items: {
-            widget: TextAreaWidget,
+        widget: ObjectWidget,
+        properties: {
+            asd: { widget: NumberWidget, config: { multipleOf: 1 } },
         },
     });
     render() {
