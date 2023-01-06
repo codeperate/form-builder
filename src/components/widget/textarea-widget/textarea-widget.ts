@@ -22,11 +22,18 @@ export class CdpTextAreaWidget extends FormWidgetMixin(CmptType.TextAreaWidget, 
             this.setValue(defaultValue, { silence: true });
         }
     }
+    autoExpandHeight() {
+        if (this.config.autoExpandHeight) {
+            this.inputEl.style.height = ''; /* Reset the height*/
+            this.inputEl.style.height = Math.min(this.inputEl.scrollHeight, this.config.heightLimit) + 'px';
+        }
+    }
     render() {
         let { required } = this.schema;
         required = typeof required == 'function' ? required.bind(this)() : required;
         const { minLength, maxLength, empty, rows } = this.config;
-        if (this.view) return html`<pre class="cfb-whitespace-pre-wrap">${this.value ?? empty}</pre>`;
+        if (this.view)
+            return html`<pre class="cfb-whitespace-pre-wrap cfb-break-all cfb-min-w-0 cfb-max-w-full">${this.value ?? empty}</pre>`;
         let validatedClass = 'cfb-bg-gray-200 hover:cfb-bg-gray-300';
         if (this.isValidated)
             validatedClass = this.validatedMeta?.validity
@@ -37,6 +44,7 @@ export class CdpTextAreaWidget extends FormWidgetMixin(CmptType.TextAreaWidget, 
                 .required=${required}
                 class="cfb-rounded-lg cfb-p-1.5 ${validatedClass} cfb-min-w-0 cfb-w-full"
                 @input=${e => {
+                    this.autoExpandHeight();
                     this.setValue(e.target.value);
                     this.validate();
                 }}
