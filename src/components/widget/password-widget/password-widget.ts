@@ -35,7 +35,7 @@ export class CdpPasswordWidget extends FormWidgetMixin(CmptType.PasswordWidget, 
             <div class="cfb-w-full cfb-rounded-lg ${validatedClass} cfb-flex cfb-pr-1 cfb-items-center">
                 <input
                     .required=${required}
-                    class="cfb-flex-grow cfb-bg-opacity-0 cfb-bg-white cfb-p-1.5 cfb-rounded-lg focus:cfb-outline-none"
+                    class="cfb-flex-grow cfb-bg-opacity-0 cfb-bg-white cfb-p-1.5 cfb-rounded-lg focus:cfb-outline-none cfb-w-full cfb-appearance-none"
                     .type=${this.revealPw ? 'text' : 'password'}
                     @input=${e => {
                         this.setValue(e.target.value);

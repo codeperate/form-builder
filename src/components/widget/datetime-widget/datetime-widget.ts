@@ -35,7 +35,7 @@ export class CdpDateTimeWidget extends FormWidgetMixin(CmptType.DateTimeWidget, 
         return html`
             <input
                 .required=${required}
-                class="cfb-rounded-lg cfb-p-1.5 ${validatedClass} cfb-min-w-0 cfb-w-full"
+                class="cfb-rounded-lg cfb-p-1.5 ${validatedClass} cfb-min-w-0 cfb-w-full cfb-appearance-none"
                 type="datetime-local"
                 @input=${e => {
                     const date = new Date(e.target.value);

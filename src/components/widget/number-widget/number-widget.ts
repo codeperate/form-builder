@@ -36,7 +36,7 @@ export class CdpNumberWidget extends FormWidgetMixin(CmptType.NumberWidget, NonS
         return html`
             <input
                 .required=${required}
-                class="cfb-rounded-lg cfb-p-1.5 ${validatedClass} cfb-min-w-0 cfb-w-full"
+                class="cfb-rounded-lg cfb-p-1.5 ${validatedClass} cfb-min-w-0 cfb-w-full cfb-appearance-none"
                 type="number"
                 min=${minimum}
                 max=${maximum}

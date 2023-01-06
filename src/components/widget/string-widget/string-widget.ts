@@ -33,7 +33,7 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
         const enumMapper = this.config.enumMapper;
         const defaultValue = this.config.default;
         if (this.view) {
-            if(enumVal && this.value) return html`<div>${enumMapper ? enumMapper[this.value]??this.value : this.value}</div>`
+            if (enumVal && this.value) return html`<div>${enumMapper ? enumMapper[this.value] ?? this.value : this.value}</div>`;
             return html`<div>${this.value ?? empty}</div>`;
         }
         let validatedClass = 'cfb-bg-gray-200 hover:cfb-bg-gray-300';
@@ -45,7 +45,7 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
         if (enumVal) {
             return html`
                 <select
-                    class="${validatedClass} cfb-w-full cfb-rounded-lg cfb-bg-gray-200 cfb-p-1.5"
+                    class="${validatedClass} cfb-w-full cfb-rounded-lg cfb-bg-gray-200 cfb-p-1.5 cfb-appearance-none"
                     ?required=${required}
                     .value=${this.value || ''}
                     @change=${e => {
@@ -69,7 +69,7 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
         return html`
             <input
                 .required=${required}
-                class="cfb-rounded-lg cfb-p-1.5 ${validatedClass} cfb-min-w-0 cfb-w-full"
+                class="cfb-rounded-lg cfb-p-1.5 ${validatedClass} cfb-min-w-0 cfb-w-full cfb-appearance-none"
                 .type=${type}
                 @input=${e => {
                     this.setValue(e.target.value);
