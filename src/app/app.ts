@@ -14,6 +14,7 @@ import {
     Section,
     SectionWidget,
     StringWidget,
+    TextAreaWidget,
 } from '../components/widgets';
 
 import './app.css';
@@ -218,11 +219,10 @@ export class AppRoot extends NonShadow {
                     Switch Value
                 </button>
                 <cdp-form-builder
-                    .schema=${this.schema}
+                    .schema=${this.fileSchema}
                     @formChange=${e => {
                         console.log(e.detail);
                     }}
-                    .value=${this.value}
                     .view=${this.view}
                     .config=${{
                         save: { location: 'test', autoSave: true },

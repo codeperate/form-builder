@@ -22,6 +22,12 @@ export class CdpTextAreaWidget extends FormWidgetMixin(CmptType.TextAreaWidget, 
             this.setValue(defaultValue, { silence: true });
         }
     }
+    autoExpandHeight() {
+        if (this.config.autoExpandHeight) {
+            this.inputEl.style.height = ''; /* Reset the height*/
+            this.inputEl.style.height = Math.min(this.inputEl.scrollHeight, this.config.heightLimit) + 'px';
+        }
+    }
     render() {
         let { required } = this.schema;
         required = typeof required == 'function' ? required.bind(this)() : required;
@@ -38,6 +44,7 @@ export class CdpTextAreaWidget extends FormWidgetMixin(CmptType.TextAreaWidget, 
                 .required=${required}
                 class="cfb-rounded-lg cfb-p-1.5 ${validatedClass} cfb-min-w-0 cfb-w-full"
                 @input=${e => {
+                    this.autoExpandHeight();
                     this.setValue(e.target.value);
                     this.validate();
                 }}
