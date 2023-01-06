@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@codeperate/simple-store': ^2.1.3
+  '@codeperate/simple-store': ^2.1.4
   '@codeperate/utils': ^1.0.21
   '@types/json-schema': ^7.0.11
   autoprefixer: ^10.4.13
@@ -13,7 +13,7 @@ specifiers:
   vite: ^4.0.4
 
 devDependencies:
-  '@codeperate/simple-store': 2.1.3
+  '@codeperate/simple-store': 2.1.4
   '@codeperate/utils': 1.0.21
   '@types/json-schema': 7.0.11
   autoprefixer: 10.4.13_postcss@8.4.20
@@ -47,8 +47,8 @@ packages:
       js-tokens: 4.0.0
     dev: true
 
-  /@codeperate/simple-store/2.1.3:
-    resolution: {integrity: sha512-bt8ZRdWK5niJ9uWVvSaeAHz1MA2u4WZUE9K/XmFChb76nN+iYnbc/2iD67r+BPfVC2zMJPrnpfCQwSqBlLAd1Q==}
+  /@codeperate/simple-store/2.1.4:
+    resolution: {integrity: sha512-yWpEDKvF4nA+WuRYpYQlGMKi6+SNLlpIqUvb4+/FgOn3TQYPs8s8oyKcfvORRza5guF7u3oznMQuspVuFrYN9A==}
     dependencies:
       '@codeperate/utils': 1.0.21
     dev: true
