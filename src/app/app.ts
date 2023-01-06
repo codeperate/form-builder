@@ -183,7 +183,10 @@ export class AppRoot extends NonShadow {
         },
     });
     fileSchema = buildForm({
-        widget: FileWidget,
+        widget: ArrayWidget,
+        items: {
+            widget: TextAreaWidget,
+        },
     });
     render() {
         if (this.switch) {
@@ -209,7 +212,7 @@ export class AppRoot extends NonShadow {
                     Switch Value
                 </button>
                 <cdp-form-builder
-                    .schema=${this.schema3}
+                    .schema=${this.fileSchema}
                     @formChange=${e => {
                         console.log(e.detail);
                     }}

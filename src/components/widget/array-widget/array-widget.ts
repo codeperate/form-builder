@@ -104,14 +104,16 @@ export class CdpArrayWidget extends FormWidgetMixin(CmptType.ArrayWidget, NonSha
                 </div>
                 <div class="${
                     this.view
-                        ? 'cfb-flex children:cfb-bg-gray-100 cfb-gap-2 children:cfb-rounded-lg children:cfb-p-1 children:cfb-flex-wrap'
+                        ? 'cfb-flex children:cfb-bg-gray-100 cfb-gap-2 children:cfb-rounded-lg children:cfb-p-1 children:cfb-flex-wrap cfb-flex-wrap'
                         : 'cfb-grid cfb-grid-cols-6 des:cfb-grid-cols-12 cfb-gap-4 cfb-items-start'
                 }">
                     ${(this.value ?? []).map((_, i) => {
                         const { template, columns } = items.widget;
                         if (!items.hidden)
                             return html`<div
-                                class="${columnClass(columns)} cfb-grid cfb-gap-1 cfb-grid-cols-[1fr,min-content] cfb-items-start"
+                                class="${columnClass(
+                                    columns,
+                                )} cfb-grid cfb-gap-1 cfb-grid-cols-[1fr,min-content] cfb-items-start cfb-max-w-full"
                             >
                                 ${until(template({ path: [...this.path, i], form: this.form }))}
                                 ${this.mode === 'delete'
