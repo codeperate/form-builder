@@ -9,6 +9,7 @@ import { NonShadow } from './base-class/non-shadow.js';
 import { CdpFormBuilder } from './config.js';
 import './form-builder.config.js';
 import type { FormBuilderOption, FormSchema } from './form-builder.interface.js';
+import { deepClone } from './utils/deep-clone.util.js';
 import { lazySet } from './utils/lazy-set.utils.js';
 import { LocalStorage } from './utils/localstorage.util.js';
 const WIDGET_KEY = Symbol();
@@ -54,8 +55,13 @@ export class FormBuilder extends NonShadow {
     public getTarget() {
         return this.store.getTarget()?.value;
     }
-    public getValue(path: (string | number | symbol)[], { target }: { target?: boolean } = {}) {
+    public getValue(path: (string | number | symbol)[] = [], { target }: { target?: boolean } = {}) {
         return get(target ? this.store.getTarget() : this.store.state.value, [...path]);
+    }
+    public exportValue() {
+        const _value = deepClone(this.store.getTarget().value);
+        this.getWidgets().forEach(w => w.onExportValue(_value));
+        return _value;
     }
     public setValue(path: (string | number | symbol)[], value: any, option: { silence?: boolean } = {}) {
         if (option.silence) this.store.silence(() => lazySet(this.store.state, ['value', ...path], value));

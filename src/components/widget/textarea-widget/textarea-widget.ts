@@ -28,6 +28,9 @@ export class CdpTextAreaWidget extends FormWidgetMixin(CmptType.TextAreaWidget, 
             this.inputEl.style.height = Math.min(this.inputEl.scrollHeight, this.config.heightLimit) + 'px';
         }
     }
+    onExportValue(value: any): void {
+        console.log(value);
+    }
     render() {
         let { required } = this.schema;
         required = typeof required == 'function' ? required.bind(this)() : required;
