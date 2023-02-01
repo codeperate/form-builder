@@ -33,13 +33,15 @@ export class CdpNumberWidget extends FormWidgetMixin(CmptType.NumberWidget, NonS
             validatedClass = this.validatedMeta?.validity
                 ? /*tw*/ 'cfb-bg-valid-100 hover:cfb-bg-valid-200'
                 : /*tw*/ 'cfb-bg-danger-100 hover:cfb-bg-danger-200';
+        let isInteger = multipleOf == 1;
         return html`
             <input
                 .required=${required}
                 class="cfb-rounded-lg cfb-p-1.5 ${validatedClass} cfb-min-w-0 cfb-w-full cfb-appearance-none"
                 type="number"
-                min=${minimum}
-                max=${maximum}
+                min=${ifDefined(minimum)}
+                max=${ifDefined(maximum)}
+                inputmode="${ifDefined(isInteger ? 'numeric' : undefined)}"
                 @input=${e => {
                     this.setValue(e.target.valueAsNumber);
                     this.validate();

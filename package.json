@@ -1,6 +1,6 @@
 {
     "name": "@codeperate/form-builder",
-    "version": "0.4.5",
+    "version": "0.4.6",
     "main": "dist/index.js",
     "module": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -9,7 +9,7 @@
         "dist"
     ],
     "scripts": {
-        "dev": "vite",
+        "dev": "vite --host",
         "build": "del-cli dist && tsc -p tsconfig.build.json",
         "test": "echo 'test'",
         "release": "pnpm run build && npx np --no-cleanup --no-release-draft"

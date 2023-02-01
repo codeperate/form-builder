@@ -35,7 +35,7 @@ export class CdpDateWidget extends FormWidgetMixin(CmptType.DateWidget, NonShado
         return html`
             <input
                 .required=${required}
-                class="cfb-rounded-lg cfb-p-1.5 ${validatedClass} cfb-min-w-0 cfb-w-full cfb-appearance-none"
+                class="cfb-rounded-lg cfb-p-1.5 ${validatedClass} cfb-min-w-0 cfb-w-full cfb-appearance-none cfb-h-10"
                 type="date"
                 @input=${e => {
                     this.setValue(e.target.value);
