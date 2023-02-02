@@ -44,13 +44,14 @@ export class AppRoot extends NonShadow {
         {
             type: 'object',
             properties: {
-                boolean: { type: 'boolean' },
+                boolean: { type: 'boolean', hidden: true },
                 date: {
                     $ref: '#/components/Date',
                 },
                 enum: {
                     type: 'string',
                     enum: ['Y', 'N'],
+                    hidden:true
                 },
             },
             required: ['name'],
@@ -87,9 +88,13 @@ export class AppRoot extends NonShadow {
         config: {},
         widget: ObjectWidget,
         properties: {
+            dateTime2: {
+                widget: DateTimeWidget,
+            },
             name: {
                 label: 'asdasdasd',
                 widget: StringWidget,
+                hidden:true,
                 config: {
                     default: 'weurhuiehwr',
                 },
@@ -220,7 +225,7 @@ export class AppRoot extends NonShadow {
                     Switch Value
                 </button>
                 <cdp-form-builder
-                    .schema=${this.fileSchema}
+                    .schema=${this.schema}
                     @formChange=${e => {
                         console.log(e.detail);
                     }}

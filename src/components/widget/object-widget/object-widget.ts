@@ -23,11 +23,12 @@ export class CdpObjectWidget extends FormWidgetMixin(CmptType.ObjectWidget, NonS
                 key => {
                     let { label, required, hidden, columns } = this.schema.properties[key];
                     hidden = typeof hidden == 'function' ? hidden.bind(this)() : hidden;
+                    console.log(hidden)
                     required = typeof required == 'function' ? required.bind(this)() : required;
                     if (!this.schema.properties[key].widget) return;
                     const { template, columns: defaultColumns } = this.schema.properties[key].widget;
-                    if (!hidden)
-                        return html`<div class="${columnClass(columns ?? defaultColumns)} cfb-grid cfb-content-start">
+                    
+                        return html`<div class=" ${columnClass(columns ?? defaultColumns)} cfb-grid cfb-content-start ${hidden? 'cfb-hidden': ``}">
                             ${label === false
                                 ? ''
                                 : html`<label class="cfb-font-bold"
