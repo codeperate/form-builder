@@ -213,6 +213,7 @@ export class AppRoot extends NonShadow {
                 <button @click=${() => (this.view = !this.view)}>View</button>
                 <button @click=${() => console.log(this.formEl.getWidgets())}>GetWidgets</button>
                 <button @click=${() => console.log(this.formEl.getSchema())}>GetSchema</button>
+                <button @click=${() => console.log(this.formEl.exportValue())}>ExportValue</button>
                 <button @click=${() => console.log(this.formEl.load())}>Load History</button>
                 <button @click=${() => console.log(this.formEl.save())}>Save History</button>
                 <button @click=${() => (this.schema = this.schema2)}>Switch Schema</button>

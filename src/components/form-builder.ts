@@ -1,6 +1,6 @@
 import { Store } from '@codeperate/simple-store';
 import { Listener } from '@codeperate/simple-store/dist/listeners.js';
-import { deepAssign, get } from '@codeperate/utils';
+import { deepAssign, deepClone, get } from '@codeperate/utils';
 import { html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { until } from 'lit/directives/until.js';
@@ -54,8 +54,13 @@ export class FormBuilder extends NonShadow {
     public getTarget() {
         return this.store.getTarget()?.value;
     }
-    public getValue(path: (string | number | symbol)[], { target }: { target?: boolean } = {}) {
+    public getValue(path: (string | number | symbol)[] = [], { target }: { target?: boolean } = {}) {
         return get(target ? this.store.getTarget() : this.store.state.value, [...path]);
+    }
+    public exportValue() {
+        const _value = deepClone(this.store.getTarget().value);
+        this.getWidgets().forEach(w => w.onExportValue(_value));
+        return _value;
     }
     public setValue(path: (string | number | symbol)[], value: any, option: { silence?: boolean } = {}) {
         if (option.silence) this.store.silence(() => lazySet(this.store.state, ['value', ...path], value));

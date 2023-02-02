@@ -22,6 +22,7 @@ export interface IFormWidget<T = any> {
     config: T;
     view: boolean;
     validator(): ValidatedMeta;
+    onExportValue(value: any): void;
     setValue(value: any, option?: { silence?: boolean }): void;
     updateValue(): void;
     validate(): ValidatedMeta | undefined;
@@ -93,6 +94,9 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
         disconnectedCallback(): void {
             this.form.unRegWidget(this.path);
             this.unsubscribe();
+        }
+        onExportValue() {
+            return;
         }
     }
     return FormWidget as T & Class<IFormWidget<ConfigType<K>>>;
