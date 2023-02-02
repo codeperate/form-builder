@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@codeperate/simple-store': ^2.1.4
-  '@codeperate/utils': ^1.0.21
+  '@codeperate/utils': ^1.1.1
   '@types/json-schema': ^7.0.11
   autoprefixer: ^10.4.13
   del-cli: ^5.0.0
@@ -14,7 +14,7 @@ specifiers:
 
 devDependencies:
   '@codeperate/simple-store': 2.1.4
-  '@codeperate/utils': 1.0.21
+  '@codeperate/utils': 1.1.1
   '@types/json-schema': 7.0.11
   autoprefixer: 10.4.13_postcss@8.4.20
   del-cli: 5.0.0
@@ -50,11 +50,11 @@ packages:
   /@codeperate/simple-store/2.1.4:
     resolution: {integrity: sha512-yWpEDKvF4nA+WuRYpYQlGMKi6+SNLlpIqUvb4+/FgOn3TQYPs8s8oyKcfvORRza5guF7u3oznMQuspVuFrYN9A==}
     dependencies:
-      '@codeperate/utils': 1.0.21
+      '@codeperate/utils': 1.1.1
     dev: true
 
-  /@codeperate/utils/1.0.21:
-    resolution: {integrity: sha512-8JZ+4yug0CKn0db1k2ALXIkN+YAKSrgf36WFvTor+cA1d9M7xgJBf8uM+HTbpq1PSvQceHrRBgCyZ4yQFs0Qdw==}
+  /@codeperate/utils/1.1.1:
+    resolution: {integrity: sha512-1zemILWn02MKr7EWWpjdSol2mR3ZWJybpjOke9CaFvMpjxyPrBJb3NwbCvs/lm1bbhyIjT9HyUlXhW/KS+VTeQ==}
     dependencies:
       ts-toolbelt: 9.6.0
     dev: true

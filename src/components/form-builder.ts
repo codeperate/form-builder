@@ -1,6 +1,6 @@
 import { Store } from '@codeperate/simple-store';
 import { Listener } from '@codeperate/simple-store/dist/listeners.js';
-import { deepAssign, get } from '@codeperate/utils';
+import { deepAssign, deepClone, get } from '@codeperate/utils';
 import { html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { until } from 'lit/directives/until.js';
@@ -9,7 +9,6 @@ import { NonShadow } from './base-class/non-shadow.js';
 import { CdpFormBuilder } from './config.js';
 import './form-builder.config.js';
 import type { FormBuilderOption, FormSchema } from './form-builder.interface.js';
-import { deepClone } from './utils/deep-clone.util.js';
 import { lazySet } from './utils/lazy-set.utils.js';
 import { LocalStorage } from './utils/localstorage.util.js';
 const WIDGET_KEY = Symbol();
