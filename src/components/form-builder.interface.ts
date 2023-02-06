@@ -13,7 +13,7 @@ export type FormSchema<T extends { properties?; widget?; items? } = any, C = unk
         [Key in symbol]: FormSchema<T['properties'][Key]>;
     };
     widget?: IWidget;
-    validate?: boolean;
+    validate?: boolean | ((this: FormBuilder | IFormWidget) => boolean);
     validateFn?: (value: any, extra: { form: FormBuilder; defaultValidator: () => ValidatedMeta }) => ValidatedMeta;
     targetPath?: (string | symbol | number)[];
     view?: boolean;

@@ -129,9 +129,11 @@ export class FormBuilder extends NonShadow {
             scrollToInvalidWidget: true,
         };
         Object.assign(option, defaultOption);
-        const result = this.getWidgets().map(w => w.validate());
+        const result = this.getWidgets()
+            .map(w => w.validate())
+            .filter(r => r);
         if (option.scrollToInvalidWidget) {
-            let invalidField = result.find(r => r.validity == false);
+            let invalidField = result.find(r => r?.validity == false);
             if (invalidField) {
                 this.getWidgets(invalidField.path)[0].scrollIntoView({ behavior: 'smooth' });
             }

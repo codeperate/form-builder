@@ -62,7 +62,8 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
         }
         validate() {
             let result;
-            const { validate } = this.schema;
+            let { validate } = this.schema;
+            validate = typeof validate == 'function' ? validate.bind(this)() : validate;
             if (!this.view && (validate ?? true)) {
                 if (this.schema.validateFn)
                     result = this.schema.validateFn.bind(this)(this.value, {
