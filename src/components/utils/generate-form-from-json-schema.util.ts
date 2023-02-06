@@ -34,7 +34,7 @@ export function GenerateFormFromJSONSchema<J extends CustomJSONSchema<J, M>, M e
             js = { ...schema, ...j };
         }
 
-        let type = Array.isArray(js.type) ? js.type[0] : js.type;
+        let type = Array.isArray(js.type) ? js.type.find(t => t != 'null') : js.type;
         if (js['x-cdp-widget-type']) type = js['x-cdp-widget-type'] as any;
         let format = js.format ?? 'default';
         if (!mapper[type]) throw new Error(`Type:${type} does not exist`);
