@@ -25,6 +25,7 @@ export interface IFormWidget<T = any> {
     onExportValue(value: any): void;
     setValue(value: any, option?: { silence?: boolean }): void;
     updateValue(): void;
+    isHidden(): boolean;
     validate(): ValidatedMeta | undefined;
     undoValidate(): void;
     connectedCallback(): void;
@@ -91,6 +92,11 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
                 this.schema.config ?? {},
             );
             this.updateValue();
+        }
+        isHidden() {
+            let hidden = this.schema?.hidden;
+            if (hidden) return typeof hidden == 'function' ? hidden.bind(this)() : hidden;
+            return false;
         }
         disconnectedCallback(): void {
             this.form.unRegWidget(this.path);

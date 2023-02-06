@@ -130,6 +130,7 @@ export class FormBuilder extends NonShadow {
         };
         Object.assign(option, defaultOption);
         const result = this.getWidgets()
+            .filter(w => !w.isHidden())
             .map(w => w.validate())
             .filter(r => r);
         if (option.scrollToInvalidWidget) {
