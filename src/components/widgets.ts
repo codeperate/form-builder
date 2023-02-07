@@ -26,7 +26,7 @@ export const ObjectWidget: IWidget<ObjectWidgetConfig> = {
     jsonSchemaConverter: (formSchema, jsonSchema) => {
         if (jsonSchema.required) {
             for (const r of jsonSchema.required) {
-                if (formSchema.properties && r in formSchema.properties) formSchema.properties[r].required = true;
+                if (formSchema.properties && r in formSchema.properties) formSchema.properties[r].required ??= true;
             }
         }
     },
@@ -44,7 +44,7 @@ export const StringWidget: IWidget<StringWidgetConfig> = {
         formSchema.config.maxLength ??= jsonSchema.maxLength;
         formSchema.config.minLength ??= jsonSchema.minLength;
         formSchema.config.enum ??= jsonSchema.enum as string[];
-        formSchema.config.enumMapper = {...formSchema.config.enumMapper, ...jsonSchema['x-cdp-enum-mapper']}
+        formSchema.config.enumMapper = { ...formSchema.config.enumMapper, ...jsonSchema['x-cdp-enum-mapper'] };
         if (jsonSchema.format == 'email') formSchema.config.type ??= 'email';
     },
     columns: 6,
