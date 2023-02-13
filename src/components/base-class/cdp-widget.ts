@@ -23,6 +23,7 @@ export interface IFormWidget<T = any> {
     view: boolean;
     validator(): ValidatedMeta;
     onExportValue(value: any): void;
+    onLoadHistory(): void;
     setValue(value: any, option?: { silence?: boolean }): void;
     updateValue(): void;
     isHidden(): boolean;
@@ -101,6 +102,9 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
         disconnectedCallback(): void {
             this.form.unRegWidget(this.path);
             this.unsubscribe();
+        }
+        onLoadHistory() {
+            return;
         }
         onExportValue() {
             return;
