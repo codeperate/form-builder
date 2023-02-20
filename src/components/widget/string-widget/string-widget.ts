@@ -72,7 +72,8 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
                 class="cfb-rounded-lg cfb-p-1.5 ${validatedClass} cfb-min-w-0 cfb-w-full cfb-appearance-none"
                 .type=${type}
                 @input=${e => {
-                    this.setValue(e.target.value);
+                    if (typeof e.target.value == 'string' && e.target.value.trim().length == 0) this.setValue(undefined);
+                    else this.setValue(e.target.value);
                     this.validate();
                 }}
                 .value=${this.value || ''}
