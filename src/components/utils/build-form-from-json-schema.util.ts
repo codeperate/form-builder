@@ -86,26 +86,26 @@ export function buildFormFromJSONSchema<
         j: CustomJSONSchema,
         callback: (formSchema: FormSchema<any>, jsonSchema: CustomJSONSchema) => void,
     ) {
-        callback(f, j);
+        let deRefedJS = j;
+        if (j.$ref) {
+            let pathArr = j.$ref.split('/');
+            pathArr.shift();
+            const schema = get(option.refSchema, pathArr) ?? {};
+            deRefedJS = schema;
+        }
+        callback(f, deRefedJS);
         if (f.properties) {
             for (const key of Object.keys(f.properties)) {
-                iterateFormSchema(f.properties[key], j?.['properties']?.[key], callback);
+                iterateFormSchema(f.properties[key], deRefedJS?.properties?.[key], callback);
             }
         } else if (f.items) {
-            iterateFormSchema(f.items, j?.['items'], callback);
+            iterateFormSchema(f.items, deRefedJS?.['items'], callback);
         }
     }
     let mapper = option.mapper ?? defaultTypeMapper;
     iterateFormSchema(formSchema, jsonSchema, (f, j) => {
         let js = j;
         if (!js || f.widget != null) return;
-        if (js.$ref) {
-            let pathArr = j.$ref.split('/');
-            pathArr.shift();
-            const schema = get(option.refSchema, pathArr) ?? {};
-            js = { ...schema, ...j };
-        }
-
         let type = Array.isArray(js.type) ? js.type.find(t => t != 'null') : js.type;
         if (js['x-cdp-widget-type']) type = js['x-cdp-widget-type'] as any;
         let format = js.format ?? 'default';

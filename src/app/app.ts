@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { customElement, query, state } from 'lit/decorators.js';
 import { NonShadow } from '../components/base-class/non-shadow';
 import { FormBuilder } from '../components/form-builder';
-import { buildForm, CdpFormBuilder } from '../components/index.js';
+import { buildForm, buildFormFromJSONSchema, CdpFormBuilder } from '../components/index.js';
 import { GenerateFormFromJSONSchema } from '../components/utils/generate-form-from-json-schema.util.js';
 import {
     ArrayWidget,
@@ -51,7 +51,7 @@ export class AppRoot extends NonShadow {
                 enum: {
                     type: 'string',
                     enum: ['Y', 'N'],
-                    hidden:true
+                    hidden: true,
                 },
             },
             required: ['name'],
@@ -94,7 +94,7 @@ export class AppRoot extends NonShadow {
             name: {
                 label: 'asdasdasd',
                 widget: StringWidget,
-                hidden:true,
+                hidden: true,
                 config: {
                     default: 'weurhuiehwr',
                 },
@@ -201,7 +201,31 @@ export class AppRoot extends NonShadow {
             asd: { widget: NumberWidget, config: { multipleOf: 1 } },
         },
     });
+    schema4 = buildFormFromJSONSchema(
+        {
+            label: 'Address',
+            properties: {
+                address: {
+                    label: 'Address2',
+                    properties: {
+                        flat: { label: 'Flat' },
+                    },
+                },
+            },
+        },
+        {
+            type: 'object',
+            properties: {
+                address: {
+                    $ref: '#/components/Address',
+                },
+            },
+            required: ['name'],
+        },
+        { refSchema: { components: { Address: { type: 'object', properties: { flat: { type: 'string' } } } } } },
+    );
     render() {
+        console.log(this.schema4);
         if (this.switch) {
             return html` <button @click=${() => (this.switch = false)}>Click</button>`;
         }
@@ -226,7 +250,7 @@ export class AppRoot extends NonShadow {
                     Switch Value
                 </button>
                 <cdp-form-builder
-                    .schema=${this.schema}
+                    .schema=${this.schema4}
                     @formChange=${e => {
                         console.log(e.detail);
                     }}
