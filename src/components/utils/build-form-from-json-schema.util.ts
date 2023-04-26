@@ -91,7 +91,7 @@ export function buildFormFromJSONSchema<
             let pathArr = j.$ref.split('/');
             pathArr.shift();
             const schema = get(option.refSchema, pathArr) ?? {};
-            deRefedJS = schema;
+            deRefedJS = { ...schema };
         }
         callback(f, deRefedJS);
         if (f.properties) {
