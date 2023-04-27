@@ -109,10 +109,10 @@ export function buildFormFromJSONSchema<
         let type = Array.isArray(js.type) ? js.type.find(t => t != 'null') : js.type;
         if (js['x-cdp-widget-type']) type = js['x-cdp-widget-type'] as any;
         let format = js.format ?? 'default';
-        //if (!mapper[type]) throw new Error(`Type:${type} does not exist`);
-        //if (!mapper[type][format]) throw new Error(`Format:${format} does not exist`);
-        f.widget = mapper?.[type]?.[format];
-        f?.widget?.jsonSchemaConverter?.(f, js);
+        if (!mapper[type]) throw new Error(`Type:${type} does not exist`);
+        if (!mapper[type][format]) throw new Error(`Format:${format} does not exist`);
+        f.widget = mapper[type][format];
+        f.widget.jsonSchemaConverter?.(f, js);
     });
     return formSchema;
 }
