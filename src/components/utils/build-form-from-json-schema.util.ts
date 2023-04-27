@@ -112,7 +112,7 @@ export function buildFormFromJSONSchema<
         //if (!mapper[type]) throw new Error(`Type:${type} does not exist`);
         //if (!mapper[type][format]) throw new Error(`Format:${format} does not exist`);
         f.widget = mapper?.[type]?.[format];
-        f.widget.jsonSchemaConverter?.(f, js);
+        f?.widget?.jsonSchemaConverter?.(f, js);
     });
     return formSchema;
 }
