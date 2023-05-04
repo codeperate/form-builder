@@ -55,7 +55,7 @@ export class FormBuilder extends NonShadow {
         return this.store.getTarget()?.value;
     }
     public getValue(path: (string | number | symbol)[] = [], { target }: { target?: boolean } = {}) {
-        return get(target ? this.store.getTarget() : this.store.state.value, [...path]);
+        return get(target ? this.getTarget() : this.store.state.value, [...path]);
     }
     public exportValue() {
         const _value = deepClone(this.store.getTarget().value);
