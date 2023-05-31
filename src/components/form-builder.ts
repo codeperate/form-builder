@@ -1,7 +1,7 @@
 import { Store } from '@codeperate/simple-store';
 import { Listener } from '@codeperate/simple-store/dist/listeners.js';
-import { deepAssign, deepClone, get } from '@codeperate/utils';
-import { html, LitElement } from 'lit';
+import { deepAssign, deepCloneJSON, get } from '@codeperate/utils';
+import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { until } from 'lit/directives/until.js';
 import { IFormWidget } from './base-class/cdp-widget.js';
@@ -59,10 +59,10 @@ export class FormBuilder extends NonShadow {
         return this.store.getTarget()?.value;
     }
     public getValue(path: (string | number | symbol)[] = [], { target }: { target?: boolean } = {}) {
-        return get(target ? this.store.getTarget() : this.store.state.value, [...path]);
+        return get(target ? this.getTarget() : this.store.state.value, [...path]);
     }
     public exportValue() {
-        const _value = deepClone(this.store.getTarget().value);
+        const _value = deepCloneJSON(this.store.getTarget().value);
         this.getWidgets().forEach(w => w.onExportValue(_value));
         return _value;
     }
