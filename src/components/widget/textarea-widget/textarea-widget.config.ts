@@ -10,7 +10,7 @@ export type TextAreaWidgetConfig = {
     heightLimit?: number;
 };
 
-CdpFormBuilder.setDefaultConfig(c => c.TextAreaWidget, {
+CdpFormBuilder.setDefaultConfig(c => c.widgets.TextAreaWidget, {
     empty: 'N/A',
     rows: 5,
     autoExpandHeight: true,
