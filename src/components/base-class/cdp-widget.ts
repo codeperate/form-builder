@@ -1,7 +1,8 @@
 import { deepAssign } from '@codeperate/utils';
 import { LitElement } from 'lit';
 import { property, state } from 'lit/decorators.js';
-import { CdpFormBuilder, ConfigType } from '../config';
+import { CdpFormBuilder } from '../config';
+import type { ConfigType } from '../config';
 import { FormBuilder } from '../form-builder';
 import { FormSchema } from '../form-builder.interface.js';
 import { Class } from '../type/class';
@@ -31,6 +32,7 @@ export interface IFormWidget<T = any> {
     undoValidate(): void;
     connectedCallback(): void;
     disconnectedCallback(): void;
+    loadSchemaConfig(): void;
 }
 
 export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(name: K, superClass: T) {
@@ -45,7 +47,7 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
         @state() isValidated: boolean;
         @state() validatedMeta: ValidatedMeta | undefined;
         unsubscribe: Function;
-        config: ConfigType<K>;
+        @state() config: ConfigType<K>;
 
         get view() {
             return this.schema.view ?? this.form.view;
@@ -88,11 +90,14 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
             this.unsubscribe = this.form.onChange(this.path, (v, pv) => {
                 this.value = pv || v;
             });
+            this.loadSchemaConfig();
+            this.updateValue();
+        }
+        loadSchemaConfig() {
             this.config = deepAssign(
                 CdpFormBuilder.getConfig(o => o[name]),
                 this.schema.config ?? {},
             );
-            this.updateValue();
         }
         isHidden() {
             let hidden = this.schema?.hidden;

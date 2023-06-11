@@ -38,10 +38,14 @@ export class FormBuilder extends NonShadow {
         if (c.has('value')) {
             this.setValue([], this.value, { silence: true });
         }
+        if (c.has('schema')) {
+            this.getWidgets().forEach(w => w.loadSchemaConfig());
+        }
     }
     updated(c) {
         super.updated(c);
     }
+
     public getSchema(path: (string | number | symbol)[] = []) {
         let curPos = this.schema;
         for (const p of path) {
