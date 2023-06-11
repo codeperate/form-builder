@@ -7,6 +7,6 @@ export type PasswordWidgetConfig = {
     empty?: string;
 };
 
-CdpFormBuilder.setDefaultConfig(c => c.PasswordWidget, {
+CdpFormBuilder.setDefaultConfig(c => c.widgets.PasswordWidget, {
     empty: '*************',
 });

@@ -5,6 +5,6 @@ export type DateWidgetConfig = {
     empty?: string;
 };
 
-CdpFormBuilder.setDefaultConfig(c => c.DateWidget, {
+CdpFormBuilder.setDefaultConfig(c => c.widgets.DateWidget, {
     empty: 'N/A',
 });

@@ -11,16 +11,26 @@ import { ObjectWidgetConfig } from './widget/object-widget/object-widget.config'
 import { PasswordWidgetConfig } from './widget/password-widget/password-widget.config.js';
 import { StringWidgetConfig } from './widget/string-widget/string-widget.config';
 import { TextAreaWidgetConfig } from './widget/textarea-widget/textarea-widget.config.js';
-export type FormBuilderConfig = CmptConfig;
+import { JSONSchemaTypeMapper, defaultTypeMapper } from './utils/build-form-from-json-schema.util.js';
+export type FormBuilderConfig = {
+    widgets: CmptConfig;
+    formBuilder: FormBuilderOption;
+    enums: {
+        [key: string]: { [key: string]: string };
+    };
+    typeMapper: JSONSchemaTypeMapper;
+};
 
-const config = {};
+const config = {
+    typeMapper: defaultTypeMapper,
+} as DeepPartial<FormBuilderConfig>;
 export namespace CdpFormBuilder {
     export function setConfig<C>(path: (obj: FormBuilderConfig) => C, value: C) {
         return safeSet(config, path, value);
     }
-    export function setDefaultConfig<C>(path: (obj: FormBuilderConfig) => C, value: C){
-        const currentConfig=CdpFormBuilder.getConfig(path)??{}
-        CdpFormBuilder.setConfig(path,deepAssign(value, currentConfig))
+    export function setDefaultConfig<C>(path: (obj: FormBuilderConfig) => C, value: C) {
+        const currentConfig = CdpFormBuilder.getConfig(path) ?? {};
+        CdpFormBuilder.setConfig(path, deepAssign(value, currentConfig));
     }
     export function getConfig<C>(path: (obj: FormBuilderConfig) => C) {
         return safeGet(config, path);
@@ -33,7 +43,6 @@ export namespace CdpFormBuilder {
 
 export enum CmptType {
     FileWidget = 'FileWidget',
-    FormBuilder = 'FormBuilder',
     ObjectWidget = 'ObjectWidget',
     StringWidget = 'StringWidget',
     TextAreaWidget = 'TextAreaWidget',
@@ -43,11 +52,9 @@ export enum CmptType {
     NumberWidget = 'NumberWidget',
     DataViewerWidget = 'DataViewerWidget',
     BooleanWidget = 'BooleanWidget',
-    EnumMapper = 'EnumMapper',
     PasswordWidget = 'PasswordWidget',
 }
 export interface CmptConfig {
-    [CmptType.FormBuilder]: FormBuilderOption;
     [CmptType.ObjectWidget]: ObjectWidgetConfig;
     [CmptType.StringWidget]: StringWidgetConfig;
     [CmptType.ArrayWidget]: ArrayWidgetConfig;
@@ -57,7 +64,6 @@ export interface CmptConfig {
     [CmptType.DateTimeWidget]: DateTimeWidgetConfig;
     [CmptType.BooleanWidget]: BooleanWidgetConfig;
     [CmptType.NumberWidget]: NumberWidgetConfig;
-    [CmptType.EnumMapper]: Record<string,string> | {[key:string]:string}
     [CmptType.FileWidget]: FileWidgetConfig;
     [CmptType.PasswordWidget]: PasswordWidgetConfig;
     [key: string]: any;

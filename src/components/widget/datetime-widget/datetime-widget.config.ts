@@ -9,7 +9,7 @@ export type DateTimeWidgetConfig = {
     };
 };
 
-CdpFormBuilder.setDefaultConfig(c => c.DateTimeWidget, {
+CdpFormBuilder.setDefaultConfig(c => c.widgets.DateTimeWidget, {
     empty: 'N/A',
     view: {
         template: s => (s ? new Date(s).toLocaleString() : undefined),

@@ -14,7 +14,7 @@ export interface ArrayWidgetConfig {
 }
 
 export type ArrayWidgetMode = 'delete' | 'move' | 'default';
-CdpFormBuilder.setDefaultConfig(o => o.ArrayWidget, {
+CdpFormBuilder.setDefaultConfig(o => o.widgets.ArrayWidget, {
     addable: true,
     deletable: true,
     movable: true,

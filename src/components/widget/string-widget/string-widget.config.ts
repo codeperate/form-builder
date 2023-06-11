@@ -7,13 +7,15 @@ export type StringWidgetConfig = {
     pattern?: string | RegExp;
     empty?: string;
     enum?: string[];
-    enumMapper?: {[key:string]:string} | Record<string,string>;
+    enumMapperKey?: string;
+    enumMapper?: { [key: string]: string } | Record<string, string>;
     selectText?: string;
     type?: string;
 };
 
-CdpFormBuilder.setDefaultConfig(c => c.StringWidget, {
+CdpFormBuilder.setDefaultConfig(c => c.widgets.StringWidget, {
     empty: 'N/A',
     selectText: 'Please Select',
     type: 'text',
+    enumMapperKey: 'default',
 });

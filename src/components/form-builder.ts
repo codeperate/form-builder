@@ -27,7 +27,7 @@ export class FormBuilder extends NonShadow {
     connectedCallback() {
         super.connectedCallback();
         this._config = deepAssign(
-            CdpFormBuilder.getConfig(o => o.FormBuilder),
+            CdpFormBuilder.getConfig(o => o.formBuilder),
             this.config,
         );
         this.store = new Store({ value: this.value });

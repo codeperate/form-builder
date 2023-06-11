@@ -11,6 +11,7 @@ import {
     StringWidget,
     TextAreaWidget,
 } from '../widgets';
+import { CdpFormBuilder } from '../config.js';
 type ExtractT<A> = A extends any[] ? A[number] : A;
 export type ConfigByJSONSchema<
     T extends FormSchemaFromJSONSchema<T, J, M>,
@@ -103,7 +104,7 @@ export function buildFormFromJSONSchema<
             iterateFormSchema(f.items, deRefedJS?.['items'], callback);
         }
     }
-    let mapper = option.mapper ?? defaultTypeMapper;
+    let mapper = option.mapper ?? CdpFormBuilder.getConfig(c => c.typeMapper);
     iterateFormSchema(formSchema, jsonSchema, (f, j) => {
         let js = j;
         if (!js || f.widget != null) return;

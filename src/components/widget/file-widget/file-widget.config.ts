@@ -14,7 +14,7 @@ export type FileWidgetConfig = {
     uploadFn?: (this: CdpFileWidget, file: File, progress: (percentage: number) => void) => Promise<any>;
 };
 
-CdpFormBuilder.setDefaultConfig(c => c.FileWidget, {
+CdpFormBuilder.setDefaultConfig(c => c.widgets.FileWidget, {
     empty: 'N/A',
     fileSizeBytesLimit: 5242880,
     fileNumberLimit: 5,
