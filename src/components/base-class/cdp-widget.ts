@@ -95,7 +95,7 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
         }
         loadSchemaConfig() {
             this.config = deepAssign(
-                CdpFormBuilder.getConfig(o => o[name]),
+                CdpFormBuilder.getConfig(o => o.widgets[name]),
                 this.schema.config ?? {},
             );
         }
