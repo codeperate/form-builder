@@ -11,7 +11,17 @@ import { ObjectWidgetConfig } from './widget/object-widget/object-widget.config'
 import { PasswordWidgetConfig } from './widget/password-widget/password-widget.config.js';
 import { StringWidgetConfig } from './widget/string-widget/string-widget.config';
 import { TextAreaWidgetConfig } from './widget/textarea-widget/textarea-widget.config.js';
-import { JSONSchemaTypeMapper, defaultTypeMapper } from './utils/build-form-from-json-schema.util.js';
+import { JSONSchemaTypeMapper } from './utils/build-form-from-json-schema.util.js';
+import {
+    ArrayWidget,
+    BooleanWidget,
+    DateTimeWidget,
+    DateWidget,
+    NumberWidget,
+    ObjectWidget,
+    StringWidget,
+    TextAreaWidget,
+} from './widgets.js';
 export type FormBuilderConfig = {
     widgets: CmptConfig;
     formBuilder: FormBuilderOption;
@@ -21,6 +31,27 @@ export type FormBuilderConfig = {
     typeMapper: JSONSchemaTypeMapper;
 };
 
+export const defaultTypeMapper = {
+    string: { 'default': StringWidget, 'date': DateWidget, 'date-time': DateTimeWidget, 'email': StringWidget },
+    number: {
+        default: NumberWidget,
+    },
+    integer: {
+        default: NumberWidget,
+    },
+    object: {
+        default: ObjectWidget,
+    },
+    array: {
+        default: ArrayWidget,
+    },
+    boolean: {
+        default: BooleanWidget,
+    },
+    textarea: {
+        default: TextAreaWidget,
+    },
+};
 let config = {
     typeMapper: defaultTypeMapper,
 } as DeepPartial<FormBuilderConfig>;

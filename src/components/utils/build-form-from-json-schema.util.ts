@@ -1,17 +1,7 @@
 import { get } from '@codeperate/utils';
-import { CdpFormBuilder } from '../config.js';
+import { CdpFormBuilder, defaultTypeMapper } from '../config.js';
 import { FormSchema, IWidget } from '../form-builder.interface.js';
 import { CustomJSONSchema } from '../type/custom-json-schema';
-import {
-    ArrayWidget,
-    BooleanWidget,
-    DateTimeWidget,
-    DateWidget,
-    NumberWidget,
-    ObjectWidget,
-    StringWidget,
-    TextAreaWidget,
-} from '../widgets';
 type ExtractT<A> = A extends any[] ? A[number] : A;
 export type ConfigByJSONSchema<
     T extends FormSchemaFromJSONSchema<T, J, M>,
@@ -49,27 +39,6 @@ export interface JSONSchemaTypeMapper {
     [key: string]: WidgetByFormat;
 }
 
-export const defaultTypeMapper = {
-    string: { 'default': StringWidget, 'date': DateWidget, 'date-time': DateTimeWidget, 'email': StringWidget },
-    number: {
-        default: NumberWidget,
-    },
-    integer: {
-        default: NumberWidget,
-    },
-    object: {
-        default: ObjectWidget,
-    },
-    array: {
-        default: ArrayWidget,
-    },
-    boolean: {
-        default: BooleanWidget,
-    },
-    textarea: {
-        default: TextAreaWidget,
-    },
-};
 export function buildFormFromJSONSchema<
     T extends FormSchemaFromJSONSchema<T, J, M>,
     J extends CustomJSONSchema<J, M>,
