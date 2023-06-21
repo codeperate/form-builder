@@ -21,12 +21,13 @@ export type FormBuilderConfig = {
     typeMapper: JSONSchemaTypeMapper;
 };
 
-const config = {
+let config = {
     typeMapper: defaultTypeMapper,
 } as DeepPartial<FormBuilderConfig>;
 export namespace CdpFormBuilder {
     export function setConfig<C>(path: (obj: FormBuilderConfig) => C, value: C) {
-        return safeSet(config, path, value);
+        config = safeSet(config, path, value);
+        return config;
     }
     export function setDefaultConfig<C>(path: (obj: FormBuilderConfig) => C, value: C) {
         const currentConfig = CdpFormBuilder.getConfig(path) ?? {};

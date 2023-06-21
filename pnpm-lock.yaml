@@ -1,12 +1,16 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 devDependencies:
   '@codeperate/simple-store':
     specifier: ^2.1.4
     version: 2.1.4
   '@codeperate/utils':
-    specifier: ^1.1.1
-    version: 1.1.1
+    specifier: ^1.1.4
+    version: 1.1.4
   '@types/json-schema':
     specifier: ^7.0.11
     version: 7.0.11
@@ -58,11 +62,12 @@ packages:
   /@codeperate/simple-store@2.1.4:
     resolution: {integrity: sha512-yWpEDKvF4nA+WuRYpYQlGMKi6+SNLlpIqUvb4+/FgOn3TQYPs8s8oyKcfvORRza5guF7u3oznMQuspVuFrYN9A==}
     dependencies:
-      '@codeperate/utils': 1.1.1
+      '@codeperate/utils': 1.1.4
     dev: true
 
-  /@codeperate/utils@1.1.1:
-    resolution: {integrity: sha512-1zemILWn02MKr7EWWpjdSol2mR3ZWJybpjOke9CaFvMpjxyPrBJb3NwbCvs/lm1bbhyIjT9HyUlXhW/KS+VTeQ==}
+  /@codeperate/utils@1.1.4:
+    resolution: {integrity: sha512-rwEYWnzBhJYpkNA2TFlHkCDVNR/wbPSJWHOOyInCMYWkSFQWnWKbE73owzCK1R1tq/ztf/FvozdyXIxsA+0A5A==}
+    engines: {node: '>=16'}
     dependencies:
       ts-toolbelt: 9.6.0
     dev: true

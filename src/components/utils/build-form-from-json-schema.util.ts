@@ -1,4 +1,5 @@
 import { get } from '@codeperate/utils';
+import { CdpFormBuilder } from '../config.js';
 import { FormSchema, IWidget } from '../form-builder.interface.js';
 import { CustomJSONSchema } from '../type/custom-json-schema';
 import {
@@ -11,7 +12,6 @@ import {
     StringWidget,
     TextAreaWidget,
 } from '../widgets';
-import { CdpFormBuilder } from '../config.js';
 type ExtractT<A> = A extends any[] ? A[number] : A;
 export type ConfigByJSONSchema<
     T extends FormSchemaFromJSONSchema<T, J, M>,
