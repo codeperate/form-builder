@@ -1,5 +1,5 @@
 import { get } from '@codeperate/utils';
-import { CdpFormBuilder, defaultTypeMapper } from '../config.js';
+import { CdpFormBuilder, DefaultTypeMapper } from '../config.js';
 import { FormSchema, IWidget } from '../form-builder.interface.js';
 import { CustomJSONSchema } from '../type/custom-json-schema';
 type ExtractT<A> = A extends any[] ? A[number] : A;
@@ -42,7 +42,7 @@ export interface JSONSchemaTypeMapper {
 export function buildFormFromJSONSchema<
     T extends FormSchemaFromJSONSchema<T, J, M>,
     J extends CustomJSONSchema<J, M>,
-    M extends JSONSchemaTypeMapper = typeof defaultTypeMapper,
+    M extends JSONSchemaTypeMapper = typeof DefaultTypeMapper,
 >(
     formSchema: T,
     jsonSchema: J,

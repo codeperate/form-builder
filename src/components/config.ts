@@ -31,7 +31,7 @@ export type FormBuilderConfig = {
     typeMapper: JSONSchemaTypeMapper;
 };
 
-export const defaultTypeMapper = {
+export const DefaultTypeMapper = {
     string: { 'default': StringWidget, 'date': DateWidget, 'date-time': DateTimeWidget, 'email': StringWidget },
     number: {
         default: NumberWidget,
@@ -53,7 +53,7 @@ export const defaultTypeMapper = {
     },
 };
 let config = {
-    typeMapper: defaultTypeMapper,
+    typeMapper: DefaultTypeMapper,
 } as DeepPartial<FormBuilderConfig>;
 export namespace CdpFormBuilder {
     export function setConfig<C>(path: (obj: FormBuilderConfig) => C, value: C) {
