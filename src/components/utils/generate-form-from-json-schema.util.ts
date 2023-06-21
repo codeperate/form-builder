@@ -1,9 +1,10 @@
 import { get } from '@codeperate/utils';
 import { FormSchema } from '../form-builder.interface.js';
 import { CustomJSONSchema } from '../type/custom-json-schema';
-import { defaultTypeMapper, JSONSchemaTypeMapper } from './build-form-from-json-schema.util.js';
+import { JSONSchemaTypeMapper } from './build-form-from-json-schema.util.js';
+import { CdpFormBuilder, DefaultTypeMapper } from '../config.js';
 
-export function GenerateFormFromJSONSchema<J extends CustomJSONSchema<J, M>, M extends JSONSchemaTypeMapper = typeof defaultTypeMapper>(
+export function GenerateFormFromJSONSchema<J extends CustomJSONSchema<J, M>, M extends JSONSchemaTypeMapper = typeof DefaultTypeMapper>(
     jsonSchema: J,
     option: {
         mapper?: M;
@@ -23,7 +24,7 @@ export function GenerateFormFromJSONSchema<J extends CustomJSONSchema<J, M>, M e
         }
         return result;
     }
-    let mapper = option.mapper ?? defaultTypeMapper;
+    let mapper = option.mapper ?? CdpFormBuilder.getConfig(c => c.typeMapper);
     let result = iterateFormSchema(jsonSchema, j => {
         let result: FormSchema = {};
         let js = j;
