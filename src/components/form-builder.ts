@@ -79,12 +79,18 @@ export class FormBuilder extends NonShadow {
             }
             currentNode = currentNode[key];
         }
-        if (!currentNode[WIDGET_KEY]) {
+        if (currentNode[WIDGET_KEY] == null) {
             this.widgetCount++;
+            currentNode[WIDGET_KEY] = [widget];
+        } else if (Array.isArray(currentNode[WIDGET_KEY])) {
+            const found = currentNode[WIDGET_KEY].find(w => w == widget);
+            if (!found) {
+                currentNode[WIDGET_KEY].push(widget);
+                this.widgetCount++;
+            }
         }
-        currentNode[WIDGET_KEY] = widget;
     }
-    public unRegWidget(path: (string | number | symbol)[]) {
+    public unRegWidget(path: (string | number | symbol)[], widget: any) {
         let currentNode = this.widgetRecord;
         for (const key of path) {
             if (!currentNode[key]) {
@@ -93,9 +99,13 @@ export class FormBuilder extends NonShadow {
 
             currentNode = currentNode[key];
         }
-        if (currentNode[WIDGET_KEY]) {
-            delete currentNode[WIDGET_KEY];
-            this.widgetCount--;
+        if (Array.isArray(currentNode[WIDGET_KEY])) {
+            const found = currentNode[WIDGET_KEY].find(w => w == widget);
+            if (found) {
+                currentNode[WIDGET_KEY] = currentNode[WIDGET_KEY].filter(w => w == widget);
+                if (currentNode[WIDGET_KEY].length == 0) delete currentNode[WIDGET_KEY];
+                this.widgetCount--;
+            }
         }
     }
     public getWidgets(path?: (string | symbol | number)[]): (IFormWidget & LitElement)[] {
@@ -107,7 +117,7 @@ export class FormBuilder extends NonShadow {
             const currentTree = stack.pop();
             for (const key of Reflect.ownKeys(currentTree)) {
                 if (key === WIDGET_KEY) {
-                    widgets.push(currentTree[key]);
+                    widgets.push(...(Array.isArray(currentTree[key]) ? currentTree[key] : [currentTree[key]]));
                 } else {
                     stack.push(currentTree[key]);
                 }

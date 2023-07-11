@@ -105,7 +105,7 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
             return false;
         }
         disconnectedCallback(): void {
-            this.form.unRegWidget(this.path);
+            this.form.unRegWidget(this.path, this);
             this.unsubscribe();
         }
         onLoadHistory() {
