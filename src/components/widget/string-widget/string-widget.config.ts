@@ -6,7 +6,7 @@ export type StringWidgetConfig = {
     minLength?: number;
     pattern?: string | RegExp;
     empty?: string;
-    enum?: string[];
+    enum?: string[] | (() => string[]);
     enumMapperKey?: string;
     enumMapper?: { [key: string]: string } | Record<string, string>;
     selectText?: string;
