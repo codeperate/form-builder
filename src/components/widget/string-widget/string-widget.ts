@@ -35,6 +35,7 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
         const enumVal = typeof _enum == 'function' ? _enum.bind(this)() : _enum;
         const enumMapper = this.config.enumMapper;
         const defaultValue = this.config.default;
+        const id = this.config.id ?? this.schema.label;
         if (this.view) {
             if (enumVal && this.value) return html`<div>${enumMapper ? enumMapper[this.value] ?? this.value : this.value}</div>`;
             return html`<div>${this.value ?? empty}</div>`;
@@ -48,6 +49,7 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
         if (enumVal) {
             return html`
                 <select
+                    id=${ifDefined(id)}
                     class="${validatedClass} cfb-w-full cfb-rounded-lg cfb-bg-gray-200 cfb-p-1.5 cfb-appearance-none"
                     ?required=${required}
                     .value=${this.value || ''}
@@ -71,6 +73,7 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
         }
         return html`
             <input
+                id=${ifDefined(id)}
                 .required=${required}
                 class="cfb-rounded-lg cfb-p-1.5 ${validatedClass} cfb-min-w-0 cfb-w-full cfb-appearance-none"
                 .type=${type}

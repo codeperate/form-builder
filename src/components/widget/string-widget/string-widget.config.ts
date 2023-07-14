@@ -2,6 +2,7 @@ import { CdpFormBuilder } from '../../config';
 
 export type StringWidgetConfig = {
     default?: string;
+    id?: string;
     maxLength?: number;
     minLength?: number;
     pattern?: string | RegExp;
@@ -18,4 +19,5 @@ CdpFormBuilder.setDefaultConfig(c => c.widgets.StringWidget, {
     selectText: 'Please Select',
     type: 'text',
     enumMapperKey: 'default',
+    id: undefined,
 });

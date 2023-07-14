@@ -4,6 +4,7 @@ import { FormWidgetMixin } from '../../base-class/cdp-widget.js';
 import { NonShadow } from '../../base-class/non-shadow.js';
 import { CmptType } from '../../config.js';
 import './boolean-widget.config.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 @customElement('cdp-boolean-widget')
 export class CdpBooleanWidget extends FormWidgetMixin(CmptType.BooleanWidget, NonShadow) {
     @query('input') inputEl: HTMLInputElement;
@@ -25,6 +26,7 @@ export class CdpBooleanWidget extends FormWidgetMixin(CmptType.BooleanWidget, No
         let { required } = this.schema;
         required = typeof required == 'function' ? required.bind(this)() : required;
         const { empty, trueVal, falseVal } = this.config;
+        const id = this.config.id ?? this.schema.label;
         if (this.view) return html`<div>${this.value != null ? (this.value ? trueVal : falseVal) : empty}</div>`;
         let validatedClass = this.value ? /*tw*/ 'cfb-bg-main-500 hover:cfb-bg-main-600' : /*tw*/ 'cfb-bg-gray-500 hover:cfb-bg-gray-600';
         if (this.isValidated && !this.validatedMeta?.validity) validatedClass = /*tw*/ 'cfb-bg-danger-500 hover:cfb-bg-danger-600';
@@ -46,7 +48,7 @@ export class CdpBooleanWidget extends FormWidgetMixin(CmptType.BooleanWidget, No
                     </div>
                 </button>
                 <input
-                    id=""
+                    id=${ifDefined(id)}
                     class="cfb-hidden"
                     type="checkbox"
                     @change=${e => {

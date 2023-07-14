@@ -32,6 +32,7 @@ export class CdpTextAreaWidget extends FormWidgetMixin(CmptType.TextAreaWidget, 
         let { required } = this.schema;
         required = typeof required == 'function' ? required.bind(this)() : required;
         const { minLength, maxLength, empty, rows } = this.config;
+        const id = this.config.id ?? this.schema.label;
         if (this.view)
             return html`<pre class="cfb-whitespace-pre-wrap cfb-break-all cfb-min-w-0 cfb-max-w-full">${this.value ?? empty}</pre>`;
         let validatedClass = 'cfb-bg-gray-200 hover:cfb-bg-gray-300';
@@ -41,6 +42,7 @@ export class CdpTextAreaWidget extends FormWidgetMixin(CmptType.TextAreaWidget, 
                 : /*tw*/ 'cfb-bg-danger-100 hover:cfb-bg-danger-200';
         return html`
             <textarea
+                id=${ifDefined(id)}
                 .required=${required}
                 class="cfb-rounded-lg cfb-p-1.5 ${validatedClass} cfb-min-w-0 cfb-w-full"
                 @input=${e => {

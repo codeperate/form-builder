@@ -7,6 +7,7 @@ export type DateTimeWidgetConfig = {
     view?: {
         template: (value: string) => TemplateResult | string;
     };
+    id?: string;
 };
 
 CdpFormBuilder.setDefaultConfig(c => c.widgets.DateTimeWidget, {
@@ -14,4 +15,5 @@ CdpFormBuilder.setDefaultConfig(c => c.widgets.DateTimeWidget, {
     view: {
         template: s => (s ? new Date(s).toLocaleString() : undefined),
     },
+    id: undefined,
 });

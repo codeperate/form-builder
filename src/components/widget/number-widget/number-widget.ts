@@ -27,6 +27,7 @@ export class CdpNumberWidget extends FormWidgetMixin(CmptType.NumberWidget, NonS
         let { required } = this.schema;
         required = typeof required == 'function' ? required.bind(this)() : required;
         const { empty, multipleOf, minimum, maximum } = this.config;
+        const id = this.config.id ?? this.schema.label;
         if (this.view) return html`<div>${this.value ?? empty}</div>`;
         let validatedClass = 'cfb-bg-gray-200 hover:cfb-bg-gray-300';
         if (this.isValidated)
@@ -37,6 +38,7 @@ export class CdpNumberWidget extends FormWidgetMixin(CmptType.NumberWidget, NonS
         return html`
             <input
                 .required=${required}
+                id="${ifDefined(id)}"
                 class="cfb-rounded-lg cfb-p-1.5 ${validatedClass} cfb-min-w-0 cfb-w-full cfb-appearance-none"
                 type="number"
                 min=${ifDefined(minimum)}

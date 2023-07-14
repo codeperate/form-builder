@@ -4,6 +4,7 @@ import { FormWidgetMixin } from '../../base-class/cdp-widget.js';
 import { NonShadow } from '../../base-class/non-shadow.js';
 import { CmptType } from '../../config.js';
 import './datetime-widget.config.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 @customElement('cdp-datetime-widget')
 export class CdpDateTimeWidget extends FormWidgetMixin(CmptType.DateTimeWidget, NonShadow) {
     @query('input') inputEl: HTMLInputElement;
@@ -26,6 +27,7 @@ export class CdpDateTimeWidget extends FormWidgetMixin(CmptType.DateTimeWidget, 
         let { required } = this.schema;
         required = typeof required == 'function' ? required.bind(this)() : required;
         const { empty, view } = this.config;
+        const id = this.config.id ?? this.schema.label;
         if (this.view) return html`<div>${view.template(this.value) ?? empty}</div>`;
         let validatedClass = 'cfb-bg-gray-200 hover:cfb-bg-gray-300';
         if (this.isValidated)
@@ -35,6 +37,7 @@ export class CdpDateTimeWidget extends FormWidgetMixin(CmptType.DateTimeWidget, 
         return html`
             <input
                 .required=${required}
+                id=${ifDefined(id)}
                 class="cfb-rounded-lg cfb-px-1.5 ${validatedClass} cfb-min-w-0 cfb-w-full cfb-appearance-none cfb-h-10"
                 type="datetime-local"
                 @input=${e => {

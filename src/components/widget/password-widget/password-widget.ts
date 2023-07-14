@@ -26,7 +26,7 @@ export class CdpPasswordWidget extends FormWidgetMixin(CmptType.PasswordWidget, 
         const { pattern, minLength, maxLength, empty } = this.config;
         if (this.view) return html`<div>${empty}</div>`;
         let validatedClass = 'cfb-bg-gray-200 hover:cfb-bg-gray-300';
-
+        const id = this.config.id ?? this.schema.label;
         if (this.isValidated)
             validatedClass = this.validatedMeta?.validity
                 ? /*tw*/ 'cfb-bg-valid-100 hover:cfb-bg-valid-200'
@@ -34,6 +34,7 @@ export class CdpPasswordWidget extends FormWidgetMixin(CmptType.PasswordWidget, 
         return html`
             <div class="cfb-w-full cfb-rounded-lg ${validatedClass} cfb-flex cfb-pr-1 cfb-items-center">
                 <input
+                    id=${ifDefined(id)}
                     .required=${required}
                     class="cfb-flex-grow cfb-bg-opacity-0 cfb-bg-white cfb-p-1.5 cfb-rounded-lg focus:cfb-outline-none cfb-w-full cfb-appearance-none"
                     .type=${this.revealPw ? 'text' : 'password'}

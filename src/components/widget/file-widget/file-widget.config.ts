@@ -12,6 +12,7 @@ export type FileWidgetConfig = {
     uploadText?: string;
     uploadButton?: false | string;
     uploadFn?: (this: CdpFileWidget, file: File, progress: (percentage: number) => void) => Promise<any>;
+    id?: string;
 };
 
 CdpFormBuilder.setDefaultConfig(c => c.widgets.FileWidget, {

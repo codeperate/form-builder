@@ -6,6 +6,7 @@ export type NumberWidgetConfig = {
     multipleOf?: number;
     minimum?: number;
     maximum?: number;
+    id?: string;
 };
 
 CdpFormBuilder.setDefaultConfig(c => c.widgets.NumberWidget, {

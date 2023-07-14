@@ -5,6 +5,7 @@ export type PasswordWidgetConfig = {
     minLength?: number;
     pattern?: string | RegExp;
     empty?: string;
+    id?: string;
 };
 
 CdpFormBuilder.setDefaultConfig(c => c.widgets.PasswordWidget, {

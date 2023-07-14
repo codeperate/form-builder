@@ -5,6 +5,7 @@ import { NonShadow } from '../../base-class/non-shadow.js';
 import { CmptType } from '../../config.js';
 import { byteSize } from '../../utils/byte-size.utils.js';
 import './file-widget.config.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 interface FileState {
     image?: string;
     progress?: number;
@@ -81,8 +82,8 @@ export class CdpFileWidget extends FormWidgetMixin(CmptType.FileWidget, NonShado
     render() {
         const { uploadText, fileNumberLimitText, fileSizeBytesLimitText, fileNumberLimit, fileSizeBytesLimit, uploadButton } = this.config;
         const files = Array.from(this.value ?? []);
-
-        return html` <input @change=${e => this.changeHandler(e)} class="cfb-hidden" type="file" .multiple=${true} />
+        const id = this.config.id ?? this.schema.label;
+        return html` <input id="${ifDefined(id)}" @change=${e => this.changeHandler(e)} class="cfb-hidden" type="file" .multiple=${true} />
             <div
                 class=""
                 @drop=${e => this.dropHandler(e)}
