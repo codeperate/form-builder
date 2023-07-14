@@ -22,6 +22,9 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
         if (defaultValue && this.value == null) {
             this.setValue(defaultValue, { silence: true });
         }
+    }
+    loadSchemaConfig(): void {
+        super.loadSchemaConfig();
         let globalEnumMapper = CdpFormBuilder.getConfig(o => o.enums)?.[this.config.enumMapperKey];
         if (globalEnumMapper) this.config.enumMapper = { ...globalEnumMapper, ...this.config.enumMapper };
     }
@@ -29,7 +32,7 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
         let { required } = this.schema;
         required = typeof required == 'function' ? required.bind(this)() : required;
         const { pattern, minLength, maxLength, empty, selectText, type, enum: _enum } = this.config;
-        const enumVal = typeof _enum == 'function' ? _enum() : _enum;
+        const enumVal = typeof _enum == 'function' ? _enum.bind(this)() : _enum;
         const enumMapper = this.config.enumMapper;
         const defaultValue = this.config.default;
         if (this.view) {
