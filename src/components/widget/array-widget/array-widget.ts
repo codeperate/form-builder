@@ -60,7 +60,7 @@ export class CdpArrayWidget extends FormWidgetMixin(CmptType.ArrayWidget, NonSha
         const { movable, addable, deletable } = this.config;
         const { items } = this.schema;
         return html`
-            <div class="${this.view ? '' : 'cfb-bg-gray-50'} cfb-rounded-lg cfb-py-2">
+            <div class="${this.view ? 'cfb-py-2' : 'cfb-bg-gray-50 cfb-p-2'} cfb-rounded-lg">
                 <div class="cfb-grid cfb-grid-flow-col cfb-justify-end cfb-p-1 cfb-mb-2 cfb-gap-2 cfb-col-span-full" .hidden=${this.view}>
                     ${
                         movable
