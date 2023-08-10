@@ -1,5 +1,5 @@
 import { html } from 'lit';
-import { customElement, query } from 'lit/decorators.js';
+import { customElement } from 'lit/decorators.js';
 import { FormWidgetMixin } from '../../base-class/cdp-widget.js';
 import { NonShadow } from '../../base-class/non-shadow.js';
 import { CmptType } from '../../config.js';

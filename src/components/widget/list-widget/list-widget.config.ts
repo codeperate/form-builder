@@ -1,4 +1,4 @@
-import { CdpFormBuilder, CmptType } from '../../config';
+import { CdpFormBuilder } from '../../config';
 
 export interface ListWidgetConfig {
     list: { key: string; label?: string }[];
