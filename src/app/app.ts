@@ -9,6 +9,7 @@ import {
     DateTimeWidget,
     DateWidget,
     FileWidget,
+    ListWidget,
     NumberWidget,
     ObjectWidget,
     PasswordWidget,
@@ -22,13 +23,17 @@ import './app.css';
 const components = import.meta.glob('../components/**/*.ts', { eager: true });
 
 CdpFormBuilder.init({
-    StringWidget: {
-        selectText: 'asdf',
+    widgets: {
+        StringWidget: {
+            selectText: 'asdf',
+        },
     },
-    EnumMapper: {
-        Male: 'GLOBAL MALE',
-        Female: 'GLOBAL FEMALE',
-        a: 'GLOBAL a',
+    enums: {
+        default: {
+            Male: 'GLOBAL MALE',
+            Female: 'GLOBAL FEMALE',
+            a: 'GLOBAL a',
+        },
     },
 });
 
@@ -88,6 +93,13 @@ export class AppRoot extends NonShadow {
         config: {},
         widget: ObjectWidget,
         properties: {
+            list: {
+                widget: ListWidget,
+                config: {
+                    name: 'list',
+                    list: [{ key: 'asdasd' }, { key: 'itemA' }, { key: 'itemB' }],
+                },
+            },
             dateTime2: {
                 widget: DateTimeWidget,
             },
@@ -250,7 +262,7 @@ export class AppRoot extends NonShadow {
                     Switch Value
                 </button>
                 <cdp-form-builder
-                    .schema=${this.schema4}
+                    .schema=${this.schema}
                     @formChange=${e => {
                         console.log(e.detail);
                     }}

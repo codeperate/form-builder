@@ -22,6 +22,7 @@ import {
     StringWidget,
     TextAreaWidget,
 } from './widgets.js';
+import { ListWidgetConfig } from './widget/list-widget/list-widget.config.js';
 export type FormBuilderConfig = {
     widgets: CmptConfig;
     formBuilder: FormBuilderOption;
@@ -60,7 +61,7 @@ export namespace CdpFormBuilder {
         config = safeSet(config, path, value);
         return config;
     }
-    export function setDefaultConfig<C>(path: (obj: FormBuilderConfig) => C, value: C) {
+    export function setDefaultConfig<C>(path: (obj: FormBuilderConfig) => C, value: Partial<C>) {
         const currentConfig = CdpFormBuilder.getConfig(path) ?? {};
         CdpFormBuilder.setConfig(path, deepAssign(value, currentConfig));
     }
@@ -85,6 +86,7 @@ export enum CmptType {
     DataViewerWidget = 'DataViewerWidget',
     BooleanWidget = 'BooleanWidget',
     PasswordWidget = 'PasswordWidget',
+    ListWidget = 'ListWidget',
 }
 export interface CmptConfig {
     [CmptType.ObjectWidget]: ObjectWidgetConfig;
@@ -98,6 +100,7 @@ export interface CmptConfig {
     [CmptType.NumberWidget]: NumberWidgetConfig;
     [CmptType.FileWidget]: FileWidgetConfig;
     [CmptType.PasswordWidget]: PasswordWidgetConfig;
+    [CmptType.ListWidget]: ListWidgetConfig;
     [key: string]: any;
 }
 export type ConfigType<K extends string> = K extends keyof CmptConfig ? CmptConfig[K] : any;

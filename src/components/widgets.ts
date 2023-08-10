@@ -143,3 +143,11 @@ export const FileWidget: IWidget = {
     },
     columns: 12,
 };
+
+export const ListWidget: IWidget = {
+    template: async ({ form, path }) => {
+        await import('./widget/list-widget/list-widget.js');
+        return html`<cdp-list-widget .form=${form} .path=${path}></cdp-list-widget>`;
+    },
+    columns: 12,
+};
