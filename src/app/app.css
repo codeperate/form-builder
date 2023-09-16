@@ -2,8 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-button:not([class]){
-    @apply cfb-bg-main-500 cfb-text-white cfb-rounded-lg cfb-p-2
+button:not([class]) {
+    @apply cfb-bg-main-500 cfb-text-white cfb-rounded-lg cfb-p-2;
 }
 ::-ms-reveal {
     display: none;
@@ -12,4 +12,3 @@ button:not([class]){
     @apply cfb-hidden;
     /* Styles for elements with the hidden attribute */
 }
-
