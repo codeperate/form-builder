@@ -102,7 +102,7 @@ export class FormBuilder extends NonShadow {
         if (Array.isArray(currentNode[WIDGET_KEY])) {
             const found = currentNode[WIDGET_KEY].find(w => w == widget);
             if (found) {
-                currentNode[WIDGET_KEY] = currentNode[WIDGET_KEY].filter(w => w == widget);
+                currentNode[WIDGET_KEY] = currentNode[WIDGET_KEY].filter(w => w !== found);
                 if (currentNode[WIDGET_KEY].length == 0) delete currentNode[WIDGET_KEY];
                 this.widgetCount--;
             }
