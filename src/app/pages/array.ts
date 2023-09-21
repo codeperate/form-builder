@@ -13,6 +13,7 @@ export class PageArray extends NonShadow {
             minItems: 1,
         },
         items: {
+            label: 'name',
             widget: StringWidget,
         },
     };

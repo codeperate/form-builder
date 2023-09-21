@@ -49,7 +49,6 @@ export class CdpArrayWidget extends FormWidgetMixin(CmptType.ArrayWidget, NonSha
         if (minItems > 0 && this.value == null) result.validity = false;
         if (Array.isArray(this.value) && this.value.length < minItems) result.validity = false;
         if (Array.isArray(this.value) && this.value.length > maxItems) result.validity = false;
-        console.log(result);
         return result;
     }
     changeMode(mode: ArrayWidgetMode) {
@@ -62,7 +61,7 @@ export class CdpArrayWidget extends FormWidgetMixin(CmptType.ArrayWidget, NonSha
         const { items } = this.schema;
         return html`
             <div class="${this.view ? 'cfb-py-2' : 'cfb-bg-gray-50 cfb-p-2'} ${
-            this.validatedMeta?.validity == false ? 'cfb-bg-danger-300' : ''
+            this.validatedMeta?.validity == false ? '!cfb-bg-danger-300' : ''
         } cfb-rounded-lg">
                 <div class="cfb-grid cfb-grid-flow-col cfb-justify-end cfb-p-1 cfb-mb-2 cfb-gap-2 cfb-col-span-full" .hidden=${this.view}>
                     ${
