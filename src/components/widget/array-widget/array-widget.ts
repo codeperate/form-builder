@@ -18,6 +18,7 @@ export class CdpArrayWidget extends FormWidgetMixin(CmptType.ArrayWidget, NonSha
     }
     add() {
         if (this.value == undefined) this.setValue([]);
+        if (this.config.maxItems && this.value.length >= this.config.maxItems) return;
         this.form.setValue([...this.path, this.value.length], undefined);
         this.validate();
         //this.requestUpdate();
