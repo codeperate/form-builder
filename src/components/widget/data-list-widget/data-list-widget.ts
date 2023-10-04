@@ -3,14 +3,13 @@ import { customElement, query } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { FormWidgetMixin } from '../../base-class/cdp-widget.js';
 import { NonShadow } from '../../base-class/non-shadow.js';
-import { CdpFormBuilder, CmptType } from '../../config.js';
+import { CmptType } from '../../config.js';
 import './data-list-widget.config.js';
 @customElement('cdp-data-list-widget')
 export class CdpDataListWidget extends FormWidgetMixin(CmptType.DataListWidget, NonShadow) {
     @query('input') inputEl: HTMLInputElement;
-    @query('select') selectEl: HTMLSelectElement;
     validator() {
-        let el = this.inputEl || this.selectEl;
+        let el = this.inputEl;
         const meta = super.validator();
         meta.validity = el.checkValidity();
         if (el.validationMessage) meta.err ??= [{ msg: el.validationMessage }];
