@@ -23,6 +23,7 @@ import {
     TextAreaWidget,
 } from './widgets.js';
 import { ListWidgetConfig } from './widget/list-widget/list-widget.config.js';
+import { DataListWidgetConfig } from './widget/data-list-widget/data-list-widget.config.js';
 export type FormBuilderConfig = {
     widgets: CmptConfig;
     formBuilder: FormBuilderOption;
@@ -87,6 +88,7 @@ export enum CmptType {
     BooleanWidget = 'BooleanWidget',
     PasswordWidget = 'PasswordWidget',
     ListWidget = 'ListWidget',
+    DataListWidget = 'DataListWidget',
 }
 export interface CmptConfig {
     [CmptType.ObjectWidget]: ObjectWidgetConfig;
@@ -101,6 +103,7 @@ export interface CmptConfig {
     [CmptType.FileWidget]: FileWidgetConfig;
     [CmptType.PasswordWidget]: PasswordWidgetConfig;
     [CmptType.ListWidget]: ListWidgetConfig;
+    [CmptType.DataListWidget]: DataListWidgetConfig;
     [key: string]: any;
 }
 export type ConfigType<K extends string> = K extends keyof CmptConfig ? CmptConfig[K] : any;

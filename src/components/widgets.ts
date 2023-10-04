@@ -151,3 +151,11 @@ export const ListWidget: IWidget = {
     },
     columns: 12,
 };
+
+export const DataListWidget: IWidget = {
+    template: async ({ form, path }) => {
+        await import('./widget/data-list-widget/data-list-widget.js');
+        return html`<cdp-data-list-widget .form=${form} .path=${path}></cdp-data-list-widget>`;
+    },
+    columns: 6,
+};

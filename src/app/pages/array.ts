@@ -2,7 +2,6 @@ import { html } from 'lit';
 import { customElement } from 'lit/decorators/custom-element.js';
 import { NonShadow } from '../../components/base-class/non-shadow';
 import { ArrayWidget, FormSchema, StringWidget } from '../../components';
-const pages = import.meta.glob('./pages/**/*.ts', { eager: true });
 
 @customElement('page-array')
 export class PageArray extends NonShadow {
