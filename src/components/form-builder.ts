@@ -102,7 +102,6 @@ export class FormBuilder extends NonShadow {
         return this.widgetMap.get(pathStr) ?? [];
     }
     public onChange(path: (string | number)[], listener: Listener) {
-        console.log(['value', ...path]);
         return this.store.onChange({
             selector: ['value', ...path],
             listener: (data, proxiedData) => {

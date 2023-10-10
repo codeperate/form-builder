@@ -88,8 +88,6 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
             super.connectedCallback();
             this.form.regWidget(this.path, this);
             this.unsubscribe = this.form.onChange(this.path, (v, pv) => {
-                console.log(this.path);
-                console.log(v);
                 this.value = pv || v;
             });
             this.loadSchemaConfig();
