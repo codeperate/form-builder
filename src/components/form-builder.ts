@@ -11,17 +11,16 @@ import './form-builder.config.js';
 import type { FormBuilderOption, FormSchema } from './form-builder.interface.js';
 import { lazySet } from './utils/lazy-set.utils.js';
 import { LocalStorage } from './utils/localstorage.util.js';
-const WIDGET_KEY = Symbol();
 @customElement('cdp-form-builder')
 export class FormBuilder extends NonShadow {
     @property({ type: Object }) schema: FormSchema;
     @property() value: any;
-    @property() view: boolean = false;
+    @property({ type: Boolean }) view: boolean = false;
     @property() name: string;
-    @property() config: FormBuilderOption = {};
+    @property({ type: Object }) config: FormBuilderOption = {};
     _config: FormBuilderOption = {};
     context: any;
-    widgetRecord: Record<string | number | symbol, any> = {};
+    widgetMap: Map<string, (IFormWidget & LitElement)[]> = new Map();
     widgetCount: number = 0;
     store: Store<any>;
     connectedCallback() {
@@ -46,7 +45,7 @@ export class FormBuilder extends NonShadow {
         super.updated(c);
     }
 
-    public getSchema(path: (string | number | symbol)[] = []) {
+    public getSchema(path: (string | number)[] = []) {
         let curPos = this.schema;
         for (const p of path) {
             if (curPos.properties) {
@@ -58,7 +57,7 @@ export class FormBuilder extends NonShadow {
     public getTarget() {
         return this.store.getTarget()?.value;
     }
-    public getValue(path: (string | number | symbol)[] = [], { target }: { target?: boolean } = {}) {
+    public getValue(path: (string | number)[] = [], { target }: { target?: boolean } = {}) {
         return get(target ? this.getTarget() : this.store.state.value, [...path]);
     }
     public exportValue() {
@@ -66,72 +65,46 @@ export class FormBuilder extends NonShadow {
         this.getWidgets().forEach(w => w.onExportValue(_value));
         return _value;
     }
-    public setValue(path: (string | number | symbol)[], value: any, option: { silence?: boolean } = {}) {
+    public setValue(path: (string | number)[], value: any, option: { silence?: boolean } = {}) {
         if (option.silence) this.store.silence(() => lazySet(this.store.state, ['value', ...path], value));
         else lazySet(this.store.state, ['value', ...path], value);
         this.getWidgets().forEach(w => w.updateValue());
     }
-    public regWidget(path: (string | number | symbol)[], widget: any) {
-        let currentNode = this.widgetRecord;
-        for (const key of path) {
-            if (!currentNode[key]) {
-                currentNode[key] = {};
-            }
-            currentNode = currentNode[key];
-        }
-        if (currentNode[WIDGET_KEY] == null) {
-            this.widgetCount++;
-            currentNode[WIDGET_KEY] = [widget];
-        } else if (Array.isArray(currentNode[WIDGET_KEY])) {
-            const found = currentNode[WIDGET_KEY].find(w => w == widget);
-            if (!found) {
-                currentNode[WIDGET_KEY].push(widget);
-                this.widgetCount++;
+    public regWidget(path: (string | number)[], widget: IFormWidget & LitElement) {
+        const pathStr = path.join('.');
+        const widgets = this.widgetMap.get(pathStr);
+        if (!widgets) {
+            this.widgetMap.set(pathStr, [widget]);
+            this.widgetCount += 1;
+            return;
+        } else {
+            const found = widgets.find(w => w === widget);
+            if (found) return;
+            else {
+                widgets.push(widget);
+                this.widgetCount += 1;
             }
         }
     }
-    public unRegWidget(path: (string | number | symbol)[], widget: any) {
-        let currentNode = this.widgetRecord;
-        for (const key of path) {
-            if (!currentNode[key]) {
-                return;
-            }
-
-            currentNode = currentNode[key];
-        }
-        if (Array.isArray(currentNode[WIDGET_KEY])) {
-            const found = currentNode[WIDGET_KEY].find(w => w == widget);
-            if (found) {
-                currentNode[WIDGET_KEY] = currentNode[WIDGET_KEY].filter(w => w !== found);
-                if (currentNode[WIDGET_KEY].length == 0) delete currentNode[WIDGET_KEY];
-                this.widgetCount--;
-            }
-        }
+    public unRegWidget(path: (string | number)[], widget: IFormWidget & LitElement) {
+        const pathStr = path.join('.');
+        const widgets = this.widgetMap.get(pathStr);
+        if (!widgets) return;
+        const found = widgets.find(w => w === widget);
+        if (found)
+            this.widgetMap.set(
+                pathStr,
+                widgets.filter(w => w !== widget),
+            );
     }
-    public getWidgets(path?: (string | symbol | number)[]): (IFormWidget & LitElement)[] {
-        let record = this.widgetRecord;
-        if (path) record = get(this.widgetRecord, path);
-        const widgets = [];
-        const stack = [record];
-        while (stack.length > 0) {
-            const currentTree = stack.pop();
-            for (const key of Reflect.ownKeys(currentTree)) {
-                if (key === WIDGET_KEY) {
-                    widgets.push(...(Array.isArray(currentTree[key]) ? currentTree[key] : [currentTree[key]]));
-                } else {
-                    stack.push(currentTree[key]);
-                }
-            }
-        }
-        return widgets;
+    public getWidgets(path?: (string | number)[]): (IFormWidget & LitElement)[] {
+        const pathStr = path?.join('.') ?? '';
+        return this.widgetMap.get(pathStr) ?? [];
     }
-    public onChange(path: (string | number | symbol)[], listener: Listener) {
+    public onChange(path: (string | number)[], listener: Listener) {
+        console.log(['value', ...path]);
         return this.store.onChange({
-            selector: s => {
-                let selector = s;
-                for (const p of ['value', ...path]) selector = selector[p];
-                return selector;
-            },
+            selector: ['value', ...path],
             listener: (data, proxiedData) => {
                 if (this._config.save && this._config.save.autoSave) this.save();
                 listener(data, proxiedData);

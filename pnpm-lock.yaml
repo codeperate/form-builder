@@ -6,11 +6,11 @@ settings:
 
 devDependencies:
   '@codeperate/simple-store':
-    specifier: ^2.1.4
-    version: 2.1.4
+    specifier: ^3.0.3
+    version: 3.0.3
   '@codeperate/utils':
-    specifier: ^1.1.4
-    version: 1.1.4
+    specifier: ^1.2.0
+    version: 1.2.0
   '@types/json-schema':
     specifier: ^7.0.11
     version: 7.0.11
@@ -59,17 +59,14 @@ packages:
       js-tokens: 4.0.0
     dev: true
 
-  /@codeperate/simple-store@2.1.4:
-    resolution: {integrity: sha512-yWpEDKvF4nA+WuRYpYQlGMKi6+SNLlpIqUvb4+/FgOn3TQYPs8s8oyKcfvORRza5guF7u3oznMQuspVuFrYN9A==}
-    dependencies:
-      '@codeperate/utils': 1.1.4
+  /@codeperate/simple-store@3.0.3:
+    resolution: {integrity: sha512-p/PIgh8XgcHYht6LJyP9lj79WejJGPKXr3iJRkCrrzwDfvN3BGi3+XgwL7ddT2IJ1GJirDMSC9hszM5JNWs5YA==}
+    engines: {node: '>=16.0.0'}
     dev: true
 
-  /@codeperate/utils@1.1.4:
-    resolution: {integrity: sha512-rwEYWnzBhJYpkNA2TFlHkCDVNR/wbPSJWHOOyInCMYWkSFQWnWKbE73owzCK1R1tq/ztf/FvozdyXIxsA+0A5A==}
+  /@codeperate/utils@1.2.0:
+    resolution: {integrity: sha512-GNr8AZCU3S+mzLoo6gxwCnObOJrWQxWj4LOpY3OKnyfmBdFr86H1V445JudRkkB+KUetRgW8AdCNF5ESyu9XEQ==}
     engines: {node: '>=16'}
-    dependencies:
-      ts-toolbelt: 9.6.0
     dev: true
 
   /@esbuild/android-arm64@0.16.14:
@@ -1293,10 +1290,6 @@ packages:
   /trim-newlines@4.0.2:
     resolution: {integrity: sha512-GJtWyq9InR/2HRiLZgpIKv+ufIKrVrvjQWEj7PxAXNc5dwbNJkqhAUoAGgzRmULAnoOM5EIpveYd3J2VeSAIew==}
     engines: {node: '>=12'}
-    dev: true
-
-  /ts-toolbelt@9.6.0:
-    resolution: {integrity: sha512-nsZd8ZeNUzukXPlJmTBwUAuABDe/9qtVDelJeT/qW0ow3ZS3BsQJtNkan1802aM9Uf68/Y8ljw86Hu0h5IUW3w==}
     dev: true
 
   /type-fest@1.4.0:

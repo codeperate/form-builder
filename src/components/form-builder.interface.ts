@@ -10,12 +10,12 @@ export type FormSchema<T extends { properties?; widget?; items? } = any, C = unk
     label?: string | false;
     items?: FormSchema<T['items']>;
     properties?: { [Key in keyof T['properties']]: FormSchema<T['properties'][Key]> } & {
-        [Key in symbol]: FormSchema<T['properties'][Key]>;
+        [Key in string]: FormSchema<T['properties'][Key]>;
     };
     widget?: IWidget;
     validate?: boolean | ((this: FormBuilder | IFormWidget) => boolean);
     validateFn?: (value: any, extra: { form: FormBuilder; defaultValidator: () => ValidatedMeta }) => ValidatedMeta;
-    targetPath?: (string | symbol | number)[];
+    targetPath?: (string | number)[];
     view?: boolean;
     hidden?: boolean | ((this: FormBuilder | IFormWidget) => boolean);
     required?: boolean | ((this: FormBuilder | IFormWidget) => boolean);

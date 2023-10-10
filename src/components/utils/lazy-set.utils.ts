@@ -1,8 +1,8 @@
-import { toArray, toPath } from '@codeperate/utils';
+import { pathArr as toPathArr } from '@codeperate/utils';
 
-export function lazySet<T extends object, K>(obj: T, path: ((obj: T) => K) | (string | number | symbol)[], value: K) {
-    let pathArr: (string | symbol | number)[];
-    if (!Array.isArray(path)) pathArr = toArray(path(toPath(obj)));
+export function lazySet<T extends object, K>(obj: T, path: ((obj: T) => K) | (string | number)[], value: K) {
+    let pathArr: (string | number)[];
+    if (!Array.isArray(path)) pathArr = toPathArr(path);
     else pathArr = path;
     const lastIndex = pathArr.length - 1;
     let curPos = obj;

@@ -21,7 +21,6 @@ export class CdpListWidget extends FormWidgetMixin(CmptType.ListWidget, NonShado
     toggle(key: string, value: boolean) {
         if (this.value.includes(key) && !value) this.setValue(this.value.filter(v => v != key));
         else if (!this.value.includes(key) && value) this.setValue([...this.value, key]);
-        console.log(this.value);
     }
     selectAll() {
         this.setValue(this.config.list.map(v => v.key));

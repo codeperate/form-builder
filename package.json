@@ -15,8 +15,8 @@
         "release": "pnpm run build && npx np --no-cleanup --no-release-draft"
     },
     "peerDependencies": {
-        "@codeperate/simple-store": "^2.1.4",
-        "@codeperate/utils": "^1.1.4",
+        "@codeperate/simple-store": "^3.0.3",
+        "@codeperate/utils": "^1.2.0",
         "@types/json-schema": "^7.0.11",
         "lit": "^2.7.3"
     },
@@ -27,8 +27,8 @@
         "tailwindcss": "^3.2.4",
         "typescript": "^4.9.3",
         "vite": "^4.0.4",
-        "@codeperate/simple-store": "^2.1.4",
-        "@codeperate/utils": "^1.1.4",
+        "@codeperate/simple-store": "^3.0.3",
+        "@codeperate/utils": "^1.2.0",
         "@types/json-schema": "^7.0.11",
         "lit": "^2.7.3"
     },

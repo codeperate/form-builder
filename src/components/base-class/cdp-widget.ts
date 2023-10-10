@@ -9,13 +9,13 @@ import { Class } from '../type/class';
 
 export interface FormWidgetProps {
     form: FormBuilder;
-    path: (string | symbol | number)[];
+    path: (string | number)[];
 }
 export interface IFormWidget<T = any> {
     form: FormBuilder;
-    path: (string | symbol | number)[];
+    path: (string | number)[];
     schema: FormSchema;
-    key?: string | symbol;
+    key?: string;
     value: any;
     isValidated: boolean;
     validatedMeta: ValidatedMeta | undefined;
@@ -38,11 +38,11 @@ export interface IFormWidget<T = any> {
 export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(name: K, superClass: T) {
     class FormWidget extends superClass {
         @property() form: FormBuilder;
-        @property() path: (string | symbol | number)[];
+        @property() path: (string | number)[];
         get schema(): FormSchema {
             return this.form.getSchema(this.path);
         }
-        readonly key?: string | symbol;
+        readonly key?: string;
         @state() value: any;
         @state() isValidated: boolean;
         @state() validatedMeta: ValidatedMeta | undefined;
@@ -88,6 +88,8 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
             super.connectedCallback();
             this.form.regWidget(this.path, this);
             this.unsubscribe = this.form.onChange(this.path, (v, pv) => {
+                console.log(this.path);
+                console.log(v);
                 this.value = pv || v;
             });
             this.loadSchemaConfig();
@@ -119,6 +121,6 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
 }
 export type ValidatedMeta = {
     validity: boolean;
-    path: (string | symbol | number)[];
+    path: (string | number)[];
     err?: { msg: string }[];
 };

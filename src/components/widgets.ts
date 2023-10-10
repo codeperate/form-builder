@@ -131,7 +131,7 @@ export const SectionWidget: IWidget<{ title: string }> = {
     },
     columns: 12,
 };
-export const Section = (title: string, formSchema: FormSchema = {}, key?: number | string | symbol) => {
+export const Section = (title: string, formSchema: FormSchema = {}, key?: number | string) => {
     const obj = deepAssign({ widget: SectionWidget, config: { title }, label: false }, formSchema);
     return { [key ?? title]: obj };
 };
