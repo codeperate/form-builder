@@ -36,6 +36,7 @@ export class FormBuilder extends NonShadow {
         super.willUpdate(c);
         if (c.has('value')) {
             this.setValue([], this.value, { silence: true });
+            //this.getWidgets().forEach(w => w.updateValue());
         }
         if (c.has('schema')) {
             this.getWidgets().forEach(w => w.loadSchemaConfig());
@@ -58,7 +59,7 @@ export class FormBuilder extends NonShadow {
         return this.store.getTarget()?.value;
     }
     public getValue(path: (string | number)[] = [], { target }: { target?: boolean } = {}) {
-        return get(target ? this.getTarget() : this.store.state.value, [...path]);
+        return get(target ? this.getTarget() : this.store.state, ['value', ...path]);
     }
     public exportValue() {
         const _value = deepCloneJSON(this.store.getTarget().value);
@@ -99,7 +100,11 @@ export class FormBuilder extends NonShadow {
     }
     public getWidgets(path?: (string | number)[]): (IFormWidget & LitElement)[] {
         const pathStr = path?.join('.') ?? '';
-        return this.widgetMap.get(pathStr) ?? [];
+        const widgets = [];
+        for (const [key, value] of this.widgetMap.entries()) {
+            if (key.startsWith(pathStr)) widgets.push(...value);
+        }
+        return widgets;
     }
     public onChange(path: (string | number)[], listener: Listener) {
         return this.store.onChange({

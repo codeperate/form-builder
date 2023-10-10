@@ -18,10 +18,14 @@ export class PageView extends NonShadow {
     };
     @query('cdp-form-builder') form: FormBuilder;
     @state() view = true;
+    @state() value = undefined;
     firstUpdated() {}
     render() {
-        return html` <cdp-form-builder .schema=${this.schema} .view=${this.view}></cdp-form-builder>
-            <button @click=${() => (this.view = !this.view)}>Toggle View</button>`;
+        return html`
+            <cdp-form-builder .schema=${this.schema} .view=${this.view} .value=${this.value}></cdp-form-builder>
+            <button @click=${() => (this.view = !this.view)}>Toggle View</button>
+            <button @click=${() => (this.value = { name: 'asd' })}>Toggle Value</button>
+        `;
     }
 }
 
