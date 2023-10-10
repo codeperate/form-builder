@@ -18,7 +18,7 @@ export class CdpObjectWidget extends FormWidgetMixin(CmptType.ObjectWidget, NonS
         const c = this.config;
         return html` <div class="cfb-grid des:cfb-grid-cols-12 mob:cfb-grid-cols-6 cfb-gap-4">
             ${repeat(
-                Reflect.ownKeys(this.schema.properties),
+                Object.keys(this.schema.properties),
                 key => key,
                 key => {
                     let { label, required, hidden, columns } = this.schema.properties[key];
