@@ -118,7 +118,7 @@ export class CdpArrayWidget extends FormWidgetMixin(CmptType.ArrayWidget, NonSha
                                     columns,
                                 )} cfb-grid cfb-gap-1 cfb-grid-cols-[1fr,min-content] cfb-items-start cfb-max-w-full"
                             >
-                                ${until(template({ path: [...this.path, i], form: this.form }))}
+                                ${until(template({ path: `${this.path}.${i}`, form: this.form }))}
                                 ${this.mode === 'delete'
                                     ? html` <button
                                           type="button"
