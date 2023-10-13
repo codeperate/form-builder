@@ -19,7 +19,7 @@ export class CdpArrayWidget extends FormWidgetMixin(CmptType.ArrayWidget, NonSha
     add() {
         if (this.value == undefined) this.setValue([]);
         if (this.config.maxItems && this.value.length >= this.config.maxItems) return;
-        this.form.setValue([...this.path, this.value.length], undefined);
+        this.form.setValue([...this.path.split('.').filter(s => s), this.value.length], undefined);
         this.validate();
         //this.requestUpdate();
     }
@@ -118,7 +118,7 @@ export class CdpArrayWidget extends FormWidgetMixin(CmptType.ArrayWidget, NonSha
                                     columns,
                                 )} cfb-grid cfb-gap-1 cfb-grid-cols-[1fr,min-content] cfb-items-start cfb-max-w-full"
                             >
-                                ${until(template({ path: `${this.path}.${i}`, form: this.form }))}
+                                ${until(template({ path: [...this.path.split('.').filter(s => s), i].join('.'), form: this.form }))}
                                 ${this.mode === 'delete'
                                     ? html` <button
                                           type="button"
