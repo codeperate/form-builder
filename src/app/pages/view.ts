@@ -14,6 +14,13 @@ export class PageView extends NonShadow {
         properties: {
             name: { label: 'name', widget: StringWidget },
             other: { label: 'other', widget: NumberWidget },
+            number: {
+                label: 'number',
+                widget: NumberWidget,
+                config: {
+                    multipleOf: 1,
+                },
+            },
         },
     };
     @query('cdp-form-builder') form: FormBuilder;
@@ -24,7 +31,7 @@ export class PageView extends NonShadow {
         return html`
             <cdp-form-builder .schema=${this.schema} .view=${this.view} .value=${this.value}></cdp-form-builder>
             <button @click=${() => (this.view = !this.view)}>Toggle View</button>
-            <button @click=${() => (this.value = { name: 'asd' })}>Toggle Value</button>
+            <button @click=${() => (this.value = { name: 'asd', number: '1.00' })}>Toggle Value</button>
         `;
     }
 }

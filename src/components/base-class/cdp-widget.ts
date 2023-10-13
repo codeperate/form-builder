@@ -9,11 +9,11 @@ import { Class } from '../type/class';
 
 export interface FormWidgetProps {
     form: FormBuilder;
-    path: (string | number)[];
+    path: string;
 }
 export interface IFormWidget<T = any> {
     form: FormBuilder;
-    path: (string | number)[];
+    path: string;
     schema: FormSchema;
     key?: string;
     value: any;
@@ -38,7 +38,8 @@ export interface IFormWidget<T = any> {
 export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(name: K, superClass: T) {
     class FormWidget extends superClass {
         @property() form: FormBuilder;
-        @property() path: (string | number)[];
+        @property()
+        path: string;
         get schema(): FormSchema {
             return this.form.getSchema(this.path);
         }
@@ -119,6 +120,6 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
 }
 export type ValidatedMeta = {
     validity: boolean;
-    path: (string | number)[];
+    path: string;
     err?: { msg: string }[];
 };

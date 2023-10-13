@@ -41,16 +41,20 @@ export class FormBuilder extends NonShadow {
         if (c.has('schema')) {
             this.getWidgets().forEach(w => w.loadSchemaConfig());
         }
+        if (c.has('view')) {
+            this.getWidgets().forEach(w => w.requestUpdate());
+        }
     }
     updated(c) {
         super.updated(c);
     }
 
-    public getSchema(path: (string | number)[] = []) {
+    public getSchema(path: string | (string | number)[]) {
+        if (typeof path == 'string') path = path.split('.').filter(p => p);
         let curPos = this.schema;
         for (const p of path) {
             if (curPos.properties) {
-                for (const key of Reflect.ownKeys(curPos.properties)) if (key == p) curPos = curPos.properties[key];
+                for (const key of Object.keys(curPos.properties)) if (key == p) curPos = curPos.properties[key];
             } else if (curPos.items) curPos = curPos.items;
         }
         return curPos;
@@ -58,7 +62,8 @@ export class FormBuilder extends NonShadow {
     public getTarget() {
         return this.store.getTarget()?.value;
     }
-    public getValue(path: (string | number)[] = [], { target }: { target?: boolean } = {}) {
+    public getValue(path: (string | number)[] | string, { target }: { target?: boolean } = {}) {
+        if (typeof path == 'string') path = path.split('.').filter(p => p);
         return get(target ? this.getTarget() : this.store.state, ['value', ...path]);
     }
     public exportValue() {
@@ -66,13 +71,14 @@ export class FormBuilder extends NonShadow {
         this.getWidgets().forEach(w => w.onExportValue(_value));
         return _value;
     }
-    public setValue(path: (string | number)[], value: any, option: { silence?: boolean } = {}) {
+    public setValue(path: (string | number)[] | string, value: any, option: { silence?: boolean } = {}) {
+        if (typeof path == 'string') path = path.split('.').filter(p => p);
         if (option.silence) this.store.silence(() => lazySet(this.store.state, ['value', ...path], value));
         else lazySet(this.store.state, ['value', ...path], value);
         this.getWidgets().forEach(w => w.updateValue());
     }
-    public regWidget(path: (string | number)[], widget: IFormWidget & LitElement) {
-        const pathStr = path.join('.');
+    public regWidget(path: string | (string | number)[], widget: IFormWidget & LitElement) {
+        const pathStr = typeof path == 'string' ? path : path.join('.');
         const widgets = this.widgetMap.get(pathStr);
         if (!widgets) {
             this.widgetMap.set(pathStr, [widget]);
@@ -87,8 +93,8 @@ export class FormBuilder extends NonShadow {
             }
         }
     }
-    public unRegWidget(path: (string | number)[], widget: IFormWidget & LitElement) {
-        const pathStr = path.join('.');
+    public unRegWidget(path: string | (string | number)[], widget: IFormWidget & LitElement) {
+        const pathStr = typeof path == 'string' ? path : path.join('.');
         const widgets = this.widgetMap.get(pathStr);
         if (!widgets) return;
         const found = widgets.find(w => w === widget);
@@ -98,15 +104,16 @@ export class FormBuilder extends NonShadow {
                 widgets.filter(w => w !== widget),
             );
     }
-    public getWidgets(path?: (string | number)[]): (IFormWidget & LitElement)[] {
-        const pathStr = path?.join('.') ?? '';
+    public getWidgets(path: string | (string | number)[] = ''): (IFormWidget & LitElement)[] {
+        const pathStr = typeof path == 'string' ? path : path.join('.');
         const widgets = [];
         for (const [key, value] of this.widgetMap.entries()) {
             if (key.startsWith(pathStr)) widgets.push(...value);
         }
         return widgets;
     }
-    public onChange(path: (string | number)[], listener: Listener) {
+    public onChange(path: string | (string | number)[], listener: Listener) {
+        if (typeof path == 'string') path = path.split('.').filter(p => p);
         return this.store.onChange({
             selector: ['value', ...path],
             listener: (data, proxiedData) => {
@@ -157,7 +164,7 @@ export class FormBuilder extends NonShadow {
     render() {
         let hidden;
         if (this.schema.hidden) hidden = typeof this.schema.hidden == 'function' ? this.schema.hidden.bind(this)() : this.schema.hidden;
-        if (!hidden) return html`${until(this.schema.widget.template({ form: this, path: [] }))}`;
+        if (!hidden) return html`${until(this.schema.widget.template({ form: this, path: '' }))}`;
     }
 }
 declare global {
