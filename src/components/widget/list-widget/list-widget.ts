@@ -50,29 +50,32 @@ export class CdpListWidget extends FormWidgetMixin(CmptType.ListWidget, NonShado
                                 name=${name}
                                 @change=${e => this.toggle(key, e.target.checked)}
                                 .checked=${(this.value ?? []).includes(key)}
+                                .disabled=${this.view}
                             />
-                            <label for=${key} class="cfb-cursor-pointer">${label ?? enumMapper ? enumMapper[key] : key}</label>
+                            <label for=${key} class="cfb-cursor-pointer">${label ?? enumMapper ? enumMapper[key] ?? key : key}</label>
                         </div>`,
                     )}
                 </div>
-                <div class="cfb-flex cfb-gap-2 cfb-border-t cfb-pt-2">
-                    ${selectAllBtn !== false
-                        ? html`<button
-                              class="cfb-py-1 cfb-px-4 cfb-rounded-lg cfb-bg-main-600 hover:cfb-bg-main-700 cfb-text-white"
-                              @click=${() => this.selectAll()}
-                          >
-                              ${selectAllBtn}
-                          </button>`
-                        : ''}
-                    ${clearAllBtn !== false
-                        ? html`<button
-                              class="cfb-py-1 cfb-px-4 cfb-rounded-lg cfb-bg-main-600 hover:cfb-bg-main-700 cfb-text-white"
-                              @click=${() => this.clearAll()}
-                          >
-                              ${clearAllBtn}
-                          </button>`
-                        : ''}
-                </div>
+                ${!this.view
+                    ? html`<div class="cfb-flex cfb-gap-2 cfb-border-t cfb-pt-2">
+                          ${selectAllBtn !== false
+                              ? html`<button
+                                    class="cfb-py-1 cfb-px-4 cfb-rounded-lg cfb-bg-main-600 hover:cfb-bg-main-700 cfb-text-white"
+                                    @click=${() => this.selectAll()}
+                                >
+                                    ${selectAllBtn}
+                                </button>`
+                              : ''}
+                          ${clearAllBtn !== false
+                              ? html`<button
+                                    class="cfb-py-1 cfb-px-4 cfb-rounded-lg cfb-bg-main-600 hover:cfb-bg-main-700 cfb-text-white"
+                                    @click=${() => this.clearAll()}
+                                >
+                                    ${clearAllBtn}
+                                </button>`
+                              : ''}
+                      </div>`
+                    : ''}
             </div>
         `;
     }
