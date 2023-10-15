@@ -25,8 +25,10 @@ export class CdpStringWidget extends FormWidgetMixin(CmptType.StringWidget, NonS
     }
     loadSchemaConfig(): void {
         super.loadSchemaConfig();
-        let globalEnumMapper = CdpFormBuilder.getConfig(o => o.enums)?.[this.config.enumMapperKey];
-        if (globalEnumMapper) this.config.enumMapper = { ...globalEnumMapper, ...this.config.enumMapper };
+        if (this.config.enumMapping) {
+            let globalEnumMapper = CdpFormBuilder.getConfig(o => o.enums)?.[this.config.enumMapperKey];
+            if (globalEnumMapper) this.config.enumMapper = { ...globalEnumMapper, ...this.config.enumMapper };
+        }
     }
     render() {
         let { required } = this.schema;

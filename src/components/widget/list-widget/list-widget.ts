@@ -31,8 +31,10 @@ export class CdpListWidget extends FormWidgetMixin(CmptType.ListWidget, NonShado
     }
     loadSchemaConfig(): void {
         super.loadSchemaConfig();
-        let globalEnumMapper = CdpFormBuilder.getConfig(o => o.enums)?.[this.config.enumMapperKey];
-        if (globalEnumMapper) this.config.enumMapper = { ...globalEnumMapper, ...this.config.enumMapper };
+        if (this.config.enumMapping) {
+            let globalEnumMapper = CdpFormBuilder.getConfig(o => o.enums)?.[this.config.enumMapperKey];
+            if (globalEnumMapper) this.config.enumMapper = { ...globalEnumMapper, ...this.config.enumMapper };
+        }
     }
     render() {
         const { list, name, selectAllBtn, clearAllBtn, enumMapper } = this.config;

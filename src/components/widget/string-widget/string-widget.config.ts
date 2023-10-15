@@ -9,6 +9,7 @@ export type StringWidgetConfig = {
     empty?: string;
     enum?: string[] | (() => string[]);
     enumMapperKey?: string;
+    enumMapping?: boolean;
     enumMapper?: { [key: string]: string } | Record<string, string>;
     selectText?: string;
     type?: string;
@@ -20,4 +21,5 @@ CdpFormBuilder.setDefaultConfig(c => c.widgets.StringWidget, {
     type: 'text',
     enumMapperKey: 'default',
     id: undefined,
+    enumMapping: true,
 });
