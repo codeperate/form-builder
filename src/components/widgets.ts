@@ -10,6 +10,8 @@ import { ObjectWidgetConfig } from './widget/object-widget/object-widget.config'
 import { PasswordWidgetConfig } from './widget/password-widget/password-widget.config.js';
 import { StringWidgetConfig } from './widget/string-widget/string-widget.config';
 import { TextAreaWidgetConfig } from './widget/textarea-widget/textarea-widget.config.js';
+import { ListWidgetConfig } from './widget/list-widget/list-widget.config.js';
+import { DataListWidgetConfig } from './widget/data-list-widget/data-list-widget.config.js';
 
 export const ArrayWidget: IWidget<ArrayWidgetConfig> = {
     template: async ({ path, form }) => {
@@ -144,7 +146,7 @@ export const FileWidget: IWidget = {
     columns: 12,
 };
 
-export const ListWidget: IWidget = {
+export const ListWidget: IWidget<ListWidgetConfig> = {
     template: async ({ form, path }) => {
         await import('./widget/list-widget/list-widget.js');
         return html`<cdp-list-widget .form=${form} .path=${path}></cdp-list-widget>`;
@@ -152,7 +154,7 @@ export const ListWidget: IWidget = {
     columns: 12,
 };
 
-export const DataListWidget: IWidget = {
+export const DataListWidget: IWidget<DataListWidgetConfig> = {
     template: async ({ form, path }) => {
         await import('./widget/data-list-widget/data-list-widget.js');
         return html`<cdp-data-list-widget .form=${form} .path=${path}></cdp-data-list-widget>`;

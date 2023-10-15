@@ -2,7 +2,7 @@ import { html } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { FormWidgetMixin } from '../../base-class/cdp-widget.js';
 import { NonShadow } from '../../base-class/non-shadow.js';
-import { CmptType } from '../../config.js';
+import { CdpFormBuilder, CmptType } from '../../config.js';
 import './list-widget.config.js';
 @customElement('cdp-list-widget')
 export class CdpListWidget extends FormWidgetMixin(CmptType.ListWidget, NonShadow) {
@@ -19,8 +19,9 @@ export class CdpListWidget extends FormWidgetMixin(CmptType.ListWidget, NonShado
         else this.setValue([], { silence: true });
     }
     toggle(key: string, value: boolean) {
-        if (this.value.includes(key) && !value) this.setValue(this.value.filter(v => v != key));
-        else if (!this.value.includes(key) && value) this.setValue([...this.value, key]);
+        const newArr = [...(this.value ?? [])];
+        if (newArr.includes(key) && !value) this.setValue(newArr.filter(v => v != key));
+        else if (!newArr.includes(key) && value) this.setValue([...newArr, key]);
     }
     selectAll() {
         this.setValue(this.config.list.map(v => v.key));
@@ -28,8 +29,13 @@ export class CdpListWidget extends FormWidgetMixin(CmptType.ListWidget, NonShado
     clearAll() {
         this.setValue([]);
     }
+    loadSchemaConfig(): void {
+        super.loadSchemaConfig();
+        let globalEnumMapper = CdpFormBuilder.getConfig(o => o.enums)?.[this.config.enumMapperKey];
+        if (globalEnumMapper) this.config.enumMapper = { ...globalEnumMapper, ...this.config.enumMapper };
+    }
     render() {
-        const { list, name, selectAllBtn, clearAllBtn } = this.config;
+        const { list, name, selectAllBtn, clearAllBtn, enumMapper } = this.config;
 
         return html`
             <div class="cfb-flex cfb-gap-2 cfb-flex-col">
@@ -43,7 +49,7 @@ export class CdpListWidget extends FormWidgetMixin(CmptType.ListWidget, NonShado
                                 @change=${e => this.toggle(key, e.target.checked)}
                                 .checked=${(this.value ?? []).includes(key)}
                             />
-                            <label for=${key} class="cfb-cursor-pointer">${label ?? key}</label>
+                            <label for=${key} class="cfb-cursor-pointer">${label ?? enumMapper ? enumMapper[key] : key}</label>
                         </div>`,
                     )}
                 </div>
