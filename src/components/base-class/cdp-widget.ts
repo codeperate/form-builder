@@ -22,7 +22,6 @@ export interface IFormWidget<T = any> {
     unsubscribeFns: Function[];
     config: T;
     view: boolean;
-    listenTo?: string[];
     validator(): ValidatedMeta;
     onExportValue(value: any): void;
     onLoadHistory(): void;
@@ -98,7 +97,7 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
 
             this.loadSchemaConfig();
             this.updateValue();
-            if (this.config.listenTo) {
+            if (this.schema.listenTo) {
                 this.config.listenTo.forEach(path => {
                     this.unsubscribeFns.push(this.form.onChange(path, () => this.requestUpdate()));
                 });

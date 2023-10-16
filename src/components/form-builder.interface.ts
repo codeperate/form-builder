@@ -20,6 +20,7 @@ export type FormSchema<T extends { properties?; widget?; items? } = any, C = unk
     hidden?: boolean | ((this: FormBuilder | IFormWidget) => boolean);
     required?: boolean | ((this: FormBuilder | IFormWidget) => boolean);
     columns?: Columns;
+    listenTo?: string[];
     config?: C extends unknown ? T['widget']['config'] : C;
     [key: string]: any;
 };
