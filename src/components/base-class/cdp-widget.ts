@@ -98,7 +98,7 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
             this.loadSchemaConfig();
             this.updateValue();
             if (this.schema.listenTo) {
-                this.config.listenTo.forEach(path => {
+                this.schema.listenTo.forEach(path => {
                     this.unsubscribeFns.push(this.form.onChange(path, () => this.requestUpdate()));
                 });
             }
