@@ -19,9 +19,10 @@ export interface IFormWidget<T = any> {
     value: any;
     isValidated: boolean;
     validatedMeta: ValidatedMeta | undefined;
-    unsubscribe: Function;
+    unsubscribeFns: Function[];
     config: T;
     view: boolean;
+    listenTo?: string[];
     validator(): ValidatedMeta;
     onExportValue(value: any): void;
     onLoadHistory(): void;
@@ -33,6 +34,7 @@ export interface IFormWidget<T = any> {
     connectedCallback(): void;
     disconnectedCallback(): void;
     loadSchemaConfig(): void;
+    unsubscribe(): void;
 }
 
 export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(name: K, superClass: T) {
@@ -47,7 +49,7 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
         @state() value: any;
         @state() isValidated: boolean;
         @state() validatedMeta: ValidatedMeta | undefined;
-        unsubscribe: Function;
+        unsubscribeFns: Function[] = [];
         @state() config: ConfigType<K>;
 
         get view() {
@@ -88,11 +90,19 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
         connectedCallback() {
             super.connectedCallback();
             this.form.regWidget(this.path, this);
-            this.unsubscribe = this.form.onChange(this.path, (v, pv) => {
-                this.value = pv || v;
-            });
+            this.unsubscribeFns.push(
+                this.form.onChange(this.path, (v, pv) => {
+                    this.value = pv || v;
+                }),
+            );
+
             this.loadSchemaConfig();
             this.updateValue();
+            if (this.config.listenTo) {
+                this.config.listenTo.forEach(path => {
+                    this.unsubscribeFns.push(this.form.onChange(path, () => this.requestUpdate()));
+                });
+            }
         }
         loadSchemaConfig() {
             this.config = deepAssign(
@@ -104,6 +114,9 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
             let hidden = this.schema?.hidden;
             if (hidden) return typeof hidden == 'function' ? hidden.bind(this)() : hidden;
             return false;
+        }
+        unsubscribe() {
+            this.unsubscribeFns.forEach(fn => fn());
         }
         disconnectedCallback(): void {
             this.form.unRegWidget(this.path, this);
