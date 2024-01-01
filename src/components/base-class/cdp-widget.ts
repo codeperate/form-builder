@@ -99,12 +99,7 @@ export function FormWidgetMixin<T extends Class<LitElement>, K extends string>(n
             this.updateValue();
             if (this.schema.listenTo) {
                 this.schema.listenTo.forEach(path => {
-                    this.unsubscribeFns.push(
-                        this.form.onChange(path, () => {
-                            console.log('Fucked');
-                            this.requestUpdate();
-                        }),
-                    );
+                    this.unsubscribeFns.push(this.form.onChange(path, () => this.requestUpdate()));
                 });
             }
         }
