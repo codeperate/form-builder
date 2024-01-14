@@ -9,7 +9,7 @@ export type FormConfig<T> = T extends number ? number : object;
 export type FormSchema<T extends { properties?; widget?; items? } = any, C = unknown> = {
     label?: string | false;
     items?: FormSchema<T['items']>;
-    properties?: { [Key in keyof T['properties']]: FormSchema<T['properties'][Key]> } & {
+    properties?: {
         [Key in string]: FormSchema<T['properties'][Key]>;
     };
     widget?: IWidget;
