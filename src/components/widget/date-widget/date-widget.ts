@@ -45,7 +45,7 @@ export class CdpDateWidget extends FormWidgetMixin(CmptType.DateWidget, NonShado
                     this.setValue(e.target.value);
                     this.validate();
                 }}
-                .value=${this.value.substr(0, 10) || ''}
+                .value=${this.value?.substr(0, 10) || ''}
             />
             <span class="cfb-mt-1 cfb-text-sm cfb-text-danger-600">${this.validatedMeta?.err?.[0].msg}</span>
         `;
