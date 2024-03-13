@@ -5,6 +5,7 @@ import { NonShadow } from '../../base-class/non-shadow.js';
 import { CmptType } from '../../config.js';
 import './date-widget.config.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
+import { get, set } from '@codeperate/utils';
 @customElement('cdp-date-widget')
 export class CdpDateWidget extends FormWidgetMixin(CmptType.DateWidget, NonShadow) {
     @query('input') inputEl: HTMLInputElement;
@@ -23,11 +24,17 @@ export class CdpDateWidget extends FormWidgetMixin(CmptType.DateWidget, NonShado
             this.setValue(defaultValue, { silence: true });
         }
     }
+    onExportValue(value: any): void {
+        const currentValue = get(value, this.path);
+        if (currentValue) {
+            set(value, this.path, currentValue.substr(0, 10));
+        }
+    }
     render() {
         let { required } = this.schema;
         required = typeof required == 'function' ? required.bind(this)() : required;
         const { empty } = this.config;
-        if (this.view) return html`<div>${this.value ?? empty}</div>`;
+        if (this.view) return html`<div>${this.value?.substr(0, 10) ?? empty}</div>`;
         let validatedClass = 'cfb-bg-gray-200 hover:cfb-bg-gray-300';
         if (this.isValidated)
             validatedClass = this.validatedMeta?.validity
